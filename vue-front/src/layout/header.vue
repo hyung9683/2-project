@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div class="header_wrapper">
     <nav class="navbar_top" aria-label="">
       <div class="navbar_logo title" @click="goToHome()">
@@ -1263,3 +1264,31 @@ export default {
 }
 
 </style>
+=======
+    <div class="container">
+        
+    </div>
+</template>
+
+<script>
+export default {
+    name: '',
+    components: {},
+    data() {
+    return {
+        example: '',
+    }
+}, 
+    beforeCreate() {},
+    created() {},
+    beforeMount() {},
+    mounted() {},
+    computed: {},
+    beforeUpdate() {}, 
+    updated() {}, 
+    beforeUnmount() {},
+    unmounted() {},
+    methods: {}
+}
+</script>
+>>>>>>> 64042c2d978b603ea1435560de73ede91789d5cc

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary d-flex" style="box-shadow: 0 0.3px 0.7px;">
+            <div class="container-fluid">
+                    <span class="">
+                        <button data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" arai-controls="offcanvasScrolling" style="border:none; margin-right: 1rem; box-shadow: 0 0.4px 1px;"><i class="bi bi-list"></i></button>
+                        <a class="navbar-brand" href="#">로고</a>
+                    </span>
+            </div>
+                <span class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <a class="nav-link" href="#" style="right: 3%;">로그인</a>
+                </span>
+        </nav>
+</head>
+<body>
+    <!-- 사이드 메뉴 -->
+     <thead>
+        <div style="width:17%; top:8.8%;" class="card offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+            <div id="SideMenu">
+                <div class="card-head">
+                    <div class="offcanvas-title" style="font-family: Noto Sans KR; scale: 140%; padding: 2% 0 2% 20%;">메뉴</div>
+                </div>
+                <div class="card-body" style="height:10%;">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><a href="#" data-bs-toggle="collapse" data-bs-target="#main1" aria-expanded="false" style="font-family: Noto Sans KR;">한자 퀴즈</a></li>
+                        <div id="main1" class="list-group list-group-flush collapse">
+                            <li class="list-group-item"><a href="#" class="card-link" style="font-family: Noto Sans KR;">-초급</a></li>
+                            <li class="list-group-item"><a href="#" class="card-link" style="font-family: Noto Sans KR;">-중급</a></li>
+                            <li class="list-group-item"><a href="#" class="card-link" style="font-family: Noto Sans KR;">-고급</a></li>
+                        </div>
+                        <li class="list-group-item"><a href="#" data-bs-toggle="collapse" data-bs-target="#main2" aria-expanded="false" style="font-family: Noto Sans KR;">수학 퀴즈</a></li>
+                        <div id="main2" class="list-group list-group-flush collapse">
+                            <li class="list-group-item"><a href="#" class="link" style="font-family: Noto Sans KR;">초급</a></li>
+                            <li class="list-group-item"><a href="#" class="link" style="font-family: Noto Sans KR;">중급</a></l i>
+                            <li class="list-group-item"><a href="#" class="link" style="font-family: Noto Sans KR;">고급</a></li>
+                        </div>
+                        <li class="list-group-item"><a href="#" data-bs-toggle="collapse" data-bs-target="#main3" aria-expanded="false" style="font-family: Noto Sans KR;">영어 퀴즈</a></li>
+                        <div id="main3" class="list-group list-group-flush collapse">
+                            <li class="list-group-item"><a href="#" class="link" style="font-family: Noto Sans KR;">초급</a></li>
+                            <li class="list-group-item"><a href="#" class="link" style="font-family: Noto Sans KR;">중급</a></li>
+                            <li class="list-group-item"><a href="#" class="link" style="font-family: Noto Sans KR;">고급</a></li>
+                        </div>
+                        <li class="list-group-item"><a href="#" data-bs-toggle="collapse" data-bs-target="#main4" aria-expanded="false" style="font-family: Noto Sans KR;">국어 퀴즈</a></li>
+                        <div id="main4" class="list-group list-group-flush collapse">
+                            <li class="list-group-item"><a href="#" class="link" style="font-family: Noto Sans KR;">초급</a></li>
+                            <li class="list-group-item"><a href="#" class="link" style="font-family: Noto Sans KR;">중급</a></li>
+                            <li class="list-group-item"><a href="#" class="link" style="font-family: Noto Sans KR;">고급</a></li>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </thead>
+        <!-- /사이드 메뉴 -->
+         <tbody>
+                <div class="d-flex text-align-center col-12">
+                    <div class="col-4">
+                        <div style="text-align: center;">카드</div>
+                        <div class="container" style="text-align: center; box-shadow: 0 1px 0;">
+                            <img class="img-fluid col-3 mx-2" src="../assets/logo.png" />
+                            <img class="img-fluid col-3 mx-2" src="../assets/logo.png" />
+                            <img class="img-fluid col-3 mx-2" src="../assets/logo.png" />
+                        </div>
+                        <div class="container" style="text-align: center; box-shadow: 0 1px 0;">
+                            <img class="img-fluid col-3 mx-2" src="../assets/logo.png" />
+                            <img class="img-fluid col-3 mx-2" src="../assets/logo.png" />
+                            <img class="img-fluid col-3 mx-2" src="../assets/logo.png" />
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div style="text-align: center;">카드2</div>
+                    </div>
+                    <div class="col-4">
+                        <div style="text-align: center;">공지사항</div>
+                    </div>
+                </div>
+         </tbody>
+</body>
+</html>
+<script type="text/javascript">
+    
+</script>
+<script>
+    // window.addEventListener("DOMContentLoaded", event => {
+
+    //     // Toggle th side navigation
+    //     const sidebarToggle = document.body.querySelector('#SideMenu');
+    //     if(sidebarToggle) {
+    //         sidebarToggle.addEventListener('click', event => {
+    //             event.preventDefault();
+    //             document.body.classList.toggle('sb-sidenav-toggled');
+    //             localStorage.setItem('sb | sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+    //         });
+    //     }
+    // });
+</script>
