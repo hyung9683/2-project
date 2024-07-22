@@ -1,19 +1,21 @@
 <template>
-    <div class="container">
-        <header/>
-        <menu-layout></menu-layout>
-            <router-link />
+    <div>
+        <Header/>
+            <menu-layout></menu-layout>
+        <div class="container">
+                <router-view />
+        </div>
     </div>
 </template>
 
 <script>
 
-import header from './header.vue'
+import Header from './header.vue'
 import MenuLayout from './MenuLayout.vue'
 
 export default {
     name: '',
-    components: { header, MenuLayout},
+    components: {Header, MenuLayout},
     data() {
     return {
         example: '',

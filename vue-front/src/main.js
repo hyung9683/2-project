@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import Vuetify from 'vuetify';
+import mitt from 'mitt';
 
 //레이아웃
 import defalutlayout from './layout/defalutlayout.vue';
@@ -34,8 +35,11 @@ const router = createRouter({
     routes
 });
 
+const emitter = mitt();
+
 const app = createApp(App)
 app.use(router);
 app.use(VueSweetalert2);
 app.use(Vuetify);
+app.use(emitter);
 app.mount('#app')
