@@ -1,7 +1,12 @@
 <template>
     <div>
-        <Header/>
-            <menu-layout></menu-layout>
+    <nav class="navbar navbar-expand-md navbar-light">
+            <button class="navbar-toggler ml-auto mb-2 bg-light" type="button" data-toggle="collapse" data-target="#sidebar">
+                <span class="navbar-toggle-icon"></span>
+            </button>
+        <Header />
+        <menu-layout></menu-layout>
+    </nav>
         <div class="container">
                 <router-view />
         </div>
@@ -30,6 +35,7 @@ export default {
     updated() {}, 
     beforeUnmount() {},
     unmounted() {},
-    methods: {}
+    methods: {
+    }
 }
 </script>

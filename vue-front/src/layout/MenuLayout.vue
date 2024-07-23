@@ -1,11 +1,10 @@
 <template>
-<nav>
-    <div class="collapse navbar-collapse" id="sidebar">
+    <div class="collapse navbar-collapse">
                 <div class="container-fluid">
                     <div class="row">
                         <!-- 사이드 메뉴 -->
-                        <div id="sidebar-menu" class="col-lg-2 sidebar fixed-top">
-                            <a href="#" class="navbar-brand text-white text-center d-block mx-auto py-3 mb-4 bottom-border">메뉴자리</a>
+                        <div id="sidebar-menu" class="col-lg-2 sidebar fixed-top" style="top: 3.8rem;" :style="sidebar" :class="{'off-On': offOn}" refs="sidebar">
+                            <a href="#" class="navbar-brand text-secondary text-center d-block mx-auto py-3 mb-4 bottom-border">메뉴자리</a>
                             <div class="bottom-border pb-3">
                                 <i class="bi bi-person-circle mx-3 fs-3"></i>
                                 <a href="#" class="text-white">관리자</a>
@@ -70,27 +69,72 @@
                     </div>
                 </div>
             </div>
-    </nav>
 </template>
 
 <script>
 export default {
-    name: '',
-    components: {},
     data() {
     return {
-        example: '',
+        sidebar : {
+            top: '3.7rem',
+            marginLeft: '-20rem',
+            transition: 'margin 0.25s ease-out',
+        },
+        offOn: false,
     }
 }, 
-    beforeCreate() {},
     created() {},
-    beforeMount() {},
-    mounted() {},
-    computed: {},
-    beforeUpdate() {}, 
-    updated() {}, 
-    beforeUnmount() {},
-    unmounted() {},
-    methods: {}
+    mounted() {
+        this.emitter.on('SideBarMenu', this.toggleMenu);
+
+        window.addEventListener('resize', this.emitter.on('headerHeight', height => {
+            console.log(height);
+            this.sidebar.top = height + 'rem';
+        })  );
+    },
+    computed: {
+    },
+    methods: {
+        toggleMenu() {
+            this.offOn = !this.offOn;
+            if (!this.offOn) {
+                this.sidebar.marginLeft = '-20rem';
+            } else if (this.offOn) {
+                this.sidebar.marginLeft = '0';
+            }
+        }
+    }
 }
 </script>
+<style scoped>
+.sidebar {
+    height: 100vh;
+    background: linear-gradient(rgba(224, 224, 224, 0.7), rgba(99, 99, 99, 0.9));
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: 2px 7px 9px #b9b9b9;
+}
+
+.bottom-border {
+        border-bottom: 2px groove #eee;
+    }
+
+    .sidebar-link{
+        transition: all .4s;
+    }
+
+    .sidebar-link:hover {
+        background-color: #df8d8d;
+        border-radius: 5px;
+    }
+
+    .bi-house {
+        margin-right: 0.2rem;
+    }
+
+    .bi-alipay {
+        margin-right: 0.2rem;
+    }
+
+</style>
