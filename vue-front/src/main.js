@@ -6,11 +6,16 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import Vuetify from 'vuetify';
 import mitt from 'mitt';
 
+import store from './store';
+
 //레이아웃
 import defalutlayout from './layout/defalutlayout.vue';
 
 //메인
 import Main from './view/Main.vue';
+import Join from './view/join.vue';
+import Login from './view/login.vue';
+
 
 const routes = [
     {
@@ -21,6 +26,16 @@ const routes = [
             {
                 path: '/',
                 component: Main,
+
+            },
+            {
+                path: '/join',
+                component: Join,
+
+            },
+            {
+                path: '/login',
+                component: Login,
 
             },
         ]
@@ -39,6 +54,7 @@ const emitter = mitt();
 
 const app = createApp(App)
 app.use(router);
+app.use(store);
 app.use(VueSweetalert2);
 app.use(Vuetify);
 // app.use(emitter);

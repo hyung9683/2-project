@@ -75,8 +75,6 @@ export default {
     return {
         sideMain: {
             position:'relative',
-            // marginLeft:'auto',
-            // marginRight:'auto',
             transition:'transform 0.25s ease-out',
             transform: '',
             top: '0',
@@ -114,10 +112,8 @@ export default {
         toggleMain(state) {
             this.offOn = !this.offOn
             if (state === 'open'&& !this.offOn) {
-                // this.sideMain.marginLeft = '21rem';
                 this.sideMain.transform = 'translateX(9rem)';
             } else if(state === 'closed' && this.offOn) {
-                // this.sideMain.marginLeft = 'auto';
                 this.sideMain.transform = 'translate(0)';
             }
         },
