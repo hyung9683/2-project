@@ -8,7 +8,7 @@
         <div class="col-md-5"></div>
         <div class="col-md-3" style="padding-left: 15%;">
             <ul class="navbar-nav">
-                <li class="nav-item"><a href="#" class="nav-link"><i class="bi bi-chat-dots text-dark bi-lg"></i></a></li>
+                <!-- <li class="nav-item"><a href="#" class="nav-link"><i class="bi bi-chat-dots text-dark bi-lg"></i></a></li> -->
                 <li class="nav-item"><a href="#" class="nav-link"><i class="bi bi-person-square text-dark bi-lg"></i></a></li>
                 <li class="nav-item"><a href="#" class="nav-link"><i class="bi bi-box-arrow-right text-danger bi-lg"></i></a></li>
             </ul>
@@ -42,6 +42,9 @@ export default {
             const headerHeight = this.$refs.header.offsetHeight
             console.log(headerHeight);
             this.emitter.emit('headerHeight', headerHeight);
+        },
+        login(){
+            
         }
     }
 }

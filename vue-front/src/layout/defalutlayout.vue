@@ -7,7 +7,7 @@
         <Header />
             <menu-layout></menu-layout>
     </nav>
-                <router-view />
+        <router-view />
     </div>
 </template>
 
@@ -17,13 +17,11 @@ import Header from './header.vue'
 import MenuLayout from './MenuLayout.vue'
 
 export default {
-    name: '',
     components: {Header, MenuLayout},
     data() {
     return {
     }
 }, 
-    created() {},
     mounted() {},
     computed: {},
     methods: {
