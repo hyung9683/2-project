@@ -5,11 +5,9 @@
                 <span class="navbar-toggle-icon"></span>
             </button>
         <Header />
-        <menu-layout></menu-layout>
+            <menu-layout></menu-layout>
     </nav>
-        <div class="container">
                 <router-view />
-        </div>
     </div>
 </template>
 
@@ -23,19 +21,15 @@ export default {
     components: {Header, MenuLayout},
     data() {
     return {
-        example: '',
     }
 }, 
-    beforeCreate() {},
     created() {},
-    beforeMount() {},
     mounted() {},
     computed: {},
-    beforeUpdate() {}, 
-    updated() {}, 
-    beforeUnmount() {},
-    unmounted() {},
     methods: {
     }
 }
 </script>
+<style scoped>
+
+</style>
