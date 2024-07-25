@@ -30,8 +30,6 @@ export default {
 </script>
 <style scoped>
 
-
-
 .header {
     z-index: 999;
 
