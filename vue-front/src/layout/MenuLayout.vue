@@ -74,7 +74,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link text-white p-3 mb-2 sidebar-link">
+                                    <a href="#" class="nav-link text-white p-3 mb-2 sidebar-link" @click="goToQna()">
                                         <i class="bi bi-alipay"></i>QnA
                                     </a>
                                 </li>
@@ -126,6 +126,10 @@ export default {
     computed: {
     },
     methods: {
+        goToQna() {
+      return window.location.href = 'http://localhost:8080/qna?page=1';
+    },
+
         // header에서 toggled시 메뉴가 펼쳐지고, main에 이벤트 전송
         toggleMenu() {
             this.offOn = !this.offOn;

@@ -21,8 +21,8 @@
                 <img src="../assets/kakaoLogin.png" class="btn_kakao" @click="kakaoLogin">
             </div>
 <div></div>
-            <div class="find" style="margin-left: 100px;" @click="goToFind">아이디 / 비밀번호 찾기 </div>
-             <div class="find" style="margin-top: -53.4px; margin-left: 320px;" @click="goToJoin"> | 회원가입 </div>
+            <div class="find" style="margin-left:-50px;" @click="goToFind">아이디 / 비밀번호 찾기 </div>
+             <div class="find" style="margin-top: -53.4px; margin-left: 150px;" @click="goToJoin"> | 회원가입 </div>
         </div>
     </main>
 </template>

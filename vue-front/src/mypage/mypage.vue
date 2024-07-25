@@ -1,11 +1,11 @@
 <template>
-    <div class="mypage-container">
-        <h1 class="myinfo">내 정보</h1>
+    <div class="mypage-container" style="margin-top:200px;">
+        <h1 class="myinfo" style="margin-right:10px;">내 정보</h1>
         <table class="mypage-info">
             <tr class="box">
                 <td  rowspan="6" class="box-body">
                     <img style="width:100%;" :src="ImageSrc">
-                    <input type="file" class="form-controller" @change="uploadImage">
+                    <input type="file" class="form-controller" style="height:250px;" @change="uploadImage">
                 </td>
             </tr>
             <tr>
@@ -26,7 +26,7 @@
              </tr>
         </table>
         <br>
-        <button class="btn btn-info btn-update" style="margin-left:985px;" @click=goToUpdate()>회원정보 수정</button>
+        <button class="btn btn-info btn-update" style="margin-left:695px;" @click=goToUpdate()>회원정보 수정</button>
         <button class="btn btn-danger btn-delete" @click="confirmDelete(loginuser)">회원탈퇴</button>
     </div>
 </template>
@@ -188,7 +188,7 @@ background-color: #f2d5b2;
 /* #ffdfba; */
 box-shadow: 0 0.3px 1px;
 width: 80%;
-height: 100%;
+/* height: 100%; */
 left: 110px;
 bottom:5px;
 border:none;
@@ -199,7 +199,7 @@ top:22px;
 .myinfo {
 position: relative;
 justify-content: center;
-left: 800px;
+/* left: 800px; */
 }
 
 
