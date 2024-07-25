@@ -16,10 +16,6 @@ import defalutlayout from './layout/defalutlayout.vue';
 import Main from './view/Main.vue';
 import Join from './view/join.vue';
 import Login from './view/login.vue';
-
-
-import Login from './view/login.vue'
-import Join from './view/join.vue'
 import Find from './view/find.vue'
 
 import qna from './view/qna.vue'

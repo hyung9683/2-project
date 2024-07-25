@@ -16,14 +16,7 @@ const store = createStore({
         }
         
     },
-    // 상태를 변경하는 메서드
-    mutations: {
-        //user()는 state.user를 전달된 data 상태를 가진다. 컴포넌트에서 상태를 변경할때 사용
-        user(state, data) {
-                
-            } 
-        
-    },
+    
     mutations: {
         user(state, data){
             state.user = data;
