@@ -74,7 +74,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link text-white p-3 mb-2 sidebar-link" @click="goToQna()">
+                                    <a href="#" class="nav-link text-white p-3 mb-2 sidebar-link" @click="goToQna">
                                         <i class="bi bi-alipay"></i>QnA
                                     </a>
                                 </li>
@@ -124,6 +124,9 @@ export default {
         window.removeEventListener('resize', this.sidebarTop);
     },
     computed: {
+        user() {
+            return this.$store.state.user;
+        }
     },
     methods: {
         goToQna() {
@@ -146,6 +149,13 @@ export default {
                 this.sidebar.top = `${height}` + 'px';
             } 
             
+        },
+        goToQna() {
+            return window.location.href = 'http://localhost:8080/qna?page=1'
+            // return this.$router.push({ path:'/qna?page=1'});
+        },
+        han_Beginner() {
+            return this.$router.push()
         }
     }
 }
@@ -153,7 +163,7 @@ export default {
 <style scoped>
 .sidebar {
     height: 100vh;
-    background: linear-gradient(rgba(202, 221, 203, 0.7), rgba(99, 99, 99, 0.9));
+    background: rgba(174, 190, 174, 0.7);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;

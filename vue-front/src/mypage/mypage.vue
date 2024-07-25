@@ -185,7 +185,6 @@ overflow: hidden;
 .mypage-info {
 position:relative;
 background-color: #f2d5b2;
-/* #ffdfba; */
 box-shadow: 0 0.3px 1px;
 width: 80%;
 /* height: 100%; */
@@ -208,9 +207,6 @@ position: relative;
 align-content: center;
 text-align: center;
 height: 100%;
-/* text-decoration: underline; */
-/* left: 100px; */
-/* bottom: 12px; */
 background-color: #e7cba9;
 box-shadow: -0.4px 0.2px 0.2px; 
 width: 100%;

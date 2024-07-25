@@ -87,20 +87,22 @@ router.post('/join_process', function (request, response) {
     console.log(encryptedPW);
 
     db.query(sql.id_check, [user.user_id], function (error, results, fields) {
-        console.log(results);
         if (results.length <= 0) {
             db.query(sql.join, [user.user_id, user.user_nick, user.user_email, encryptedPW, user.user_num], function (error, data) {
                 if (error) {
+                    console.log(response.data);
                     return response.status(500).json({
                         message: 'DB_error'
                     })
                 }
+                console.log(response.data);
                 return response.status(200).json({
                     message: 'join_complete'
                 });
             })
         }
         else {
+            console.log(response.data);
             return response.status(200).json({
                 message: 'already_exist_id'
             })
