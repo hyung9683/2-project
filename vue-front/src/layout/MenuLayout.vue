@@ -97,7 +97,7 @@ export default {
     data() {
     return {
         sidebar : {
-            top: '3.7rem',
+            top: '0',
             marginLeft: '-30rem',
             transition: 'margin 0.25s ease-out',
         },
@@ -106,24 +106,22 @@ export default {
     }
 }, 
     created() {
+        this.emitter.on('headerHeight', this.sidebarTop);
+         window.addEventListener('resize', this.sidebarTop);
     },
     mounted() {
         this.emitter.on('SideBarMenu', this.toggleMenu);
+        this.emitter.on('headerHeight', this.sidebarTop);
 
         // 해상도 변경시 header크기도 변경되면 그거에 맞춰서 resize 이벤트 발생
-        window.addEventListener('resize', this.emitter.on('headerHeight', height => {
-            console.log(height);
-            this.sidebar.top = height + 'rem';
-        })  );
+        window.addEventListener('resize', this.sidebarTop);
     },
     beforeUnmount() {
         this.emitter.off('SideBarMenu', this.toggleMenu);
+        this.emitter.off('headerHeight', this.sidebarTop );
 
         // 해상도 변경시 header크기도 변경되면 그거에 맞춰서 resize 이벤트 발생
-        window.removeEventListener('resize', this.emitter.on('headerHeight', height => {
-            console.log(height);
-            this.sidebar.top = height + 'rem';
-        })  );
+        window.removeEventListener('resize', this.sidebarTop);
     },
     computed: {
     },
@@ -139,6 +137,12 @@ export default {
                 this.emitter.emit('sidebar-toggled', 'open');
             }
         },
+        sidebarTop(height) {
+            if(typeof height === 'number') {
+                this.sidebar.top = `${height}` + 'px';
+            } 
+            
+        }
     }
 }
 </script>
@@ -166,7 +170,8 @@ export default {
     }
 
     .sidebar-link:visited {
-
+        background-color: #83e980;
+        border-radius: 5px;
     }
     
 
