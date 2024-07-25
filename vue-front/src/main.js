@@ -4,13 +4,19 @@ import { createRouter, createWebHistory } from 'vue-router'
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import Vuetify from 'vuetify';
-import store from './store'
+
+import mitt from 'mitt';
+
+import store from './store';
 
 //레이아웃
 import defalutlayout from './layout/defalutlayout.vue';
 
 //메인
 import Main from './view/Main.vue';
+import Join from './view/join.vue';
+import Login from './view/login.vue';
+
 
 import Login from './view/login.vue'
 import Join from './view/join.vue'
@@ -48,6 +54,7 @@ const routes = [
 
             },
             {
+            
                 path: '/login',
                 component: Login,
             }
@@ -140,9 +147,13 @@ const router = createRouter({
     routes
 });
 
+const emitter = mitt();
+
 const app = createApp(App)
 app.use(router);
 app.use(store);
 app.use(VueSweetalert2);
 app.use(Vuetify);
+// app.use(emitter);
+app.config.globalProperties.emitter = emitter
 app.mount('#app')

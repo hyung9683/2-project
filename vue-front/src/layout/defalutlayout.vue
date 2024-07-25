@@ -4,7 +4,7 @@
             <button class="navbar-toggler ml-auto mb-2 bg-light" type="button" data-toggle="collapse" data-target="#sidebar">
                 <span class="navbar-toggle-icon"></span>
             </button>
-        <Header class="header" />
+        <Header class="header" ref="header" />
             <menu-layout class="menu"></menu-layout>
     </nav>
         <router-view />
@@ -38,5 +38,4 @@ export default {
 .menu {
     z-index: 1;
 }
-
 </style>
