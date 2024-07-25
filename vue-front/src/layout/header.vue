@@ -3,7 +3,7 @@
  <div id="top_navbar" class="col-lg-12 ms-auto bg-success-subtle fixed-top py-2 header-container" ref="header">
     <div class="row align-items-center">
         <div class="col-md-4">
-            <div class="nav navbar-toggle flex-colum text-light text-uppercase mb-0"><button class="btn" style="border:none;" @click="sideBarMenu"><i class="bi bi-list mx-1 me-2"></i></button><a href="#" class="nav-link text-dark logo-container" @click="goToHome"><img class="img-fluid h4-image" src="../assets/2차 프로젝트 로고2.png" style="object-fit: contain;" :style="imageSize"></a></div>
+            <div class="nav navbar-toggle flex-colum text-light text-uppercase mb-0"><button class="btn" style="border:none;" @click="sideBarMenu"><i class="bi bi-list mx-1 me-2"></i></button><a href="#" class="nav-link text-dark logo-container" @click="goToHome"><img class="img-fluid h4-image" src="../assets/logo.png" style="object-fit: contain;" :style="imageSize"></a></div>
         </div>
         <div class="col-md-4"></div>
         <div class="col-md-4" style="padding-left: 15%;">
@@ -59,7 +59,8 @@ export default {
         },
         goToHome() {
             this.$router.push({ path: '/' });
-        }
+        },
+        
     }
 }
 </script>

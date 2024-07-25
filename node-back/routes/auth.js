@@ -87,6 +87,7 @@ router.post('/join_process', function (request, response) {
     console.log(encryptedPW);
 
     db.query(sql.id_check, [user.user_id], function (error, results, fields) {
+        console.log(results);
         if (results.length <= 0) {
             db.query(sql.join, [user.user_id, user.user_nick, user.user_email, encryptedPW, user.user_num], function (error, data) {
                 if (error) {

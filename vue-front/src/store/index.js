@@ -20,14 +20,11 @@ const store = createStore({
     mutations: {
         //user()는 state.user를 전달된 data 상태를 가진다. 컴포넌트에서 상태를 변경할때 사용
         user(state, data) {
+            
+            state.user = data;
                 
             } 
         
-    },
-    mutations: {
-        user(state, data){
-            state.user = data;
-        }
     },
     plugins: [
         // 로컬스토리지에 자동으로 저장시킬 persistedstate 모듈을 plugins에 연결
