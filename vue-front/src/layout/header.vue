@@ -122,7 +122,7 @@ export default {
         goToAdmin() {
             if (this.adminCk == 1 && this.user.user_no) {
 
-                return this.$router.push({ path: '/admin'});
+                return this.$router.push({ path: '/admin/user?page=1'});
             }
         }
 

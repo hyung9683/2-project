@@ -1,11 +1,11 @@
 <template>
-    <div class="mypage-container" style="margin-top:200px;">
+    <div class="mypage-container" style="margin-top:100px;">
         <h1 class="myinfo" style="margin-right:10px;">내 정보</h1>
         <table class="mypage-info">
             <tr class="box">
                 <td  rowspan="6" class="box-body">
                     <img style="width:100%;" :src="ImageSrc">
-                    <input type="file" class="form-controller" style="height:250px;" @change="uploadImage">
+                    <input type="file" class="form-controller" style="height:50px;" @change="uploadImage">
                 </td>
             </tr>
             <tr>
@@ -283,8 +283,9 @@ box-shadow: 0 2px 4px rgb(0, 0, 0, 0.1);
 
 
 input {
+    top:30px;
 position: relative;
-right: 8px;
+right: 25px;
 }
 
 .form-controller {

@@ -129,9 +129,6 @@ export default {
         }
     },
     methods: {
-        goToQna() {
-      return window.location.href = 'http://localhost:8080/qna?page=1';
-    },
 
         // header에서 toggled시 메뉴가 펼쳐지고, main에 이벤트 전송
         toggleMenu() {

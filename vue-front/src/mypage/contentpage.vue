@@ -1,9 +1,9 @@
 <template>
 
   <div>
-
+<br><br>
     <h1>글 목록</h1>
-    <table class="tbList">
+    <table class="tbList" style="margin-top:30px;">
       <colgroup>
         <col width="5%" />
         <col width="20%" />
