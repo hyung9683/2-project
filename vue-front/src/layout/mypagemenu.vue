@@ -47,9 +47,9 @@ export default {
 
 .menu {
     background-color: #ffdfba;
-    height: 100%;
+    height: 100vh;
     position: fixed;
-    width: 120px;
+    width: 6rem;
     left: 0;
     overflow-x: hidden;
     overflow-y: scroll;

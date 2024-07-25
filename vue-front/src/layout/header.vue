@@ -7,14 +7,18 @@
         </div>
         <div class="col-md-4"></div>
         <div class="col-md-4" style="padding-left: 15%;">
-            <ul class="navbar-nav" v-if="this.user.user_no == this.loginUser.user_no">
-                <!-- <li class="nav-item"><a href="#" class="nav-link"><i class="bi bi-chat-dots text-dark bi-lg"></i></a></li> -->
-                <li class="nav-item"><a href="#" class="nav-link"><i class="bi bi-person-square text-dark bi-lg"></i></a></li>
-                <li class="nav-item"><a href="#" class="nav-link"><i class="bi bi-box-arrow-right text-danger bi-lg"></i></a></li>
-            </ul>
-            <ul class="navbar-nav" v-else>
+            <ul class="navbar-nav" v-if="this.user.user_no == ''">
                 <li class="nav-item"><a href="#" class="nav-link subBtn" @click="login"><div class="loginBtn">로그인</div></a></li>
                 <li class="nav-item"><a href="#" class="nav-link subBtn" @click="join"><div class="joinBtn">회원가입</div></a></li>
+            </ul>
+            <ul class="navbar-nav" v-else-if="adminCk=1">
+                <li class="nav-item"><a href="#" class="nav-link logBtn" @click="goToAdmin"><i class="bi bi-incognito text-dark bi-lg"></i></a></li>
+                <li class="nav-item"><a href="#" class="nav-link logBtn" @click="goToMypage"><i class="bi bi-person-square text-dark bi-lg"></i></a></li>
+                <li class="nav-item"><a href="#" class="nav-link" @click="logout"><i class="bi bi-box-arrow-right text-danger bi-lg"></i></a></li>
+            </ul>
+            <ul class="navbar-nav" v-else>
+                <li class="nav-item"><a href="#" class="nav-link" @click="goToMypage"><i class="bi bi-person-square text-dark bi-lg"></i></a></li>
+                <li class="nav-item"><a href="#" class="nav-link" @click="logout"><i class="bi bi-box-arrow-right text-danger bi-lg"></i></a></li>
             </ul>
         </div>
     </div>
@@ -23,6 +27,9 @@
 </template>
 
 <script>
+
+import axios from 'axios';
+
 export default {
     name: '',
     components: {},
@@ -33,11 +40,33 @@ export default {
             width: 'auto',
 
         },
-        loginUser: {},
+        adminCk: 0,
     }
 }, 
     created() {},
-    mounted() {},
+    mounted() {
+        if (this.user.user_id == '') {
+      // 일단은 로그인 여부 체크 
+      
+    }
+    else {
+      axios({
+        url: "http://localhost:3000/auth/admin_ck",
+        method: "POST",
+        data: {
+          user_no: this.user.user_no,
+        },
+      })
+        .then(res => {
+          if (res.data.message == 'admin') {
+            this.adminCk = 1;
+          }
+        })
+        .catch(() => {
+          this.$swal("접속 오류");
+        })
+    }
+    },
     computed: {
         user() {
             return this.$store.state.user;
@@ -60,7 +89,43 @@ export default {
         goToHome() {
             this.$router.push({ path: '/' });
         },
-        
+
+        logout() {
+            this.$store.commit("user", {});
+            this.$swal({
+            position: 'top',
+            icon: 'success',
+            title: '로그아웃되셨습니다.',
+            showConfirmButton: false,
+            timer: 1000
+        })
+            .then(() => {
+            window.location.href = "http://localhost:8080";
+            })
+        },
+        goToMypage() {
+        if(this.user.user_no) {
+
+            this.$router.push({ path: '/mypage' });
+
+        } else {
+            this.$swal({
+            title: '접근 실패.',
+            text:'로그인이 필요한 작업입니다.',
+            icon: 'error',
+            showConfirmButton:'확인',
+            timer: 1500
+            });
+            this.$router.push({ path: '/login'})
+            }
+        },
+        goToAdmin() {
+            if (this.adminCk == 1 && this.user.user_no) {
+
+                return this.$router.push({ path: '/admin'});
+            }
+        }
+
     }
 }
 </script>
