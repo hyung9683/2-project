@@ -81,34 +81,42 @@ db.query(sql.get_user_no, [kakao.user_id], function (error, results, fields) {
 
 // 회원가입
 router.post('/join_process', function (request, response) {
-
     const user = request.body;
-    const encryptedPW = bcrypt.hashSync(user.user_passwd, 10);
-    console.log(encryptedPW);
 
-    db.query(sql.id_check, [user.user_id], function (error, results, fields) {
+    // 비밀번호 암호화
+    const encryptedPW = bcrypt.hashSync(user.user_passwd, 10);
+    console.log('암호화된 비밀번호:', encryptedPW);
+
+    // 사용자 ID 체크
+    db.query(sql.id_check, [user.user_id], function (error, results) {
+        if (error) {
+            console.error('DB 쿼리 오류:', error);
+            return response.status(500).json({
+                message: 'DB_error'
+            });
+        }
+
         if (results.length <= 0) {
+            // 사용자 등록
             db.query(sql.join, [user.user_id, user.user_nick, user.user_email, encryptedPW, user.user_num], function (error, data) {
                 if (error) {
-                    console.log(response.data);
+                    console.error('회원가입 쿼리 오류:', error);
                     return response.status(500).json({
                         message: 'DB_error'
-                    })
+                    });
                 }
-                console.log(response.data);
                 return response.status(200).json({
                     message: 'join_complete'
                 });
-            })
-        }
-        else {
-            console.log(response.data);
+            });
+        } else {
+            // 이미 존재하는 ID
             return response.status(200).json({
                 message: 'already_exist_id'
-            })
+            });
         }
-    })
-})
+    });
+});
 
 // 로그인 
 router.post('/login_process', function (request, response) {
