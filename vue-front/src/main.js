@@ -6,7 +6,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import Vuetify from 'vuetify';
 import store from './store';
 
-<<<<<<< HEAD
+
 import defaultLayout from './layout/defaultLayout.vue';
 import MainPage from './view/Main';
 import WritePage from './view/Write';
@@ -14,16 +14,9 @@ import MyQuizPage from './view/Myquiz';
 import QuizPage from './view/Quizdetail';
 import StartPage from './view/Quizstart';
 import TestPage from './view/Test';
-=======
+
 import mitt from 'mitt';
 
-import store from './store';
-
-//레이아웃
-import defalutlayout from './layout/defalutlayout.vue';
-
-//메인
-import Main from './view/Main.vue';
 import Join from './view/join.vue';
 import Login from './view/login.vue';
 import Find from './view/find.vue'
@@ -47,7 +40,6 @@ import myQna from './mypage/myQna.vue'
 import Contentpage from './mypage/contentpage.vue'
 import MyPageUpdate from './mypage/mypageupdate.vue'
 import Pass from './mypage/passwd.vue'
->>>>>>> origin/feature/Ann
 
 const routes = [
     {
@@ -84,11 +76,6 @@ const routes = [
                 path: '/test',
                 component: TestPage,
             },
-<<<<<<< HEAD
-        ]
-    }
-]
-=======
             {
             
                 path: '/login',
@@ -175,7 +162,6 @@ const routes = [
        
        
     ]
->>>>>>> origin/feature/Ann
 
 window.Kakao.init('79eb0be4a08b223b4a5553fe99835470');
 

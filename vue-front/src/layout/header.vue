@@ -1,25 +1,4 @@
 <template>
-<<<<<<< HEAD
-    <div class="header">
-      <h1>Header Title</h1>
-      <nav>Navigation</nav>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'Header'
-  }
-  </script>
-  
-  <style scoped>
-  .header {
-    background-color: #f5f5f5;
-    padding: 20px;
-    text-align: center;
-  }
-  </style>
-=======
  <!-- top navbar -->
  <div id="top_navbar" class="col-lg-12 ms-auto bg-success-subtle fixed-top py-2 header-container" ref="header">
     <div class="row align-items-center">

@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import { createStore } from 'vuex'
-
-import persistedstate from 'vuex-persistedstate';
-
-const store = createStore({
-=======
 
 import {createStore} from 'vuex'
 
@@ -14,25 +7,11 @@ import persistedstate from 'vuex-persistedstate';
 const store = createStore({
     //store의 상태 정의
 
->>>>>>> origin/feature/Ann
     state() {
         return {
             user: {
                 user_id: '',
                 user_no: '',
-<<<<<<< HEAD
-                
-            } 
-        }
-    },
-    mutations: {
-        user(state, data){
-            state.user = data;
-        }
-    },
-    plugins: [
-        persistedstate({
-=======
             }
         }
         
@@ -51,7 +30,6 @@ const store = createStore({
         // 로컬스토리지에 자동으로 저장시킬 persistedstate 모듈을 plugins에 연결
         persistedstate({
             //어떤 state를 저장할지 정한다
->>>>>>> origin/feature/Ann
             paths: ['user']
         })
     ]

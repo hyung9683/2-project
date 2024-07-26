@@ -22,17 +22,22 @@
       <div class="top-quizzes">
         <h2>상위 4개의 퀴즈</h2>
         <div class="top-quiz-grid">
-          <div class="top-quiz-card" v-for="quiz in topQuizzes" :key="quiz.quiz_no">
-            <div class="quiz-details">
-              <h3>{{ quiz.quiz_tit }}</h3>
-              <p>{{ quiz.quiz_content }}</p>
-              <p>조회수: {{ quiz.quiz_view }}</p>
-            </div>
+          <div 
+            class="top-quiz-card" 
+            v-for="quiz in topQuizzes" 
+            :key="quiz.quiz_no"
+            @click="navigateToQuizDetail(quiz.quiz_no)"
+          >
             <img 
               :src="getImageUrl(quiz)" 
               alt="퀴즈 이미지" 
               class="quiz-image"
             >
+            <div class="quiz-details">
+              <h3>{{ quiz.quiz_tit }}</h3>
+              <p>{{ quiz.quiz_content }}</p>
+              <p>조회수: {{ quiz.quiz_view }}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -156,6 +161,9 @@ export default {
       }
       this.$router.push({ name: 'StartPage', params: { quizNo: this.quizNo }, query: { count: numberOfQuizzes } });
     },
+    navigateToQuizDetail(quizNo) {
+      this.$router.push(`/quiz/${quizNo}`);
+    },
     submitComment() {
       if (!this.newComment.trim()) return;
 
@@ -228,6 +236,7 @@ export default {
   width: 120px; /* 이미지 너비 조절 */
   height: 120px; /* 이미지 높이 조절 */
   object-fit: cover; /* 이미지 비율 유지하며 자르기 */
+  margin-top: 100px; /* 이미지 상단 여백 추가 */
 }
 
 .quiz-detail {
@@ -257,9 +266,10 @@ export default {
   align-items: flex-end; /* 카드를 오른쪽으로 정렬 */
 }
 
+/* 상위 퀴즈 카드 스타일 */
 .top-quiz-card {
   display: flex; /* 플렉스 박스 사용 */
-  flex-direction: row-reverse; /* 이미지가 오른쪽에 위치하도록 설정 */
+  flex-direction: row; /* 이미지와 텍스트를 가로로 나열 */
   align-items: center; /* 세로 가운데 정렬 */
   gap: 10px; /* 이미지와 텍스트 사이 여백 */
   border: 1px solid #ddd; /* 카드 테두리 */
@@ -293,8 +303,8 @@ export default {
 }
 
 .quiz-image {
-  width: 80px; /* 이미지 너비 줄이기 */
-  height: 80px; /* 이미지 높이 줄이기 */
+  width: 100px; /* 이미지 너비 설정 */
+  height: 100px; /* 이미지 높이 설정 */
   object-fit: cover; /* 이미지 비율 유지하며 자르기 */
 }
 

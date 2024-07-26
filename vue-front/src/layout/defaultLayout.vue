@@ -1,51 +1,41 @@
 <template>
   <div>
-    <Header />
-    <div class="content">
+  <nav class="navbar navbar-expand-md navbar-light">
+          <button class="navbar-toggler ml-auto mb-2 bg-light" type="button" data-toggle="collapse" data-target="#sidebar">
+              <span class="navbar-toggle-icon"></span>
+          </button>
+      <Header class="header" ref="header" />
+          <menu-layout class="menu"></menu-layout>
+  </nav>
       <router-view />
-    </div>
-    <Footer />
   </div>
 </template>
 
-
 <script>
+
 import Header from './header.vue'
+import MenuLayout from './MenuLayout.vue'
 
 export default {
-  components: {
-    Header
+  components: {Header, MenuLayout},
+  data() {
+  return {
+  }
+}, 
+  mounted() {},
+  computed: {},
+  methods: {
   }
 }
 </script>
+<style scoped>
 
-<style>
+.header {
+  z-index: 999;
 
-.content {
-  padding-top: 150px;
-  margin: auto;
-  height: 100%;
-  position: relative;
-  min-height: 100%;
 }
 
-body {
-  overflow-y: scroll;
-  -ms-overflow-style: none;
-  /* 인터넷 익스플로러 */
-  scrollbar-width: none;
-  /* 파이어폭스 */
-}
-
-body::-webkit-scrollbar {
-  display: none;
-  /* 크롬, 사파리, 오페라, 엣지 */
-}
-
-Footer {
-  width: 100%;
-  height: auto;
-  position : relative;
-  transform : translateY(-1%);
+.menu {
+  z-index: 1;
 }
 </style>
