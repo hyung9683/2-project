@@ -87,6 +87,9 @@ WHERE user_no = ?`,
   viewcount: `SELECT board_tit, board_view
           FROM quiz_board;`,
 
+      // 퀴즈 불러오기
+      quiz_All: `select quiz_no, user_no, quiz_tit, quiz_thimg, quiz_category, quiz_level, quiz_day from quiz_info`,
+
     //게시판 기능
     boardcnt: `SELECT COUNT(*) FROM quiz_board`,
     adminboard: `select * from quiz_board join quiz_user 

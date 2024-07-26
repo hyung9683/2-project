@@ -38,6 +38,7 @@ import Contentpage from './mypage/contentpage.vue'
 import MyPageUpdate from './mypage/mypageupdate.vue'
 import Pass from './mypage/passwd.vue'
 
+
 const routes = [
     {
         path:'/',

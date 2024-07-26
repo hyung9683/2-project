@@ -3,7 +3,7 @@
                 <div class="container-fluid">
                     <div class="row">
                         <!-- 사이드 메뉴 -->
-                        <div id="sidebar-menu" class="col-lg-2 sidebar fixed-top" :style="sidebar" :class="{'off-On': offOn}" refs="sidebar">
+                        <div id="sidebar-menu" class="col-lg-2 sidebar fixed-top" :style="sidebar" :class="{'off-On': offOn}" ref="sidebar">
                             <a href="#" class="navbar-brand text-secondary text-center d-block mx-auto py-3 mb-4 bottom-border">메뉴자리</a>
                             <div class="bottom-border pb-3">
                                 <i class="bi bi-person-circle mx-3 fs-3"></i>
@@ -85,25 +85,40 @@
                                 </li>
                             </ul>
                         </div>
-                        <!-- /사이드 메뉴 -->
-                       
-                    </div>
+                        <!-- /사이드 메뉴 -->       
                 </div>
             </div>
+        </div>
 </template>
 
 <script>
+import { computed, onMounted} from 'vue';
+import { useResize} from '@/mixin';
+
 export default {
+    setup(){
+    const {headerHeight} = useResize();
+    const sidebar = computed(() => {
+
+    return { 
+          
+        top: `${headerHeight.value}px`,
+         marginLeft: '-30rem',
+        transition:'margin 0.25s ease-out',
+    };
+
+    
+});
+    onMounted(() => {
+            window.addEventListener('resize', )
+        })
+    return {headerHeight, sidebar};
+    },
     data() {
-    return {
-        sidebar : {
-            top: '0',
-            marginLeft: '-30rem',
-            transition: 'margin 0.25s ease-out',
-        },
-        offOn: false,
-        width: 0,
-    }
+        return {
+            offOn: false,
+            width: 0,
+        }
 }, 
     created() {
         this.emitter.on('headerHeight', this.sidebarTop);
@@ -140,12 +155,12 @@ export default {
                 this.emitter.emit('sidebar-toggled', 'open');
             }
         },
-        sidebarTop(height) {
-            if(typeof height === 'number') {
-                this.sidebar.top = `${height}` + 'px';
-            } 
+        // sidebarTop(height) {
+        //     if(typeof height === 'number') {
+        //         this.sidebar.top = `${height}` + 'px';
+        //     } 
             
-        },
+        // },
         goToQna() {
             return window.location.href = 'http://localhost:8080/qna?page=1'
             // return this.$router.push({ path:'/qna?page=1'});

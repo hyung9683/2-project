@@ -15,9 +15,11 @@ const authRouter = require('./routes/auth');
 const qnaRouter = require('./routes/qna');
 const adminRouter = require('./routes/admin');
 const MyPage = require('./routes/mypage');
+const quizRouter = require('./routes/quiz');
 
 
 
+app.use('/quiz', quizRouter);
 app.use('/auth', authRouter);
 app.use('/admin', adminRouter);
 app.use('/qna', qnaRouter);
