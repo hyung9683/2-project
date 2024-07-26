@@ -1,6 +1,10 @@
 <template>
   <div>
+<<<<<<< HEAD
     <router-view />
+=======
+    <router-view/>
+>>>>>>> origin/feature/Ann
   </div>
 </template>
 
