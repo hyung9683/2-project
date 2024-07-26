@@ -28,6 +28,7 @@ import QnaContent from './admin/qnaContent.vue'
 import UserInfo  from './admin/userinfo.vue'
 import Board  from './admin/board.vue'
 import ReportDetails from './admin/reportDetail.vue'; 
+import Quizzes from './admin/quizzes.vue'; 
 
 import AdminLayout from './layout/adminLayout.vue'
 
@@ -37,6 +38,8 @@ import myQna from './mypage/myQna.vue'
 import Contentpage from './mypage/contentpage.vue'
 import MyPageUpdate from './mypage/mypageupdate.vue'
 import Pass from './mypage/passwd.vue'
+import MyQuizPage from './mypage/quizpage.vue';
+import WritePage from './mypage/write.vue';
 
 const routes = [
     {
@@ -104,6 +107,10 @@ const routes = [
                     path:'reportdetail',
                     component:ReportDetails
                 },
+                {
+                    path:'quizzes',
+                    component:Quizzes
+                },
             ]},
             {
         
@@ -130,7 +137,17 @@ const routes = [
                     {
                         path: 'passwd',
                         component: Pass,
-                    }
+                    },
+                    {
+                        path: 'quizpage',
+                        component: MyQuizPage,
+                    },
+                    {
+                        path: '/write/:quizNo',  // 동적 경로
+                        name: 'WritePage',
+                        component: WritePage,
+                        props: true  // 컴포넌트에 route.params를 props로 전달
+                    },
                 ]},
        
        

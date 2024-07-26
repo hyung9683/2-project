@@ -26,7 +26,7 @@
              </tr>
         </table>
         <br>
-        <button class="btn btn-info btn-update" style="margin-left:695px;" @click=goToUpdate()>회원정보 수정</button>
+        <button class="btn btn-info btn-update" style="margin-left:710px;" @click=goToUpdate()>회원정보 수정</button>
         <button class="btn btn-danger btn-delete" @click="confirmDelete(loginuser)">회원탈퇴</button>
     </div>
 </template>
@@ -188,7 +188,7 @@ background-color: #f2d5b2;
 box-shadow: 0 0.3px 1px;
 width: 80%;
 /* height: 100%; */
-left: 110px;
+left: 28%;
 bottom:5px;
 border:none;
 top:22px;

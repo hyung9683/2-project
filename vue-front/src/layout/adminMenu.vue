@@ -11,7 +11,7 @@
                 <i class="fa fa-user-circle"></i> 
                 <p>회원 관리</p>
             </router-link> 
-            <router-link to="/admin/adminquiz">
+            <router-link to="/admin/quizzes">
                 <i class="fa fa-shopping-bag"></i>
                 <p>퀴즈 관리</p>
             </router-link>
