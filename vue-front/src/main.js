@@ -44,7 +44,6 @@ import Pass from './mypage/passwd.vue'
 import MyQuiz from './mypage/quizpage.vue';
 import Write from './mypage/write.vue';
 
-
 const routes = [
     {
         path: '/',

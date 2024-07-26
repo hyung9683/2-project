@@ -27,10 +27,16 @@
 </div>
     <!-- /top navbar -->
 </template>
-<script setup>
+
+
+<script>
 import {ref, onMounted, nextTick} from 'vue';
 import { useResize } from '@/mixin';
+import axios from 'axios';
 
+export default {
+    components: {},
+    setup() {
         const header = ref(null);
         const { updateHeight } = useResize();
 
@@ -45,15 +51,8 @@ import { useResize } from '@/mixin';
             }
 
         });
-
-</script>
-
-
-<script>
-import axios from 'axios';
-
-export default {
-    components: {},
+        return {header, updateHeight};
+    },
     data() {
     return {
         imageSize: {
