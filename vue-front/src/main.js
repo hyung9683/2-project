@@ -4,16 +4,19 @@ import { createRouter, createWebHistory } from 'vue-router'
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import Vuetify from 'vuetify';
+import store from './store';
+
+
+import defaultLayout from './layout/defaultLayout.vue';
+import MainPage from './view/main';
+import WritePage from './view/Write';
+import MyQuizPage from './view/Myquiz';
+import QuizPage from './view/Quizdetail';
+import StartPage from './view/Quizstart';
+import TestPage from './view/Test';
 
 import mitt from 'mitt';
 
-import store from './store';
-
-//레이아웃
-import defalutlayout from './layout/defalutlayout.vue';
-
-//메인
-import Main from './view/Main.vue';
 import Join from './view/join.vue';
 import Login from './view/login.vue';
 import Find from './view/find.vue'
@@ -38,19 +41,43 @@ import myQna from './mypage/myQna.vue'
 import Contentpage from './mypage/contentpage.vue'
 import MyPageUpdate from './mypage/mypageupdate.vue'
 import Pass from './mypage/passwd.vue'
-import MyQuizPage from './mypage/quizpage.vue';
-import WritePage from './mypage/write.vue';
+import MyQuiz from './mypage/quizpage.vue';
+import Write from './mypage/write.vue';
 
 const routes = [
     {
-        path:'/',
-        name: 'defaultlayout',
-        component: defalutlayout,
+        path: '/',
+        component: defaultLayout,
         children: [
             {
                 path: '/',
-                component: Main,
-
+                component: MainPage,
+            },
+            {
+                path: '/write/:quizNo',  // 동적 경로
+                name: 'WritePage',
+                component: WritePage,
+                props: true  // 컴포넌트에 route.params를 props로 전달
+            },
+            {
+                path: '/myquiz',
+                component: MyQuizPage,
+            },
+            {
+                path: '/quiz/:quizNo',  // 동적 경로
+                name: 'QuizPage',
+                component: QuizPage,
+                props: true  // 컴포넌트에 route.params를 props로 전달
+            },
+            {
+                path: '/start/:quizNo',  // 동적 경로
+                name: 'StartPage',
+                component: StartPage,
+                props: true  // 컴포넌트에 route.params를 props로 전달
+            },
+            {
+                path: '/test',
+                component: TestPage,
             },
             {
             
@@ -140,12 +167,12 @@ const routes = [
                     },
                     {
                         path: 'quizpage',
-                        component: MyQuizPage,
+                        component: MyQuiz,
                     },
                     {
                         path: '/write/:quizNo',  // 동적 경로
                         name: 'WritePage',
-                        component: WritePage,
+                        component: Write,
                         props: true  // 컴포넌트에 route.params를 props로 전달
                     },
                 ]},

@@ -32,9 +32,9 @@
       </tbody>
     </table>
     <div class="btn-cover">
-      <button @click="movetopreviouspage" class="page-btn">이전</button>
+      <button @click="movetopreviouspage" class="page-btn" style="margin-top:0%; width:4.5%;">이전</button>
       <span class="page-count">{{ page }}/{{ totalpage }} 페이지</span>
-      <button @click="movetonextpage" class="page-btn">다음</button>
+      <button @click="movetonextpage" class="page-btn" style="margin-top:0%; width:4.5%;">다음</button>
     </div>
   </div>
 </template>

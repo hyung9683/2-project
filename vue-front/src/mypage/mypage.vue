@@ -1,5 +1,5 @@
 <template>
-    <div class="mypage-container" style="margin-top:100px;">
+    <div class="mypage-container" style="margin-top:10%;">
         <h1 class="myinfo" style="margin-right:10px;">내 정보</h1>
         <table class="mypage-info">
             <tr class="box">
@@ -26,7 +26,7 @@
              </tr>
         </table>
         <br>
-        <button class="btn btn-info btn-update" style="margin-left:710px;" @click=goToUpdate()>회원정보 수정</button>
+        <button class="btn btn-info btn-update" style="margin-left:66.7%;" @click=goToUpdate()>회원정보 수정</button>
         <button class="btn btn-danger btn-delete" @click="confirmDelete(loginuser)">회원탈퇴</button>
     </div>
 </template>
@@ -198,7 +198,7 @@ top:22px;
 .myinfo {
 position: relative;
 justify-content: center;
-/* left: 800px; */
+left: 48%;
 }
 
 

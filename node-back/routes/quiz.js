@@ -104,6 +104,7 @@ router.post('/quizzes', upload.single('thumbnail'), (req, res) => {
 
     const query = 'INSERT INTO quiz_info (user_no, quiz_tit, quiz_content, quiz_category, quiz_level, quiz_thimg) VALUES (?, ?, ?, ?, ?, ?)';
     db.query(query, [user_no, title, content, category, level, thumbnail], (err, result) => {
+
         if (err) {
             console.error('퀴즈 추가 중 오류 발생:', err);
             return res.status(500).json({ error: '퀴즈 추가 중 오류가 발생했습니다.' });
@@ -128,27 +129,24 @@ router.get('/settings/:quizNo', (req, res) => {
     });
 });
 
-// 퀴즈 설정 업데이트 라우트
 router.put('/settings/:quizNo', upload.single('thumbnail'), (req, res) => {
     const quizNo = req.params.quizNo;
     const { title, content, category, level } = req.body;
     const thumbnail = req.file ? req.file.filename : null;
 
-    if (!title || !content) {
-        return res.status(400).json({ error: '제목과 내용을 입력하세요.' });
+    // thumbnail이 있는 경우와 없는 경우에 따라 다른 쿼리 사용
+    if (!title || !content || !category) {
+        return res.status(400).json({ error: '제목, 내용, 카테고리를 입력하세요.' });
     }
 
-    // thumbnail이 있는 경우와 없는 경우에 따라 다른 쿼리 사용
     const query = thumbnail
         ? 'UPDATE quiz_info SET quiz_tit = ?, quiz_content = ?, quiz_category = ?, quiz_level = ?, quiz_thimg = ? WHERE quiz_no = ?'
         : 'UPDATE quiz_info SET quiz_tit = ?, quiz_content = ?, quiz_category = ?, quiz_level = ? WHERE quiz_no = ?';
 
-    // 쿼리 매개변수 설정
     const params = thumbnail
         ? [title, content, category, level, thumbnail, quizNo]
         : [title, content, category, level, quizNo];
 
-    // 쿼리 실행
     db.query(query, params, (err, result) => {
         if (err) {
             console.error('퀴즈 설정 업데이트 중 오류 발생:', err);
@@ -168,6 +166,7 @@ router.get('/list', (req, res) => {
         res.json(results);
     });
 });
+
 router.get('/mylist/:user_no', (req, res) => {
     const userNo = req.params.user_no;
     console.log(userNo)
@@ -180,6 +179,7 @@ router.get('/mylist/:user_no', (req, res) => {
         res.json(results);
     });
 });
+
 
 // quiz/detail/:quizNo
 router.get('/detail/:quizNo', (req, res) => {
@@ -294,11 +294,11 @@ router.post('/view/:quizNo', (req, res) => {
     });
 });
 
-// 서버 코드: 조회수 기준으로 상위 4개의 퀴즈 조회
-router.get('/top-quizzes', (req, res) => {
-    const query = 'SELECT * FROM quiz_info ORDER BY quiz_view DESC LIMIT 4';
+router.get('/top-quizzes/:category', (req, res) => {
+    const category = req.params.category;
+    const query = 'SELECT * FROM quiz_info WHERE quiz_category = ? ORDER BY quiz_view DESC LIMIT 4';
 
-    db.query(query, (error, results) => {
+    db.query(query, [category], (error, results) => {
         if (error) {
             console.error('퀴즈 목록 조회 중 오류 발생:', error);
             return res.status(500).json({ error: '퀴즈 목록 조회 중 오류가 발생했습니다.' });
