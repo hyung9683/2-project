@@ -337,7 +337,7 @@ p:nth-last-child(1){
     position: absolute;
     display: inline;
     bottom: 0;
-    /* left: 20%; */
+    left: 0%; 
     font-size: 16px;
     border-radius: 8px;
     border: solid 2px rgb(255, 204, 122);

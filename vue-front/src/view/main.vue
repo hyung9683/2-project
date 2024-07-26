@@ -175,5 +175,4 @@ export default {
         background-color: #eee;
         transform: translateY(-1px);
     }
-
 </style>

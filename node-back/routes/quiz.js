@@ -95,15 +95,16 @@ router.put('/update-answers', (req, res) => {
 
 // 퀴즈 추가 라우트
 router.post('/quizzes', upload.single('thumbnail'), (req, res) => {
-    const { title, content, category, level } = req.body; // 카테고리 추가
+    const {user_no, title, content, category, level } = req.body; // 카테고리 추가
     const thumbnail = req.file ? req.file.filename : null;
 
     if (!title || !content || !category) { // 카테고리 필수 검증 추가
         return res.status(400).json({ error: '제목, 내용, 카테고리를 입력하세요.' });
     }
 
-    const query = 'INSERT INTO quiz_info (quiz_tit, quiz_content, quiz_category, quiz_level, quiz_thimg) VALUES (?, ?, ?, ?, ?)';
-    db.query(query, [title, content, category, level, thumbnail], (err, result) => {
+    const query = 'INSERT INTO quiz_info (user_no, quiz_tit, quiz_content, quiz_category, quiz_level, quiz_thimg) VALUES (?, ?, ?, ?, ?, ?)';
+    db.query(query, [user_no, title, content, category, level, thumbnail], (err, result) => {
+
         if (err) {
             console.error('퀴즈 추가 중 오류 발생:', err);
             return res.status(500).json({ error: '퀴즈 추가 중 오류가 발생했습니다.' });
@@ -133,6 +134,7 @@ router.put('/settings/:quizNo', upload.single('thumbnail'), (req, res) => {
     const { title, content, category, level } = req.body;
     const thumbnail = req.file ? req.file.filename : null;
 
+    // thumbnail이 있는 경우와 없는 경우에 따라 다른 쿼리 사용
     if (!title || !content || !category) {
         return res.status(400).json({ error: '제목, 내용, 카테고리를 입력하세요.' });
     }
@@ -164,6 +166,20 @@ router.get('/list', (req, res) => {
         res.json(results);
     });
 });
+
+router.get('/mylist/:user_no', (req, res) => {
+    const userNo = req.params.user_no;
+    console.log(userNo)
+    // const query = 'select * from quiz_info join quiz_user where quiz_info.user_no=quiz_user.user_no and quiz_info.user_no = ?'; // 모든 퀴즈를 가져오는 쿼리
+    db.query(sql.mylist,[userNo], (error, results) => {
+        if (error) {
+            console.error('퀴즈 목록 조회 중 오류 발생:', error);
+            return res.status(500).json({ error: '퀴즈 목록 조회 중 오류가 발생했습니다.' });
+        }
+        res.json(results);
+    });
+});
+
 
 // quiz/detail/:quizNo
 router.get('/detail/:quizNo', (req, res) => {

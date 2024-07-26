@@ -144,6 +144,7 @@ export default {
         }
     },
     methods: {
+
         // header에서 toggled시 메뉴가 펼쳐지고, main에 이벤트 전송
         toggleMenu() {
             this.offOn = !this.offOn;

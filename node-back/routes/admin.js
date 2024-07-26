@@ -6,6 +6,39 @@ const fs = require('fs');
 const path = require("path");
 const multer = require('multer');
 
+// 퀴즈 정보 불러오기
+router.get('/quizzes', function (req, res, next) {
+  const query = `
+    SELECT 
+      q.quiz_no,
+      q.user_no,
+      u.user_nick, 
+      q.quiz_tit,
+      q.quiz_hint1,
+      q.quiz_hint2,
+      q.quiz_thimg,
+      q.quiz_img,
+      q.quiz_category,
+      q.quiz_level,
+      q.quiz_view,
+      q.quiz_report,
+      q.quiz_day,
+      q.quiz_answer,
+      q.quiz_content
+    FROM 
+      quiz_info q
+    LEFT JOIN 
+      quiz_user u ON q.user_no = u.user_no;
+  `;
+  db.query(query, function (error, results, fields) {
+    if (error) {
+      console.error('퀴즈 정보 조회 실패:', error);
+      return res.status(500).json({ error: '서버 오류' });
+    }
+    res.json(results);
+  });
+});
+
 //최신순
 router.get('/all/:sortCase', function (request, response, next) {
   
@@ -98,6 +131,21 @@ router.post('/delete', (req, res) => {
   const qnanum = req.body.qnano;
 
   db.query(sql.deleteContent, [qnanum], function (error, result) {
+    if (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'error' });
+    } else {
+      res.send(result);
+
+    }
+  })
+
+});
+// 퀴즈 삭제
+router.post('/quizz_delete', (req, res) => {
+  const quiznum = req.body.quizno;
+
+  db.query(sql.quizz_delete, [quiznum], function (error, result) {
     if (error) {
       console.error(error);
       return res.status(500).json({ error: 'error' });

@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <div class="passwd" @click="goToPass">비밀번호 수정</div>
+    <div class="passwd" style="margin-left:-1150px;" @click="goToPass">비밀번호 수정</div>
 
     <div class="form" @click="onSubmitForm">
         <button type="submit" class="btn">수정하기</button>
