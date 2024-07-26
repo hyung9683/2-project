@@ -11,6 +11,12 @@ app.use(cors({      // cors 설정을 해줘야 front 서버와 통신 가능
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const quizRouter = require('./routes/quiz');
+
+app.use('/quiz', quizRouter);
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 const uploadDirectory = 'myImg/';
 app.use('/mypage/images', express.static(path.join(__dirname, uploadDirectory)))
 
