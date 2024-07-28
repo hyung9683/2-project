@@ -27,10 +27,16 @@
 </div>
     <!-- /top navbar -->
 </template>
-<script setup>
+
+
+<script>
 import {ref, onMounted, nextTick} from 'vue';
 import { useResize } from '@/mixin';
+import axios from 'axios';
 
+export default {
+    components: {},
+    setup() {
         const header = ref(null);
         const { updateHeight } = useResize();
 
@@ -40,20 +46,14 @@ import { useResize } from '@/mixin';
             if (header.value) {
 
                 updateHeight(header.value);
+                // this.emitter.emit('headerHeight', header.value.offsetHeight);
                 console.log(header.value.offsetHeight);
 
             }
 
         });
-
-</script>
-
-
-<script>
-import axios from 'axios';
-
-export default {
-    components: {},
+        return {header, updateHeight};
+    },
     data() {
     return {
         imageSize: {
@@ -143,7 +143,7 @@ export default {
         goToAdmin() {
             if (this.adminCk == 1 && this.user.user_no) {
 
-                return this.$router.push({ path: '/admin'});
+                return this.$router.push({ path: '/admin/user?page=1'});
             }
         }
 
@@ -176,7 +176,6 @@ export default {
 .loginBtn {
     max-width: auto;
 }
-
 
 
 </style>
