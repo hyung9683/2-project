@@ -25,11 +25,11 @@
                 <input type="password" class="form-control" placeholder="비밀번호 확인" v-model="user_pw_ck" />
                 <label for="fa floatingPassword"></label>
                 <div class="pw" @click="oneyes('confirm')">
-                    <i class="bi bi-key"></i>
+                    <i class="bi bi-key" style="margin-left:341px;"></i>
                 </div>
             </div>
             <div>
-                <button class="btn" type="button" @click="onSubmitForm">비밀번호 변경</button>
+                <button class="btn" type="button" style="margin-left:0px;" @click="onSubmitForm">비밀번호 변경</button>
             </div>
         </div>
     </div>
@@ -216,7 +216,7 @@ input:focus {
     display: inline-block;
     position: relative;
     height: 40px;
-    top: 100px;
+    top: 105px;
     width: 30px;
     padding: 10px 8px 0px 8px;
     font-size: 20px;
@@ -228,7 +228,7 @@ input:focus {
     display: inline-blcok;
     position: relative;
     height: 40px;
-    top: 110px;
+    top: 40px;
     width: 30px;
     padding: 10px 8px 0px 8px;
     font-size: 20px;

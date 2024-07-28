@@ -1,0 +1,39 @@
+CREATE TABLE quiz_images (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    quiz_no INT,
+    image_path VARCHAR(1000),
+    answers TEXT,
+    hint1 varchar(100),
+    hint2 varchar(100),
+    FOREIGN KEY (quiz_no) REFERENCES quiz_info(quiz_no)
+);
+
+create table quiz_info (
+quiz_no int auto_increment,
+user_no int,
+quiz_tit varchar(40),
+quiz_thimg varchar(1000),
+quiz_category int default 1,
+quiz_level int default 1,
+quiz_view int default 0,
+quiz_report varchar(100),
+quiz_day timestamp default now(),
+quiz_content varchar(1000),
+
+primary key(quiz_no),
+foreign key(user_no) references quiz_user(user_no) on delete cascade
+) comment = '퀴즈 테이블'
+engine=InnoDB;
+
+CREATE TABLE quiz_comments (
+    comment_id INT AUTO_INCREMENT PRIMARY KEY,
+    quiz_no INT,
+    user_no INT,
+    quiz_content TEXT,
+    quiz_comment_id INT DEFAULT NULL,
+    user_nick VARCHAR(45),
+    comment_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (quiz_no) REFERENCES quiz_info(quiz_no) ON DELETE CASCADE,
+    FOREIGN KEY (user_nick) REFERENCES quiz_user(user_nick) ON DELETE CASCADE,
+    FOREIGN KEY (user_no) REFERENCES quiz_user(user_no) ON DELETE CASCADE
+);
