@@ -46,6 +46,7 @@ export default {
             if (header.value) {
 
                 updateHeight(header.value);
+                // this.emitter.emit('headerHeight', header.value.offsetHeight);
                 console.log(header.value.offsetHeight);
 
             }

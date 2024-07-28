@@ -9,6 +9,7 @@ export const useResize = () => {
         if (element) {
 
             headerHeight.value = element.offsetHeight;
+            this.emitter.emit('headerHeight', headerHeight.value);
         }
     };
 

@@ -92,26 +92,27 @@
 </template>
 
 <script>
-import { computed, onMounted} from 'vue';
+import { ref ,computed} from 'vue';
 import { useResize} from '@/mixin';
 
 export default {
     setup(){
     const {headerHeight} = useResize();
+    const offOn = ref(false);
     const sidebar = computed(() => {
 
-    return { 
-          
-        top: `${headerHeight.value}px`,
-         marginLeft: '-30rem',
-        transition:'margin 0.25s ease-out',
-    };
+        return { 
+            
+            top: `${headerHeight.value}px`,
+            marginLeft: offOn.value ? '0' : '-30rem',
+            transition:'margin 0.25s ease-out',
+        };
 
     
 });
-    onMounted(() => {
-            window.addEventListener('resize', )
-        })
+
+this.emitter.on('headerHeight', this.sidevar);
+
     return {headerHeight, sidebar};
     },
     data() {
