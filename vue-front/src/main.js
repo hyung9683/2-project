@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import { createPinia } from 'pinia';
 import App from './App.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import VueSweetalert2 from 'vue-sweetalert2';
@@ -190,7 +191,9 @@ const router = createRouter({
 const emitter = mitt();
 
 const app = createApp(App)
+const pinia = createPinia();
 app.use(router);
+app.use(pinia);
 app.use(store);
 app.use(VueSweetalert2);
 app.use(Vuetify);

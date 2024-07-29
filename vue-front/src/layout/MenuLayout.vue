@@ -92,57 +92,89 @@
 </template>
 
 <script>
-import { ref ,computed} from 'vue';
-import { useResize} from '@/mixin';
+// import { ref ,computed} from 'vue';
+// import { useResize} from '@/mixin';
 
 export default {
-    setup(){
-    const {headerHeight} = useResize();
-    const offOn = ref(false);
-    const sidebar = computed(() => {
+    // setup(){
+    // const {headerHeight} = useResize();
+    // const offOn = ref(false);
+    // const sidebar = computed(() => {
 
-        return { 
-            
-            top: `${headerHeight.value}px`,
-            marginLeft: offOn.value ? '0' : '-30rem',
-            transition:'margin 0.25s ease-out',
-        };
+    // return { 
+        
+    //             top: `${headerHeight.value}px`,
+    //             marginLeft: offOn.value ? '0' : '-30rem',
+    //             transition:'margin 0.25s ease-out',
+    //         };
 
-    
-});
 
-this.emitter.on('headerHeight', this.sidevar);
+    //     });
+   
 
-    return {headerHeight, sidebar};
-    },
+    // return {headerHeight, sidebar};
+    // },
     data() {
         return {
+            // sidebar: {
+            //     top: `0`,
+            //     marginLeft: '-30rem',
+            //     transition: 'margin 0.25s ease-out',
+            // },
             offOn: false,
             width: 0,
         }
 }, 
     created() {
-        this.emitter.on('headerHeight', this.sidebarTop);
-         window.addEventListener('resize', this.sidebarTop);
+        // this.emitter.on('headerHeight', this.sidebarTop);
+        //  window.addEventListener('resize', this.sidebarTop);
     },
     mounted() {
         this.emitter.on('SideBarMenu', this.toggleMenu);
-        this.emitter.on('headerHeight', this.sidebarTop);
+        // this.emitter.on('headerHeight', this.sidebarTop);
 
         // 해상도 변경시 header크기도 변경되면 그거에 맞춰서 resize 이벤트 발생
-        window.addEventListener('resize', this.sidebarTop);
+        // window.addEventListener('resize', this.sidebarTop);
+
     },
     beforeUnmount() {
         this.emitter.off('SideBarMenu', this.toggleMenu);
-        this.emitter.off('headerHeight', this.sidebarTop );
+        // this.emitter.off('headerHeight', this.sidebarTop );
 
         // 해상도 변경시 header크기도 변경되면 그거에 맞춰서 resize 이벤트 발생
-        window.removeEventListener('resize', this.sidebarTop);
+        // window.removeEventListener('resize', this.sidebarTop);
     },
     computed: {
         user() {
             return this.$store.state.user;
-        }
+        },
+
+        headerHeight() {
+            return this.$store.state.headerHeight;
+        },
+        baseTop() {
+            return parseInt(this.sidebarTop || '0', 10);
+        },
+        computedTop() {
+            const height = this.headerHeight;
+            const baseTop = this.baseTop;
+            if (!isNaN(height) && !isNaN(baseTop)) {
+                
+                return baseTop + height;
+
+            }
+
+            return baseTop;
+        },
+        sidebar() {
+            return {
+                top: `${this.computedTop}px`,
+                marginLeft: '-30rem',
+                transition: 'margin 0.25s ease-out',
+            };
+        },
+       
+
     },
     methods: {
 
@@ -157,6 +189,15 @@ this.emitter.on('headerHeight', this.sidevar);
                 this.emitter.emit('sidebar-toggled', 'open');
             }
         },
+        // computedTop() {
+        //     const height = this.headerHeight;
+        //     const baseTop = this.sidebar.top;
+        //     if (height) {
+        //         const result = parseInt(baseTop) + parseInt(height);
+        //         return this.sidebar.top = result;
+
+        //     }
+        // },
         // sidebarTop(height) {
         //     if(typeof height === 'number') {
         //         this.sidebar.top = `${height}` + 'px';
