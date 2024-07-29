@@ -1,16 +1,44 @@
 module.exports = {
+      mylist:`SELECT q.quiz_no,q.user_no,u.user_nick,q.quiz_tit,q.quiz_hint1,q.quiz_hint2,  q.quiz_thimg,q.quiz_img, q.quiz_category,q.quiz_level,q.quiz_view,q.quiz_report,q.quiz_day,q.quiz_answer,q.quiz_content FROM quiz_info q JOIN quiz_user u ON q.user_no = u.user_no WHERE q.user_no = ?`,
+      // mylist:`SELECT * FROM quiz_info JOIN quiz_user WHERE quiz_info.user_no=quiz_user.user_no `,
+      // mylist:`select * from quiz_info join quiz_user where quiz_info.user_no=quiz_user.user_no;`,
+      // mylist:`SELECT * FROM quiz_info WHERE user_no = ?`,
+      mylist2:`SELECT 
+    q.quiz_no,
+    q.user_no,
+    u.user_nick,
+    q.quiz_tit,
+    q.quiz_hint1,
+    q.quiz_hint2,
+    q.quiz_thimg,
+    q.quiz_img,
+    q.quiz_category,
+    q.quiz_level,
+    q.quiz_view,
+    q.quiz_report,
+    q.quiz_day,
+    q.quiz_answer,
+    q.quiz_content
+FROM 
+    quiz_info q
+JOIN 
+    quiz_user u ON q.user_no = u.user_no
+WHERE 
+    q.user_no = ?
+`,
       //최신순
   all_list: `SELECT *
   FROM quiz_qna 
 
   
   `,
-  //오래된순
+  //미답변
   all_list2: `SELECT *
 FROM quiz_qna
 WHERE qna_ans IS NULL OR qna_ans = '';
 
   `,
+  quizz_delete: `delete from quiz_info where user_no = ?`,
 
 reportDetails: `
       
@@ -138,6 +166,9 @@ admin_search: `SELECT * FROM quiz_user`,
 
   viewcount: `SELECT board_tit, board_view
           FROM quiz_board;`,
+
+      // 퀴즈 불러오기
+      quiz_All: `select quiz_no, user_no, quiz_tit, quiz_thimg, quiz_category, quiz_level, quiz_day from quiz_info`,
 
     //게시판 기능
     boardcnt: `SELECT COUNT(*) FROM quiz_board`,

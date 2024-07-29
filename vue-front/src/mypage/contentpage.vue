@@ -1,9 +1,9 @@
 <template>
 
   <div>
-
+<br><br><br><br>
     <h1>글 목록</h1>
-    <table class="tbList">
+    <table class="tbList" style="margin-top:30px;">
       <colgroup>
         <col width="5%" />
         <col width="20%" />
@@ -37,9 +37,9 @@
       </tbody>
     </table>
     <div class="btn-cover">
-           <button @click="movetopreviouspage" class="page-btn">이전</button>
+           <button @click="movetopreviouspage" class="page-btn" style="margin-top:0%; width:4.5%;">이전</button>
       <span class="page-count">{{ page }}/{{ totalpage }} 페이지</span>
-      <button @click="movetonextpage" class="page-btn">다음</button>
+      <button @click="movetonextpage" class="page-btn" style="margin-top:0%; width:4.5%;">다음</button>
     </div>
   </div>
 </template>
@@ -232,7 +232,6 @@ export default {
     height: 25px;
     width: 50px;
     border: none;
-  
     background-color: #fbdbb6;
     font-family: 'GmarketSansMedium';
     font-size: 14px;

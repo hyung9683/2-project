@@ -1,5 +1,5 @@
 <template>
-    <div class="join_box">
+    <div class="join_box"><br><br>
         <div class="background" @submit.prevent="onSubmitForm">
             <form id="sendForm">
                 <input type="text" v-model="user_id" placeholder="아이디">
