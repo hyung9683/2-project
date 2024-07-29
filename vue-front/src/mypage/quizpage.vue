@@ -2,6 +2,7 @@
   <div class="quiz-container"><br><br><br>
     <!-- 퀴즈 목록 -->
     <div class="quiz-list">
+       <h2>내가 만든 퀴즈</h2>
       <div class="quiz-cards">
         <div 
           class="quiz-card" 
@@ -11,6 +12,21 @@
         >
           <img style="width:100%" :src="getImageUrl(quiz)" alt="섬네일 이미지" class="card-thumbnail">
           <h3 class="card-title">{{ quiz.quiz_tit }}</h3>
+        </div>
+      </div>
+    </div>
+     <!-- 퀴즈 푼 목록 -->
+    <div class="solved-quiz-list">
+      <h2>내가 푼 퀴즈</h2>
+      <div class="quiz-cards">
+        <div 
+          class="quiz-card" 
+          v-for="solvedQuiz in solvedQuizzes" 
+          :key="solvedQuiz.quiz_no" 
+          @click="handleCardClick2(solvedQuiz.quiz_no)"
+        >
+          <img style="width:100%" :src="getImageUrl(solvedQuiz)" alt="섬네일 이미지" class="card-thumbnail">
+          <h3 class="card-title">{{ solvedQuiz.quiz_tit }}</h3>
         </div>
       </div>
     </div>
@@ -110,6 +126,7 @@
     data() {
       return {
         quizzes: [], // 퀴즈 데이터를 저장할 배열
+        solvedQuizzes:[],
         showModal: false, // 모달 표시 여부
         newQuiz: {
           title: '',
@@ -128,16 +145,29 @@
 },
     mounted() {
       this.loadQuizzes();
+      this.loadQuizzes2();
     },
     
     methods: {
       loadQuizzes() {
-        console.log(this.user.user_no)
+        // console.log(this.user.user_no)
       axios.get(`http://localhost:3000/quiz/mylist/${this.user.user_no}`) // 목록 조회 엔드포인트
         .then(response => {
           this.quizzes = response.data;
           
-          console.log('퀴즈 목록:', this.quizzes); // 데이터 확인
+          // console.log('퀴즈 목록:', this.quizzes); // 데이터 확인
+        })
+        .catch(error => {
+          console.error('퀴즈 로드 중 오류 발생:', error);
+        });
+    },
+    loadQuizzes2() {
+        console.log(this.user.user_no)
+      axios.get(`http://localhost:3000/quiz/finish/${this.user.user_no}`) // 목록 조회 엔드포인트
+        .then(response => {
+          this.solvedQuizzes = response.data;
+          
+          console.log('퀴즈 목록2:', this.solvedQuizzes); // 데이터 확인
         })
         .catch(error => {
           console.error('퀴즈 로드 중 오류 발생:', error);
@@ -160,6 +190,9 @@
         this.newQuiz.level = level;
       },
       handleCardClick(quizNo) {
+        this.$router.push(`/write/${quizNo}`); // 클릭된 퀴즈 번호를 포함한 페이지로 이동
+      },
+      handleCardClick2(quizNo) {
         this.$router.push(`/write/${quizNo}`); // 클릭된 퀴즈 번호를 포함한 페이지로 이동
       },
       getImageUrl(quiz) {
@@ -277,7 +310,7 @@
     margin-left:40%;
     width:20%;
     height:40px;
-    margin-top:12%;
+    margin-top:2%;
     cursor: pointer;
     margin-bottom: 20px;
     padding: 10px;
@@ -325,8 +358,8 @@
   }
   
   .quiz-card {
-    width: 350px; /* 카드의 너비를 설정합니다. */
-    height: 350px; /* 카드의 높이를 너비와 동일하게 설정하여 정사각형으로 만듭니다. */
+    width: 250px; /* 카드의 너비를 설정합니다. */
+    height: 250px; /* 카드의 높이를 너비와 동일하게 설정하여 정사각형으로 만듭니다. */
     border: 1px solid #ddd;
     border-radius: 5px;
     overflow: hidden;

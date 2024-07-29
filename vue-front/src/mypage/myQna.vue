@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div><br><br>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"><br><br>
     <h1>내 문의 내역</h1>
     <table class="tbList" style="margin-top:30px;">

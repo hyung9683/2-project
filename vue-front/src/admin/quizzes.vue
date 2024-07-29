@@ -1,26 +1,27 @@
 <template>
-  <div>
-    <h1>퀴즈 정보</h1>
+  <div><br><br>
+    <h1 style="margin-left:44%; margin-top:-0.5%;">퀴즈 정보</h1>
+    <br>
     <table>
        <colgroup>
-        <col width="6%" />
-        <col width="6%" />
-        <col width="6%" />
+        <col width="8%" />
+        <col width="7%" />
+        <col width="7%" />
         <col width="10%" />
         <col width="9%" />
         <col width="9%" />
         <col width="7%" />
         <col width="7%" />
-        <col width="4%" />
+        <col width="7%" />
         <col width="5%" />
         <col width="5%" />
         <col width="8%" />
-        <col width="8%" />
+        <col width="7%" />
         <col width="11%" />
       </colgroup>
       <thead>
         <tr>
-          <th>퀴즈 번호</th>
+          <th>푼 날짜</th>
           <th>유저 번호</th>
           <th>유저 이름</th>
           <th>퀴즈 제목</th>
@@ -38,7 +39,7 @@
       </thead>
       <tbody>
         <tr v-for="quiz in quizzes" :key="quiz.quiz_no">
-          <td>{{ quiz.quiz_no }}</td>
+          <td>{{ formatDate(quiz.uploads_at) }}</td>
           <td>{{ quiz.user_no }}</td>
           <td>{{ quiz.user_nick }}</td>
           <td>{{ quiz.quiz_tit }}</td>
@@ -137,5 +138,15 @@ th, td {
 th {
   background-color: #fbdbb6;
   text-align: center;
+}
+.del_btn{
+  height: 35px;
+  width: 67px;
+  border: none;
+  background-color: #fbdbb6;
+  font-family: 'GmarketSansMedium';
+  font-size: 14px;
+ 
+  
 }
 </style>

@@ -1,4 +1,7 @@
 module.exports = {
+      // finish:`SELECT * FROM quiz_info WHERE uploads_at IS NOT NULL;`,
+      finish:`SELECT q.quiz_no,q.user_no,u.user_nick,q.quiz_tit,q.quiz_hint1,q.quiz_hint2,  q.quiz_thimg,q.quiz_img, q.quiz_category,q.quiz_level,q.quiz_view,q.quiz_report,q.quiz_day,q.quiz_answer,q.quiz_content, q.uploads_at FROM quiz_info q JOIN quiz_user u ON q.user_no = u.user_no WHERE q.user_no = ? and uploads_at IS NOT NULL;`,
+
       mylist:`SELECT q.quiz_no,q.user_no,u.user_nick,q.quiz_tit,q.quiz_hint1,q.quiz_hint2,  q.quiz_thimg,q.quiz_img, q.quiz_category,q.quiz_level,q.quiz_view,q.quiz_report,q.quiz_day,q.quiz_answer,q.quiz_content FROM quiz_info q JOIN quiz_user u ON q.user_no = u.user_no WHERE q.user_no = ?`,
       // mylist:`SELECT * FROM quiz_info JOIN quiz_user WHERE quiz_info.user_no=quiz_user.user_no `,
       // mylist:`select * from quiz_info join quiz_user where quiz_info.user_no=quiz_user.user_no;`,

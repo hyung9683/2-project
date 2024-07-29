@@ -4,7 +4,7 @@
         <br>
         <br>
         <h1>고객센터 관리</h1>
-         <div class="dropdown" style="margin-left:760px;">
+         <div class="dropdown" style="margin-left:71.5%;">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
                         data-bs-toggle="dropdown" aria-expanded="false" style="border: none;"> {{ sortCase }}
                     </button>
@@ -21,7 +21,7 @@
         <col width="*" />
         <col width="10%" />
         <col width="15%" />
-        <col width="8%" />
+        <col width="10%" />
         <col width="6%" />
       </colgroup>
       <thead>
@@ -271,8 +271,8 @@ thead {
 }
 
 .page-btn{
-  height: 25px;
-  width: 50px;
+  height: 26px;
+  width: 7%;
   border: none;
 
   background-color:#fbdbb6;
@@ -301,8 +301,8 @@ button.page-btn:hover {
 }
 
 .del_btn{
-    height: 23px;
-  width: 50px;
+    height: 35px;
+  width: 67px;
   border: none;
   background-color: #fbdbb6;
   font-family: 'GmarketSansMedium';
@@ -319,5 +319,7 @@ button.del_btn:hover {
     background-color: #bfe6a2;
     color: #ffffff;
     font-family: 'GmarketSansMedium';
+    width:30%;
+    height: 25%;
 }
 </style>

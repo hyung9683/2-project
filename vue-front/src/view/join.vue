@@ -47,7 +47,7 @@
                 </div>
 
                 <br />
-                <button width="100px" class="btn" type="submit">회원가입</button>
+                <button class="btn" type="submit">회원가입</button>
             </form>
             <img src="../assets/kakaoLogin.png" class="btn_kakao" style=" width:445px; height:57px; margin-top:-40px; margin-left:-8px" @click="kakaoLogin">
         </div>
@@ -94,6 +94,7 @@
 }
 
 div.join_box{
+    margin-top:5%;
     position: padding;
     height: 750px;
     
@@ -129,6 +130,7 @@ input:hover {
 .btn {
     border: none;
     width: 120%;
+    height: 100%;
     border: solid 2px rgb(255, 204, 122);
     border-radius: 8px;
     background-color: rgb(255, 210, 107);
