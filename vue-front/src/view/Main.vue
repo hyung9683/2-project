@@ -24,19 +24,19 @@
                         <div class="mt-2 imageQuiz">
                             <div class="container-fluid" style="text-align: center; box-shadow: 0 1px 0;">
                                 <div class="card" v-for="(item, i) in bestList" :key="i">
-                                    <img class="card-img-top img-fluid " src="../assets/logo.png" />
+                                    <img class="card-img-top img-fluid " :src="thImage" />
                                     <div class="card-body">
                                         <div class="card-title">
-                                            <p>{{  }}</p>
+                                            <div>{{ item.quiz_tit}}</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="container-fluid" style="text-align: center; box-shadow: 0 1px 0;">
+                            <!-- <div class="container-fluid" style="text-align: center; box-shadow: 0 1px 0;">
                                 <img class="img-fluid col-3 mx-2" src="../assets/logo.png" />
                                 <img class="img-fluid col-3 mx-2" src="../assets/logo.png" />
                                 <img class="img-fluid col-3 mx-2" src="../assets/logo.png" />
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 <div class="col-4" style="border-right: 2px groove #eee; padding-right:0.7rem; margin-left:0.7rem;">
@@ -70,6 +70,9 @@
 </template>
 
 <script>
+
+import axios from 'axios';
+
 export default {
     data() {
     return {
@@ -80,28 +83,29 @@ export default {
             top: '0',
             left: '0'
         },
-        offOn: false
+        offOn: false,
+        quiz: {},
+        bestList: {},
+        thImage: {},
     }
 }, 
     created() {
         this.emitter.on('sidebar-toggled', this.toggleMain);
+        this.emitter.on('headerHeight', this.sideHeight);
     },
     mounted() {
         // MenuLayout이 펼쳐지고 접혀질때 main화면의 이동여부
          this.emitter.on('sidebar-toggled', this.toggleMain);
+         this.sideHeight();
 
 
-        window.addEventListener('resize', this.emitter.on('headerHeight', height => {
-            this.sideMain.top = height + 'rem';
-        }));
+        window.addEventListener('resize', this.sideHeight);
     },
     beforeUnmount() {
         this.emitter.off('sidebar-toggled', this.toggleMain);
+        this.emitter.on('headerHeight', this.sideHeight);
 
-
-        window.removeEventListener('resize', this.emitter.on('headerHeight', height => {
-            this.sideMain.top = height + 'rem';
-        }));
+        window.removeEventListener('resize', this.sideHeight);
     },
     computed: {
         // toggle() {
@@ -116,6 +120,26 @@ export default {
             } else if(state === 'closed' && this.offOn) {
                 this.sideMain.transform = 'translate(0)';
             }
+        },
+
+        sideHeight(height) {
+            if (typeof height == 'number') {
+                this.sideMain.top = height + 'rem';
+            } 
+        },
+        async QuizList() {
+
+            try {
+                const response = await axios.get(`http://localhost:3000/quiz/quizList`);
+                
+                if (response.message === 'success') {
+                    this.besList = response.data;
+                }
+            } catch(error) {
+
+                console.error(error);
+
+             }
         },
     }
 }
@@ -151,4 +175,5 @@ export default {
         background-color: #eee;
         transform: translateY(-1px);
     }
+
 </style>

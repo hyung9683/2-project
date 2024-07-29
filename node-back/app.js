@@ -19,7 +19,8 @@ const qnaRouter = require('./routes/qna');
 const adminRouter = require('./routes/admin');
 const MyPage = require('./routes/mypage');
 
-app.use('/quiz', quizRouter);
+
+
 app.use('/auth', authRouter);
 app.use('/admin', adminRouter);
 app.use('/qna', qnaRouter);
