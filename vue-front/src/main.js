@@ -8,7 +8,7 @@ import store from './store';
 
 
 import defaultLayout from './layout/defaultLayout.vue';
-import MainPage from './view/Main';
+import MainPage from './view/main';
 import WritePage from './view/Write';
 import MyQuizPage from './view/Myquiz';
 import QuizPage from './view/Quizdetail';
