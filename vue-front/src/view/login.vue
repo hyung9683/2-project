@@ -21,8 +21,8 @@
                 <img src="../assets/kakaoLogin.png" class="btn_kakao" @click="kakaoLogin">
             </div>
 <div></div>
-            <div class="find" style="margin-left:-50px;" @click="goToFind">아이디 / 비밀번호 찾기 </div>
-             <div class="find" style="margin-top: -53.4px; margin-left: 150px;" @click="goToJoin"> | 회원가입 </div>
+            <div class="find" style="margin-left:25%;" @click="goToFind">아이디 / 비밀번호 찾기 </div>
+             <div class="find" style="margin-top: -8.8%; margin-left: 58%;" @click="goToJoin"> | 회원가입 </div>
         </div>
     </main>
 </template>
@@ -201,7 +201,7 @@ export default {
     width: 10px;
     font-size: 16px;
     display: inline;
-    margin-left: 20px;
+    margin-left: 4%;
     margin-bottom: 10px;
     text-align: center;
     border-radius: 8px;
@@ -214,7 +214,7 @@ export default {
     width: 10px;
     font-size: 16px;
     display: inline;
-    margin-left: 20px;
+    margin-left: 4%;
     margin-bottom: 10px;
     text-align: center;
     border-radius: 8px;
@@ -225,7 +225,7 @@ export default {
 
 .login-form .form-control {
     height: 48px;
-    width: 350px;
+    width: 75%;
     font-size: 16px;
     display: inline;
     margin-left: 10px;
@@ -240,7 +240,7 @@ export default {
 
 .login-form .form-control2 {
     height: 48px;
-    width: 350px;
+    width: 75%;
     font-size: 16px;
     display: inline;
     margin-left: -11px;
@@ -262,11 +262,11 @@ input:focus {
 }
 
 .login-form .btn {
-    height: 64px;
-    width: 448px;
+    height: 40%;
+    width: 100%;
     font-size: 16px;
     display: inline;
-    margin-left: -1%;
+    margin-left: 0%;
     margin-bottom: 50px;
     border: solid 2px rgb(255, 204, 122);
     border-radius: 8px;
@@ -283,10 +283,10 @@ input:focus {
 /* sns btn */
 .login-form .btn_kakao {
     /* scale: 45%; */
-    width: 450px;
-    height: 55px;
+    width: 100.3%;
+    height: 35%;
     position: relative;
-    left: -3px;
+    margin-left: -0.3%;
     top: 30px;
 
 
@@ -300,14 +300,10 @@ input:focus {
 
 .find {
     position: relative;
-    bottom: 2px;
     height: 30px;
-    margin-left: 125px;
-    padding-top: 20px;
     font-size: 0.8rem;
     color: #aaa;
     cursor: pointer;
-    /* border: 1px solid red; */
+    top:65%;
 }
 </style>
->>>>>>> bb99d1685eaeef535f95ea8451376f61edc19c38

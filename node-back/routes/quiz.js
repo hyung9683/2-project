@@ -170,8 +170,18 @@ router.get('/list', (req, res) => {
 router.get('/mylist/:user_no', (req, res) => {
     const userNo = req.params.user_no;
     console.log(userNo)
-    // const query = 'select * from quiz_info join quiz_user where quiz_info.user_no=quiz_user.user_no and quiz_info.user_no = ?'; // 모든 퀴즈를 가져오는 쿼리
     db.query(sql.mylist,[userNo], (error, results) => {
+        if (error) {
+            console.error('퀴즈 목록 조회 중 오류 발생:', error);
+            return res.status(500).json({ error: '퀴즈 목록 조회 중 오류가 발생했습니다.' });
+        }
+        res.json(results);
+    });
+});
+router.get('/finish/:user_no', (req, res) => {
+    const userNo = req.params.user_no;
+    console.log(userNo)
+    db.query(sql.finish,[userNo], (error, results) => {
         if (error) {
             console.error('퀴즈 목록 조회 중 오류 발생:', error);
             return res.status(500).json({ error: '퀴즈 목록 조회 중 오류가 발생했습니다.' });

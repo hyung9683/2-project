@@ -26,7 +26,7 @@
              </tr>
         </table>
         <br>
-        <button class="btn btn-info btn-update" style="margin-left:66.7%;" @click=goToUpdate()>회원정보 수정</button>
+        <button class="btn btn-info btn-update" @click=goToUpdate()>회원정보 수정</button>
         <button class="btn btn-danger btn-delete" @click="confirmDelete(loginuser)">회원탈퇴</button>
     </div>
 </template>
@@ -224,12 +224,13 @@ position: relative;
 align-content: center;
 justify-content: center;
 align-items: center;
-left: 109px;
-top: 2px;
+left: 74.1%;
+border-color: #ffffff;
 scale: 100%;
 border-radius: 3px;
 background-color: rgb(245, 180, 155);
 color: #ffffff;
+margin-top: -0.1%;
 }
 
 .btn-update:hover {
@@ -243,11 +244,12 @@ position: relative;
 align-content: center;
 justify-content: center;
 align-items: center;
-left: 111px;
-top: 2px;
+left: 74.1%;
+border-color: #ffffff;
 scale: 100%;
 border-radius: 3px;
 background-color: rgb(245, 180, 155);
+margin-top: -0.1%;
 }
 
 .btn-delete:hover {

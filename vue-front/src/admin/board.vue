@@ -3,7 +3,7 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
               <br>
         <br>
-      <h1>글 목록</h1>
+      <h1>글 목록</h1><br>
       <table class="tbList">
         <colgroup>
           <col width="5%" />
@@ -262,10 +262,10 @@ axios({
     }
     
     .page-btn {
-      height: 25px;
-      width: 50px;
+      height: 26px;
+      width: 7%;
       border: none;
-    
+      margin-top:5%;
       background-color: #fbdbb6;
       font-family: 'GmarketSansMedium';
       font-size: 14px;
@@ -273,8 +273,8 @@ axios({
     
     }
     .del_btn{
-    height: 23px;
-  width: 50px;
+  height: 35px;
+  width: 67px;
   border: none;
   background-color: #fbdbb6;
   font-family: 'GmarketSansMedium';
