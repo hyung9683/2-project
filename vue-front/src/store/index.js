@@ -12,7 +12,8 @@ const store = createStore({
             user: {
                 user_id: '',
                 user_no: '',
-            }
+            },
+            headerHeight: 0, // headerHeight를 저장할 state 추가
         }
         
     },
@@ -23,7 +24,12 @@ const store = createStore({
             
             state.user = data;
                 
-            } 
+            },
+
+            // headerHeight 상태를 변경하는 메서드 추가
+            setHeaderHeight(state, height) {
+                state.headerHeight = height;
+            }
         
     },
     plugins: [
