@@ -111,8 +111,6 @@ export default {
     
 });
 
-this.emitter.on('headerHeight', this.sidevar);
-
     return {headerHeight, sidebar};
     },
     data() {
