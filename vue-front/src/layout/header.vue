@@ -30,30 +30,10 @@
 
 
 <script>
-// import {ref, onMounted, nextTick} from 'vue';
-// import { useResize } from '@/mixin';
 import axios from 'axios';
 
 export default {
     components: {},
-    // setup() {
-    //     const header = ref(null);
-    //     const { updateHeight } = useResize();
-
-    //     onMounted(async() => {
-    //         await nextTick();
-
-    //         if (header.value) {
-
-    //             updateHeight(header.value);
-    //             // this.emitter.emit('headerHeight', header.value.offsetHeight);
-    //             console.log(header.value.offsetHeight);
-
-    //         }
-
-    //     });
-    //     return {header, updateHeight};
-    // },
     data() {
     return {
         imageSize: {
@@ -88,12 +68,6 @@ export default {
         })
     }
 
-    //    const offHeight =  this.$refs.header;
-    // if(offHeight) {
-
-    //     this.$store.commit('setHeaderHeight', offHeight.offsetHeight);
-    // }
-
     this.updateHeaderHeight(); // 해당 컴포넌트의 offsetHeight의 초기값
     window.addEventListener('resize', this.updateHeaderHeight);
     },
@@ -107,8 +81,6 @@ export default {
             this.emitter.emit('SideBarMenu');
         },
         updateHeaderHeight() {
-            // const headerHeight = this.$ref.header.offsetHeight;
-            // this.emitter.emit('headerHeight', headerHeight);
             const headerElement = this.$refs.header;
             if(headerElement) {
                 this.$store.commit('setHeaderHeight', headerElement.offsetHeight);

@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div>
-                <button class="btn" type="button" style="margin-left:0px;" @click="onSubmitForm">비밀번호 변경</button>
+                <button class="btn" type="button" @click="onSubmitForm">비밀번호 변경</button>
             </div>
         </div>
     </div>
