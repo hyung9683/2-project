@@ -263,7 +263,7 @@ axios({
     
     .page-btn {
       height: 26px;
-      width: 7%;
+      width: 6.5%;
       border: none;
       margin-top:5%;
       background-color: #fbdbb6;

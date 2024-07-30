@@ -1,6 +1,6 @@
 <template>
     <div class="mypage-container" style="margin-top:10%;">
-        <h1 class="myinfo" style="margin-right:10px;">내 정보</h1>
+        <h1 class="myinfo" style="margin-left:-2%;">내 정보</h1>
         <table class="mypage-info">
             <tr class="box">
                 <td  rowspan="6" class="box-body">
