@@ -1,18 +1,17 @@
 <template>
-  <div class="main-container">
+  <div class="main-container"><br>
     <!-- 뒤로가기 버튼 -->
-    <button class="back-button" @click="goToMain">
+    <!-- <button class="back-button" @click="goToMain">
       취소
-    </button>
+    </button> -->
 
     <!-- 저장 버튼 추가 -->
-    <button class="save-button" @click="saveAndGoToMain">
+    <!-- <button class="save-button" style="margin-top:10%" @click="saveAndGoToMain">
       저장
-    </button>
+    </button> -->
 
     <!-- 설정 버튼 추가 -->
-    <button class="settings-button" @click="openSettingsModal">
-      설정
+    <button class="settings-button" style= " margin-left:-3%; margin-top:2%; color:black; background-color:white" @click="openSettingsModal"><i class="bi bi-gear fs-3"></i>설정
     </button>
 
     <div class="container">
@@ -59,7 +58,7 @@
               <input v-model="currentImage.hint2" type="text" placeholder="힌트 2 입력">
             </div>
           </div>
-          <button @click="saveAnswers">저장</button>
+          <button class="save" style="background-color: #ffb2b2;" @click="saveAnswers">저장</button>
           <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
         </div>
       </div>
@@ -404,7 +403,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
-    margin-top: 60px; /* Adjust this if needed to fit the buttons correctly */
+    margin-top: 1%; /* Adjust this if needed to fit the buttons correctly */
   }
   
   .upload-box {
@@ -521,7 +520,7 @@
   }
   
   .add-answer-button {
-    background-color: #007bff;
+    background-color: #ffb2b2;
     color: #fff;
     border: none;
     padding: 8px 16px;
@@ -530,7 +529,7 @@
   }
   
   .remove-answer-button {
-    background-color: #dc3545;
+    background-color: #ffb2b2;
     color: #fff;
     border: none;
     padding: 5px;
@@ -568,6 +567,7 @@
 }
 .back-button, .save-button, .settings-button {
   margin: 10px;
+  height: 40%;
 }
 .upload-box {
   border: 1px dashed #ccc;
