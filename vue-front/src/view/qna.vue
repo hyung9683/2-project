@@ -1,9 +1,8 @@
 <template>
   <div>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <h1>고객센터</h1>
-
-
+    <br><br><br><br><br><br>
+    <h1 class="s" style="margin-left:7%;">고객센터</h1><br>
     <table class="tbList">
       <colgroup>
         <col width="6%" />
@@ -254,13 +253,14 @@ thead {
 }
 
 .write_btn {
-  height: 28px;
+  height: 33px;
   width: 70px;
   border: none;
   border-radius: 4px;
   background-color: #fbdbb6;
   font-family: 'GmarketSansMedium';
   font-size: 14px;
+  margin-left: -30%;
   box-shadow: 0px 1px 9px 1px rgb(234, 234, 234);
 
 }
@@ -271,10 +271,9 @@ button.write_btn:hover {
 }
 
 .page-btn {
-  height: 25px;
-  width: 50px;
+  height: 26px;
+  width: 4.1%;
   border: none;
-
   background-color: #fbdbb6;
   font-family: 'GmarketSansMedium';
   font-size: 14px;

@@ -2,7 +2,7 @@
   <div @submit.prevent="onSubmitWrite" class="form-container">
       <form class="write-form">
           <div class="ALL">
-              <label class="top" style="font-size: 40px; font-style: bold;">고객문의</label>
+              <label class="top" style="font-size: 40px; font-style: bold; margin-top:120%">고객문의</label>
               <div class="form-group">
                   <label for="qna_tit" class="form-label">제목</label>
                   <input type="text" v-model="qna_tit" class="form-input" placeholder="제목">
@@ -151,14 +151,14 @@ div {
   display: block;
   width: 30%;
   padding: 10px;
-  background-color: rgb(245, 180, 155);
+  background-color: rgb(252, 203, 184);
   color: black;
   border: black;
   border-radius: 4px;
   cursor: pointer;
   position: relative;
-  left: 715px;
-  top: -105px;
+  left: 278%;
+  top: -100px;
   font-family: 'GmarketSansMedium';
 }
 

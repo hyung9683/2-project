@@ -52,7 +52,7 @@
   
         </table>
   
-
+<br>
           <!--페이징-->
         
         <div class="btn-cover">
@@ -272,7 +272,7 @@ thead {
 
 .page-btn{
   height: 26px;
-  width: 7%;
+  width: 6.5%;
   border: none;
 
   background-color:#fbdbb6;

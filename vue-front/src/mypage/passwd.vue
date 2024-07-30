@@ -18,14 +18,14 @@
                 <input type="password" class="form-control" placeholder="새 비밀번호" v-model="user_npw" />
                 <label for="fa floatingPassword"></label>
                 <div class="pw" @click="oneyes('npass')">
-                    <i class="bi bi-key"></i>
+                    <i class="bi bi-key" style="margin-top:11%;"></i>
                 </div>
             </div>
             <div class="confirm">
                 <input type="password" class="form-control" placeholder="비밀번호 확인" v-model="user_pw_ck" />
                 <label for="fa floatingPassword"></label>
                 <div class="pw" @click="oneyes('confirm')">
-                    <i class="bi bi-key" style="margin-left:341px;"></i>
+                    <i class="bi bi-key" style="margin-left:2250%; margin-top:440%;"></i>
                 </div>
             </div>
             <div>

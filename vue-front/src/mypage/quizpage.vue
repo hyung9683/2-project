@@ -1,7 +1,7 @@
 <template>
   <div class="quiz-container"><br><br><br>
     <!-- 퀴즈 목록 -->
-    <div class="quiz-list">
+    <div class="quiz-list"><br>
        <h2>내가 만든 퀴즈</h2>
       <div class="quiz-cards">
         <div 

@@ -56,12 +56,12 @@
         <div v-if="showReport" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2>신고 상세 내용</h2>
+                    <h2 class="detail" style="margin-left:25%;">신고 상세 내용</h2>
                     <button @click="hideReportDetails" class="close-button">&times;</button>
                 </div>
                 <div>
                     <label>신고자: {{ selectedReport.author }}</label><br>
-                    <label>신고날짜: {{ formatDate(selectedReport.date) }}</label>
+                    <label>신고날짜: {{ formatDate(selectedReport.date) }}</label><br>
                 </div>
                 <div>
                     <label>신고유형</label>
@@ -79,13 +79,13 @@
                             <input type="radio" value="개인정보 노출" v-model="selectedReport.type" /> 개인정보 노출
                         </label>
                     </div>
-                </div>
+                </div><br>
                 <div>
                     <label>신고 내용:</label>
                     <textarea v-model="selectedReport.content"></textarea>
                 </div>
                 <div>
-                    <button @click="hideReportDetails" style="background-color:#e6c9a7">닫기</button>
+                    <button class="c" @click="hideReportDetails" style="background-color:#e6c9a7; height:40px;">닫기</button>
                     <!-- <button @click="submitReport">제출</button> -->
                 </div>
             </div>
@@ -430,7 +430,7 @@ thead {
 
 .page-btn {
     height: 26px;
-    width: 7%;
+    width: 6.5%;
     border: none;
     background-color: #fbdbb6;
     font-family: 'GmarketSansMedium';
@@ -511,4 +511,14 @@ button.del_btn:hover {
     font-size: 24px;
     cursor: pointer;
 }
+label {
+  display: block; /*라벨을 블록 요소로 설정하여 라벨과 텍스트영역이 수직으로 정렬되도록 함 */
+   text-align: left; /*라벨 텍스트를 왼쪽으로 정렬 */
+  /* margin-bottom: 5px; 라벨과 텍스트영역 간의 여백 조정 */
+}
+textarea{
+    width: 100%;
+    height: 100%;
+}
+
 </style>
