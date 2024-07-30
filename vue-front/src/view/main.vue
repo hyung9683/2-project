@@ -20,48 +20,45 @@
         <div class="container-fluid" style="position:relative; top:5rem; border-left: 2px groove #eee; border-right: 2px groove #eee;" id="content">
             <div class="d-flex text-align-center" id="MainContent">
                 <div class="col-4" style="border-right: 2px groove #eee; padding-right:0.7rem;">
-                    <div class="bestQui" style="text-align: center;">인기 퀴즈</div>
-                        <div class="mt-2 imageQuiz">
-                            <div class="container-fluid" style="text-align: center; box-shadow: 0 1px 0;">
-                                <div class="card" v-for="(item, i) in bestList" :key="i">
-                                    <img class="card-img-top img-fluid " :src="thImage" />
-                                    <div class="card-body">
-                                        <div class="card-title">
-                                            <div>{{ item.quiz_tit}}</div>
+                    <div style="text-align: center;">공지사항</div>
+                            <div class="mt-2 announcmentMainList" style="text-align: center;">
+                                <div class="border-bottom pb-2 announcment ">공지사항 첫번째 작성</div>
+                                <div class="border-bottom pb-2 announcment">공지사항 첫번째 작성</div>
+                                <div class="border-bottom pb-2 announcment">공지사항 첫번째 작성</div>
+                            </div>
+                        </div>
+                    <div class="col-8">
+                        <div class="col-12 border-bottom" style="padding-right:0.7rem; padding-bottom: 2rem; margin-left:0.7rem;">
+                            <div class="currentQui" style="text-align: center;">최근에 푼 퀴즈</div>
+                            <div class="mt-2 imageQuiz">
+                                <div class="container-fluid" style="text-align: center;">
+                                    <img class="img-fluid col-3 mx-2" src="../assets/logo.png" />
+                                    <img class="img-fluid col-3 mx-2" src="../assets/logo.png" />
+                                    <img class="img-fluid col-3 mx-2" src="../assets/logo.png" />
+                                </div>
+                                <div class="container-fluid" style="text-align: center;">
+                                    <img class="img-fluid col-3 mx-2" src="../assets/logo.png" />
+                                    <img class="img-fluid col-3 mx-2" src="../assets/logo.png" />
+                                    <img class="img-fluid col-3 mx-2" src="../assets/logo.png" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12" style="margin-left:0.7rem; padding-right: 1.2rem; padding-top: 2rem;">
+                            <div class="bestQui" style="text-align: center;">인기 퀴즈</div>
+                                <div class="mt-2 imageQuiz">
+                                    <div class="container-fluid" style="text-align: center; box-shadow: 0 1px 0;">
+                                        <div class="card" v-for="(item, i) in bestList" :key="i">
+                                            <img class="card-img-top img-fluid" :src="thImage" />
+                                            <div class="card-body">
+                                                <div class="card-title">
+                                                    <div>{{ item.quiz_tit}}</div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- <div class="container-fluid" style="text-align: center; box-shadow: 0 1px 0;">
-                                <img class="img-fluid col-3 mx-2" src="../assets/logo.png" />
-                                <img class="img-fluid col-3 mx-2" src="../assets/logo.png" />
-                                <img class="img-fluid col-3 mx-2" src="../assets/logo.png" />
-                            </div> -->
                         </div>
                     </div>
-                <div class="col-4" style="border-right: 2px groove #eee; padding-right:0.7rem; margin-left:0.7rem;">
-                    <div class="currentQui" style="text-align: center;">최근에 푼 퀴즈</div>
-                    <div class="mt-2 imageQuiz">
-                        <div class="container-fluid" style="text-align: center; box-shadow: 0 1px 0;">
-                            <img class="img-fluid col-3 mx-2" src="../assets/logo.png" />
-                            <img class="img-fluid col-3 mx-2" src="../assets/logo.png" />
-                            <img class="img-fluid col-3 mx-2" src="../assets/logo.png" />
-                        </div>
-                        <div class="container-fluid" style="text-align: center; box-shadow: 0 1px 0;">
-                            <img class="img-fluid col-3 mx-2" src="../assets/logo.png" />
-                            <img class="img-fluid col-3 mx-2" src="../assets/logo.png" />
-                            <img class="img-fluid col-3 mx-2" src="../assets/logo.png" />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4" style="margin-left:0.7rem; padding-right: 1.2rem;">
-                    <div style="text-align: center;">공지사항</div>
-                    <div class="mt-2 announcmentMainList">
-                        <div class="bottom-border pb-2 announcment">공지사항 첫번째 작성</div>
-                        <div class="bottom-border pb-2 announcment">공지사항 첫번째 작성</div>
-                        <div class="bottom-border pb-2 announcment">공지사항 첫번째 작성</div>
-                    </div>
-                </div>
             </div>
         </div>
         <!-- /메인 화면 -->

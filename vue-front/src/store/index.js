@@ -14,6 +14,9 @@ const store = createStore({
                 user_no: '',
             },
             headerHeight: 0, // headerHeight를 저장할 state 추가
+            // location: {
+            //     if()
+            // }
         }
         
     },
