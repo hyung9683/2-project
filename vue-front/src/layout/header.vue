@@ -13,7 +13,7 @@
                 <li class="nav-item"><a href="#" class="nav-link subBtn" @click="login"><div class="loginBtn">로그인</div></a></li>
                 <li class="nav-item"><a href="#" class="nav-link subBtn" @click="join"><div class="joinBtn">회원가입</div></a></li>
             </ul>
-            <ul class="navbar-nav" v-else-if="adminCk=1">
+            <ul class="navbar-nav" v-else-if="adminCk==1">
                 <li class="nav-item"><a href="#" class="nav-link logBtn" @click="goToAdmin"><i class="bi bi-incognito text-dark bi-lg"></i></a></li>
                 <li class="nav-item"><a href="#" class="nav-link logBtn" @click="goToMypage"><i class="bi bi-person-square text-dark bi-lg"></i></a></li>
                 <li class="nav-item"><a href="#" class="nav-link" @click="logout"><i class="bi bi-box-arrow-right text-danger bi-lg"></i></a></li>

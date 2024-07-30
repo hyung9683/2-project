@@ -58,7 +58,7 @@
               <input v-model="currentImage.hint2" type="text" placeholder="힌트 2 입력">
             </div>
           </div>
-          <button class="save" style="background-color: #ffb2b2;" @click="saveAnswers">저장</button>
+          <button class="save" style="background-color: #ffb2b2; margin-top:-5%;" @click="saveAnswers">저장</button>
           <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
         </div>
       </div>
@@ -140,7 +140,7 @@
           <input type="file" ref="thumbnailInput" @change="handleThumbnailUpload" style="display: none;" accept="image/*">
         </div>
       </div>
-      <button type="submit">제출</button>
+      <button class="b" style="margin-left:83%;  background-color: #eb6ef6;" type="submit">제출</button>
     </form>
   </div>
 </div>
@@ -526,6 +526,7 @@
     padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;
+    width: 100%;
   }
   
   .remove-answer-button {
@@ -535,6 +536,9 @@
     padding: 5px;
     border-radius: 4px;
     cursor: pointer;
+    width: 15%;
+    margin-top:0%;
+    height: 45px;
   }
   
   .close {
@@ -569,6 +573,9 @@
   margin: 10px;
   height: 40%;
 }
+.save{
+  margin-left: 3.5%;
+  width: 93.5%;}
 .upload-box {
   border: 1px dashed #ccc;
   padding: 20px;
@@ -619,9 +626,6 @@
 .answer-item {
   display: flex;
   align-items: center;
-}
-.remove-answer-button {
-  margin-left: 10px;
 }
 .hint-fields {
   margin-top: 10px;
@@ -751,14 +755,14 @@ input[type="text"], textarea {
 .level-buttons button {
   padding: 10px 20px;
   border: 1px solid #ddd;
-  background-color: #f8f8f8;
+  background-color: #e0d8d8;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .category-buttons button.selected,
 .level-buttons button.selected {
-  background-color: #007bff;
+  background-color: #eb6ef6;
   color: white;
 }
 
