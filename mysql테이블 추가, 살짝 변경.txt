@@ -1,0 +1,120 @@
+use quiz;
+
+SET foreign_key_checks = 0;
+DROP TABLE board_comments;
+SET foreign_key_checks = 1;
+
+CREATE TABLE `board_comments` (
+  `comment_id` int NOT NULL AUTO_INCREMENT,
+  `board_no` int DEFAULT NULL,
+  `user_no` int DEFAULT NULL,
+  `comment_content` text,
+  `parent_comment_id` int DEFAULT NULL,
+  `comment_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`comment_id`),
+  KEY `board_no` (`board_no`),
+  KEY `user_no` (`user_no`),
+  CONSTRAINT `board_comments_ibfk_1` FOREIGN KEY (`board_no`) REFERENCES `quiz_board` (`board_no`) ON DELETE CASCADE,
+  CONSTRAINT `board_comments_ibfk_2` FOREIGN KEY (`user_no`) REFERENCES `quiz_user` (`user_no`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='댓글';
+
+
+CREATE TABLE `notice_comments` (
+  `comment_id` int NOT NULL AUTO_INCREMENT,
+  `notice_no` int DEFAULT NUll,
+  `user_no` int DEFAULT NULL,
+  `comment_content` text,
+  `parent_comment_id` int DEFAULT NULL,
+  `comment_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`comment_id`),
+  KEY `notice_no` (`notice_no`),
+  KEY `user_no` (`user_no`),
+  CONSTRAINT `notice_comments_ibfk_1` FOREIGN KEY (`notice_no`) REFERENCES `quiz_notice` (`notice_no`) ON DELETE CASCADE,
+  CONSTRAINT `notice_comments_ibfk_2` FOREIGN KEY (`user_no`) REFERENCES `quiz_user` (`user_no`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='댓글';
+
+
+CREATE TABLE `quiz_board` (
+  `board_no` int NOT NULL AUTO_INCREMENT,
+  `user_no` int NOT NULL,
+  `board_tit` varchar(40) NOT NULL,
+  `board_content` varchar(300) DEFAULT NULL,
+  `board_view` int DEFAULT '0',
+  `board_day` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `board_img` varchar(1000) DEFAULT NULL,
+  PRIMARY KEY (`board_no`),
+  KEY `user_no` (`user_no`),
+  CONSTRAINT `quiz_board_ibfk_1` FOREIGN KEY (`user_no`) REFERENCES `quiz_user` (`user_no`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='게시판 테이블';
+
+
+CREATE TABLE `quiz_notice` (
+  `notice_no` int NOT NULL AUTO_INCREMENT,
+  `user_no` int NOT NULL,
+  `notice_tit` varchar(40) NOT NULL,
+  `notice_content` varchar(300) NOT NULL,
+  `notice_view` int DEFAULT '0',
+  `notice_day` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`notice_no`),
+  KEY `user_no` (`user_no`),
+  CONSTRAINT `quiz_notice_ibfk_1` FOREIGN KEY (`user_no`) REFERENCES `quiz_user` (`user_no`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='공지사항 테이블';
+
+
+CREATE TABLE `quiz_qna` (
+  `qna_no` int NOT NULL AUTO_INCREMENT,
+  `user_no` int NOT NULL,
+  `qna_tit` varchar(40) NOT NULL,
+  `qna_content` varchar(300) NOT NULL,
+  `qna_view` int DEFAULT '0',
+  `qna_ans` varchar(300) DEFAULT NULL,
+  `qna_day` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `qna_secret` int DEFAULT NULL,
+  PRIMARY KEY (`qna_no`),
+  KEY `user_no` (`user_no`),
+  CONSTRAINT `quiz_qna_ibfk_1` FOREIGN KEY (`user_no`) REFERENCES `quiz_user` (`user_no`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='고객센터 테이블';
+
+
+CREATE TABLE `quiz_reports` (
+  `reports_no` int NOT NULL AUTO_INCREMENT,quiz_boardboard_comments
+  `user_no` int NOT NULL,
+  `content` varchar(100) DEFAULT NULL,
+  `report_day` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_nick` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`reports_no`),
+  KEY `user_no` (`user_no`),
+  CONSTRAINT `quiz_reports_ibfk_1` FOREIGN KEY (`user_no`) REFERENCES `quiz_user` (`user_no`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='신고 테이블';
+
+
+CREATE TABLE `quiz_user` (
+  `user_no` int NOT NULL AUTO_INCREMENT,
+  `user_nick` varchar(100) DEFAULT NULL,
+  `user_id` varchar(100) DEFAULT NULL,
+  `user_passwd` varchar(100) DEFAULT NULL,
+  `user_email` varchar(100) DEFAULT NULL,
+  `user_num` varchar(100) DEFAULT NULL,
+  `user_type` int DEFAULT '0',
+  `user_login_ty` int DEFAULT '0',
+  `user_day` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_no`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='유저';
+
+
+CREATE TABLE `quiz_notice` (
+  `notice_no` int NOT NULL AUTO_INCREMENT,
+  `user_no` int NOT NULL,
+  `notice_tit` varchar(40) NOT NULL,
+  `notice_content` varchar(300) DEFAULT NULL,
+  `notice_view` int DEFAULT '0',
+  `notice_day` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `notice_img` varchar(1000) DEFAULT NULL,
+  PRIMARY KEY (`notice_no`),
+  KEY `user_no` (`user_no`),
+  CONSTRAINT `quiz_board_ibfk_1` FOREIGN KEY (`user_no`) REFERENCES `quiz_user` (`user_no`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='공지사항 테이블';
+
+
+
+
