@@ -6,9 +6,9 @@
     </button> -->
 
     <!-- 저장 버튼 추가 -->
-    <!-- <button class="save-button" style="margin-top:10%" @click="saveAndGoToMain">
+    <button class="save-button" style="margin-top:10%" @click="saveAndGoToMain">
       저장
-    </button> -->
+    </button>
 
     <!-- 설정 버튼 추가 -->
     <button class="settings-button" style= " margin-left:-3%; margin-top:2%; color:black; background-color:white" @click="openSettingsModal"><i class="bi bi-gear fs-3"></i>설정
@@ -176,7 +176,7 @@
   },
   methods: {
     goToMain() {
-      this.$router.push('/'); // 메인 페이지로 이동
+      this.$router.push('/mypage/quizpage'); // 메인 페이지로 이동
     },
     triggerFileInput() {
       this.$refs.fileInput.click();
@@ -388,9 +388,10 @@
   
   .save-button {
     position: absolute;
-    top: 16px;
-    right: 16px;
-    background-color: #28a745;
+    top: -15%;
+    width: 5%;
+    right: 2%;
+    background-color: #5bf17e;
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -571,7 +572,7 @@
 }
 .back-button, .save-button, .settings-button {
   margin: 10px;
-  height: 40%;
+  height: 12%;
 }
 .save{
   margin-left: 3.5%;
