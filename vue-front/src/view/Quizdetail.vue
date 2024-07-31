@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" :style="quizDetail">
     <div class="content">
       <!-- 일반 퀴즈 카드들 -->
       <div class="quiz-card-container">
@@ -93,12 +93,45 @@ export default {
       quizNo: this.$route.params.quizNo,
       quizCategory: null,
       comments: [],
-      newComment: ''
+      newComment: '',
+      detailTop: '0',
     };
   },
   mounted() {
     this.loadQuizzes();
     this.loadComments();
+  },
+  computed: {
+
+      headerHeight() {
+        return this.$store.state.headerHeight;
+      },
+
+      NaviHeight() {
+        return this.$store.state.naviHeight;
+      },
+
+      baseTop() {
+        return parseInt(this.detailTop || '0', 10);
+      },
+
+      computedTop() {
+        const headHeight = this.headerHeight;
+        const baseTop = this.baseTop;
+        const naviHeight = this.NaviHeight;
+        if(!isNaN(headHeight) && !isNaN(baseTop) && !isNaN(naviHeight)) {
+
+          return baseTop + headHeight + naviHeight ;
+        }
+        console.log(baseTop);
+        return baseTop;
+      },
+      quizDetail() {
+        return {
+          top:`${this.computedTop}px`,
+        };
+      },
+ 
   },
   watch: {
     quizCategory(newCategory) {

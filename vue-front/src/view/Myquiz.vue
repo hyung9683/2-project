@@ -1,5 +1,5 @@
 <template>
-    <div class="quiz-list">
+    <div class="quiz-list" :style="quizList" ref="MyQuiz">
       <!-- 퀴즈 만들기 버튼 -->
       <li class="write" @click="showModal = true">퀴즈 만들기</li>
   
@@ -113,10 +113,40 @@
           content: '',
           thumbnail: null,
           category: null, // 카테고리
-          level: null // 난이도
+          level: null, // 난이도
         },
         thumbnailUrl: null, // 썸네일 이미지 URL
+        quizTop: '0',
       };
+    },
+    computed: {
+      user() {
+        return this.$store.state.user;
+      },
+
+      headerHeight() {
+        return this.$store.state.headerHeight;
+      },
+
+      baseTop() {
+        return parseInt(this.quizTop || '0', 10);
+      },
+
+      computedTop() {
+        const headHeight = this.headerHeight;
+        const baseTop = this.baseTop;
+        if(!isNaN(headHeight) && !isNaN(baseTop)) {
+
+          return baseTop + headHeight;
+        }
+
+        return baseTop;
+      },
+      quizList() {
+        return {
+          top:`${this.computedTop}px`,
+        };
+      },
     },
     mounted() {
       this.loadQuizzes();

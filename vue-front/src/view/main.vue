@@ -1,8 +1,8 @@
 <template>
     <!-- 전체 화면 -->
-    <div class="container" :style="sideMain" :class="{'offOn': offOn}">
+    <div class="container" :style="sideMain" :class="{'offOn': offOn}" style="top: 3rem;">
         <!-- 검색 기능 -->
-        <nav class="navbar navbar-expand-md navbar-light position-relative" style="top: 3rem;">
+        <nav class="navbar navbar-expand-md navbar-light position-relative" >
             <div class="col-md-4"></div>
             <div class="col-md-5">
                 <form action="">
@@ -93,21 +93,22 @@ export default {
     mounted() {
         // MenuLayout이 펼쳐지고 접혀질때 main화면의 이동여부
          this.emitter.on('sidebar-toggled', this.toggleMain);
-         this.sideHeight();
+        //  this.sideHeight();
 
 
-        window.addEventListener('resize', this.sideHeight);
+        // window.addEventListener('resize', this.sideHeight);
     },
     beforeUnmount() {
         this.emitter.off('sidebar-toggled', this.toggleMain);
-        this.emitter.on('headerHeight', this.sideHeight);
+        // this.emitter.on('headerHeight', this.sideHeight);
 
-        window.removeEventListener('resize', this.sideHeight);
+        // window.removeEventListener('resize', this.sideHeight);
     },
     computed: {
-        // toggle() {
-        //     return this.emitter.on('sidebar-toggled', this.toggledMain);
-        // }
+
+        user() {
+            return this.$store.state.user;
+        }
     },
     methods: {
         toggleMain(state) {
@@ -119,11 +120,11 @@ export default {
             }
         },
 
-        sideHeight(height) {
-            if (typeof height == 'number') {
-                this.sideMain.top = height + 'rem';
-            } 
-        },
+        // sideHeight(height) {
+        //     if (typeof height == 'number') {
+        //         this.sideMain.top = height + 'rem';
+        //     } 
+        // },
         async QuizList() {
 
             try {

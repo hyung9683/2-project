@@ -7,20 +7,7 @@
       <Header class="header" ref="header" />
           <menu-layout class="menu"></menu-layout>
   </nav>
-         <!-- 현재 위치 -->
-          <nav class="navbar navbar-expand-md navbar-light bg-body-tertiary position-relative" style="top: 3rem; height:2rem;">
-            <div class="col-md-4">
-                    <div class="location-bar">
-                        <button type="button" class="btn">
-                            <div @click="Home()">Home</div>
-                        </button>
-                        <i class="bi bi-caret-right align-middle"></i>
-                        <button type="button">
-                          <div @click="MenuList()">{{Menu}}</div>
-                        </button>
-                    </div>
-            </div>
-        </nav>
+      <navigation></navigation>
       <router-view />
   </div>
 </template>
@@ -29,20 +16,23 @@
 
 import Header from './header.vue'
 import MenuLayout from './MenuLayout.vue'
+import Navigation from './Navigation.vue';
+
 
 export default {
-  components: {Header, MenuLayout},
+  components: {Header, MenuLayout, Navigation},
   data() {
   return {
-    Menu:'',
   }
-}, 
-  mounted() {},
+},
+  created() {
+
+  },
+  mounted() {
+  },
   computed: {},
   methods: {
-  //   MenuList() {
-  //     if(this.$router.push({path: '/Han'}))
-  //   },
+   
    }
 }
 </script>

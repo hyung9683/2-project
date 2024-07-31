@@ -14,9 +14,8 @@ const store = createStore({
                 user_no: '',
             },
             headerHeight: 0, // headerHeight를 저장할 state 추가
-            // location: {
-            //     if()
-            // }
+            naviHeight: 0,
+            // sidebarWidth: 0,
         }
         
     },
@@ -30,9 +29,17 @@ const store = createStore({
             },
 
             // headerHeight 상태를 변경하는 메서드 추가
-            setHeaderHeight(state, height) {
+        setHeaderHeight(state, height) {
                 state.headerHeight = height;
-            }
+            },
+
+        setNaviHeight(state, height) {
+            state.naviHeight = height;
+            },
+
+        // setSidebarWidth(state, width) {
+        //     state.sidebarWidth = width;
+        //     },
         
     },
     plugins: [

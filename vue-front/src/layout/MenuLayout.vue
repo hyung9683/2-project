@@ -1,9 +1,9 @@
 <template>
-    <div class="collapse navbar-collapse">
+    <div class="collapse navbar-collapse" ref="sidebar">
                 <div class="container-fluid">
                     <div class="row">
                         <!-- 사이드 메뉴 -->
-                        <div id="sidebar-menu" class="col-lg-2 sidebar fixed-top" :style="sidebar" :class="{'off-On': offOn}" ref="sidebar">
+                        <div id="sidebar-menu" class="col-lg-2 sidebar fixed-top" :style="sidebar" :class="{'off-On': offOn}">
                             <a href="#" class="navbar-brand text-secondary text-center d-block mx-auto py-3 mb-4 bottom-border">메뉴자리</a>
                             <div class="bottom-border pb-3">
                                 <i class="bi bi-person-circle mx-3 fs-3"></i>
@@ -18,9 +18,9 @@
                                     </a>
                                     <div class="collapse" id="Han">
                                         <ul class="navbar-nav text-white flex-column ms-4">
-                                            <li class="nav-item" @click="han_Beginner"><a href="#" class="nav-link">초급</a></li>
-                                            <li class="nav-item" @click="han_Intermediate"><a href="#" class="nav-link">중급</a></li>
-                                            <li class="nav-item" @click="han_Advanced"><a href="#" class="nav-link">고급</a></li>
+                                            <li class="nav-item" @click="Beginner"><a href="#" class="nav-link">초급</a></li>
+                                            <li class="nav-item" @click="Intermediate"><a href="#" class="nav-link">중급</a></li>
+                                            <li class="nav-item" @click="Advanced"><a href="#" class="nav-link">고급</a></li>
                                         </ul>
                                     </div>
                                 </li>
@@ -31,9 +31,9 @@
                                     </a>
                                     <div class="collapse" id="Eng">
                                         <ul class="navbar-nav text-white flex-column ms-4">
-                                            <li class="nav-item" @click="eng_Beginner"><a href="#" class="nav-link">초급</a></li>
-                                            <li class="nav-item" @click="eng_Intermediate"><a href="#" class="nav-link">중급</a></li>
-                                            <li class="nav-item"  @click="eng_Advanced"><a href="#" class="nav-link">고급</a></li>
+                                            <li class="nav-item" @click="Beginner"><a href="#" class="nav-link">초급</a></li>
+                                            <li class="nav-item" @click="Intermediate"><a href="#" class="nav-link">중급</a></li>
+                                            <li class="nav-item"  @click="Advanced"><a href="#" class="nav-link">고급</a></li>
                                         </ul>
                                     </div>
                                 </li>
@@ -44,9 +44,9 @@
                                     </a>
                                     <div class="collapse" id="Math">
                                         <ul class="navbar-nav text-white flex-column ms-4">
-                                            <li class="nav-item" @click="math_Beginner"><a href="#" class="nav-link">초급</a></li>
-                                            <li class="nav-item" @click="math_Intermediate"><a href="#" class="nav-link">중급</a></li>
-                                            <li class="nav-item" @click="math_Advanced"><a href="#" class="nav-link">고급</a></li>
+                                            <li class="nav-item" @click="Beginner"><a href="#" class="nav-link">초급</a></li>
+                                            <li class="nav-item" @click="Intermediate"><a href="#" class="nav-link">중급</a></li>
+                                            <li class="nav-item" @click="Advanced"><a href="#" class="nav-link">고급</a></li>
                                         </ul>
                                     </div>
                                 </li>
@@ -57,9 +57,9 @@
                                     </a>
                                     <div class="collapse" id="Lan">
                                         <ul class="navbar-nav text-white flex-column ms-4">
-                                            <li class="nav-item" @click="lan_Beginner"><a href="#" class="nav-link">초급</a></li>
-                                            <li class="nav-item" @click="lan_Intermediate"><a href="#" class="nav-link">중급</a></li>
-                                            <li class="nav-item" @click="lan_Advanced"><a href="#" class="nav-link">고급</a></li>
+                                            <li class="nav-item" @click="Beginner"><a href="#" class="nav-link">초급</a></li>
+                                            <li class="nav-item" @click="Intermediate"><a href="#" class="nav-link">중급</a></li>
+                                            <li class="nav-item" @click="Advanced"><a href="#" class="nav-link">고급</a></li>
                                         </ul>
                                     </div>
                                 </li>
@@ -87,12 +87,18 @@
 </template>
 
 <script>
+import axios from 'axios';
 
 export default {
     data() {
         return {
             offOn: false,
             width: 0,
+            quizLevel: {
+                category: {},
+                level: {},
+            },
+            sidebarTop: '0'
         }
 }, 
     created() {
@@ -114,13 +120,18 @@ export default {
         },
         baseTop() {
             return parseInt(this.sidebarTop || '0', 10);
+            
+        },
+        naviHeight() {
+            return this.$store.state.naviHeight;
         },
         computedTop() {
             const height = this.headerHeight;
+            const naviHeight = this.naviHeight
             const baseTop = this.baseTop;
-            if (!isNaN(height) && !isNaN(baseTop)) {
+            if (!isNaN(height) && !isNaN(baseTop) && !isNaN(naviHeight)) {
                 
-                return baseTop + height;
+                return baseTop +(height + naviHeight);
 
             }
 
@@ -128,7 +139,7 @@ export default {
         },
         sidebar() {
             return {
-                top: `${this.computedTop}px`,
+                top: `${this.computedTop - 12}px`,
                 marginLeft: '-30rem',
                 transition: 'margin 0.25s ease-out',
             };
@@ -137,7 +148,6 @@ export default {
 
     },
     methods: {
-
         // header에서 toggled시 메뉴가 펼쳐지고, main에 이벤트 전송
         toggleMenu() {
             this.offOn = !this.offOn;
@@ -152,9 +162,94 @@ export default {
         goToQna() {
             return window.location.href = 'http://localhost:8080/qna?page=1'
         },
-        han_Beginner() {
-            return this.$router.push()
-        }
+        Beginner() {
+
+            try {
+                const quizCategory = axios.get(`http://localhost:3000/quiz/list`)
+                for(const category in quizCategory.data) {
+                    console.log(category);
+                    if(category[0].quiz_category == 1 && category[0].quiz_level == 1) {
+                        this.$router.push({path: 'quiz/1/1'});
+                    }
+
+                    if (category[0].quiz_category == 2 && category[0].quiz_level == 1) {
+                        this.$router.push({path: 'quiz/2/1'});
+                    } else if (category[0])
+
+                    if(category[0].quiz_category == 3 && category[0].quiz_level == 1) {
+                        this.$router.push({path: 'quiz/3/1'});
+                    }
+
+                    if(category[0].quiz_category == 4 && category[0].quiz_level == 1) {
+                        this.$router.push({path: 'quiz/4/1'});
+                    }
+                }
+            } catch (error) {
+                console.log('error:', error);
+            }
+        },
+        Intermediate() {
+
+            try {
+                    const quizCategory = axios.get(`http://localhost:3000/quiz/list`)
+                    for(const category in quizCategory.data) {
+                        console.log(category);
+                        if(category[0].quiz_category == 1 && category[0].quiz_level == 2) {
+                            this.$router.push({path: 'quiz/1/1'});
+                        }
+
+                        if (category[0].quiz_category == 2 && category[0].quiz_level == 2) {
+                            this.$router.push({path: 'quiz/2/1'});
+                        } else if (category[0])
+
+                        if(category[0].quiz_category == 3 && category[0].quiz_level == 2) {
+                            this.$router.push({path: 'quiz/3/1'});
+                        }
+
+                        if(category[0].quiz_category == 4 && category[0].quiz_level == 2) {
+                            this.$router.push({path: 'quiz/4/1'});
+                        }
+                    }
+                } catch (error) {
+                    console.log('error:', error);
+            }
+        },
+        Advanced() {
+
+            try {
+                    const quizCategory = axios.get(`http://localhost:3000/quiz/list`)
+                    for(const category in quizCategory.data) {
+                        console.log(category);
+                        if(category[0].quiz_category == 1 && category[0].quiz_level == 3) {
+                            this.$router.push({path: 'quiz/1/3'});
+                        }
+
+                        if (category[0].quiz_category == 2 && category[0].quiz_level == 3) {
+                            this.$router.push({path: 'quiz/2/3'});
+                        } else if (category[0])
+
+                        if(category[0].quiz_category == 3 && category[0].quiz_level == 3) {
+                            this.$router.push({path: 'quiz/3/3'});
+                        }
+
+                        if(category[0].quiz_category == 4 && category[0].quiz_level == 3) {
+                            this.$router.push({path: 'quiz/4/3'});
+                        }
+                    }
+                } catch (error) {
+                    console.log('error:', error);
+            }
+        },
+        updateWidth() {
+            const width = this.$refs.sidebar;
+            if(width) {
+                this.$store.commit('setSidebarWidth', width.offsetWidth);
+                console.log(width.offsetWidth);
+
+            }
+        },
+
+
     }
 }
 </script>
