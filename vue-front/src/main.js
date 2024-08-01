@@ -16,6 +16,8 @@ import QuizPage from './view/Quizdetail';
 import StartPage from './view/Quizstart';
 import TestPage from './view/Test';
 
+import QuizMain from './view/QuizMain';
+
 import mitt from 'mitt';
 
 import Join from './view/join.vue';
@@ -105,6 +107,10 @@ const routes = [
             {
                 path: '/qna/qnacontent',
                 component:qnaContent,
+            },
+            {
+                path: '/quizMain/:quizCategory/:quizLevel',
+                component:QuizMain,
             },
         ]},
         {

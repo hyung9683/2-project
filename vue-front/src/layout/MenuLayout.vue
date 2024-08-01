@@ -4,7 +4,7 @@
                     <div class="row">
                         <!-- 사이드 메뉴 -->
                         <div id="sidebar-menu" class="col-lg-2 sidebar fixed-top" :style="sidebar" :class="{'off-On': offOn}">
-                            <a href="#" class="navbar-brand text-secondary text-center d-block mx-auto py-3 mb-4 bottom-border">메뉴자리</a>
+                            <div class="navbar-brand text-center d-block mx-auto py-3 mb-3 bottom-border"></div>
                             <div class="bottom-border pb-3">
                                 <i class="bi bi-person-circle mx-3 fs-3"></i>
                                 <a href="#" class="text-white">관리자</a>
@@ -13,7 +13,7 @@
                                 <!-- 홈 -->
                                 <!-- 한자 -->
                                 <li class="nav-item">
-                                    <a href="#Han" class="nav-link text-white p-3 mb-2 sidebar-link" data-bs-toggle="collapse" aria-expanded="false" aria-controls="Han">
+                                    <a href="#Han" class="nav-link text-white p-3 mb-2 sidebar-link" data-bs-toggle="collapse" aria-expanded="false" aria-controls="Han" @click="categoryClick(3)">
                                         <i class="bi bi-alipay"></i>한자
                                     </a>
                                     <div class="collapse" id="Han">
@@ -26,7 +26,7 @@
                                 </li>
                                 <!-- 영어 -->
                                 <li class="nav-item">
-                                    <a href="#Eng" class="nav-link text-white p-3 mb-2 sidebar-link" data-bs-toggle="collapse" aria-controls="Eng" aria-expanded="false">
+                                    <a href="#Eng" class="nav-link text-white p-3 mb-2 sidebar-link" data-bs-toggle="collapse" aria-controls="Eng" aria-expanded="false" @click="categoryClick(2)">
                                         <i class="bi bi-alipay"></i>영어
                                     </a>
                                     <div class="collapse" id="Eng">
@@ -39,7 +39,7 @@
                                 </li>
                                 <!-- 수학 -->
                                 <li class="nav-item">
-                                    <a href="#Math" class="nav-link text-white p-3 mb-2 sidebar-link" data-bs-toggle="collapse" aria-controls="Math" aria-expanded="false">
+                                    <a href="#Math" class="nav-link text-white p-3 mb-2 sidebar-link" data-bs-toggle="collapse" aria-controls="Math" aria-expanded="false" @click="categoryClick(1)">
                                         <i class="bi bi-alipay"></i>수학
                                     </a>
                                     <div class="collapse" id="Math">
@@ -52,7 +52,7 @@
                                 </li>
                                 <!-- 국어 -->
                                 <li class="nav-item">
-                                    <a href="#Lan" class="nav-link text-white p-3 mb-2 sidebar-link" data-bs-toggle="collapse" aria-controls="Lan" aria-expanded="false">
+                                    <a href="#Lan" class="nav-link text-white p-3 mb-2 sidebar-link" data-bs-toggle="collapse" aria-controls="Lan" aria-expanded="false" @click="categoryClick(4)">
                                         <i class="bi bi-alipay"></i>국어
                                     </a>
                                     <div class="collapse" id="Lan">
@@ -87,7 +87,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 
 export default {
     data() {
@@ -98,13 +97,25 @@ export default {
                 category: {},
                 level: {},
             },
-            sidebarTop: '0'
+            sidebarTop: '0',
+            menuCategory: '',
+            menuLevel: '',
+
         }
 }, 
     created() {
     },
     mounted() {
         this.emitter.on('SideBarMenu', this.toggleMenu);
+        this.$router.afterEach((to) => {
+                        console.log('현재 주소:', to.path);
+
+                        if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
+                        // this.$store.commit('setCurrentUrl', '');
+                        this.$store.commit('setCurrentUrl', to.path);
+                    }
+                        // this.$store.commit('setCurrentUrl', );
+                 })
 
     },
     beforeUnmount() {
@@ -144,11 +155,13 @@ export default {
                 transition: 'margin 0.25s ease-out',
             };
         },
+        setUpUrl() {
+            return this.$store.state.currentUrl;
+        },
        
 
     },
     methods: {
-        // header에서 toggled시 메뉴가 펼쳐지고, main에 이벤트 전송
         toggleMenu() {
             this.offOn = !this.offOn;
             if (!this.offOn) {
@@ -162,83 +175,171 @@ export default {
         goToQna() {
             return window.location.href = 'http://localhost:8080/qna?page=1'
         },
-        Beginner() {
+Beginner() {
+    this.changeLevel(1);
+            //  try {   
+                    // if(this.menuCategory == 1) {
+                    //     console.log('현재 category 번호:', this.menuCategory);
+                    //     const setUrl = await this.$router.replace({path: `/quizMain/${this.menuCategory}/1`});
+                    //     this.$router.afterEach((to) => {
+                    //         console.log('현재 주소:', to.path);
 
-            try {
-                const quizCategory = axios.get(`http://localhost:3000/quiz/list`)
-                for(const category in quizCategory.data) {
-                    console.log(category);
-                    if(category[0].quiz_category == 1 && category[0].quiz_level == 1) {
-                        this.$router.push({path: 'quiz/1/1'});
-                    }
+                    //         if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
+                    //         this.$store.commit('setCurrentUrl', '');
+                    //     }
+                    //         this.$store.commit('setCurrentUrl', setUrl);
+                    //     })
+                    // } else if (this.menuCategory == 2) {
+                    //     console.log('현재 category 번호:', this.menuCategory);
+                    //     const setUrl = await this.$router.replace({path: `/quizMain/${this.menuCategory}/1`});
+                    //     this.$router.afterEach((to) => {
+                    //         console.log('현재 주소:', to.path);
 
-                    if (category[0].quiz_category == 2 && category[0].quiz_level == 1) {
-                        this.$router.push({path: 'quiz/2/1'});
-                    } else if (category[0])
+                    //         if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
+                    //         this.$store.commit('setCurrentUrl', '');
+                    //     }
+                    //         this.$store.commit('setCurrentUrl', setUrl);
+                    //     })
+                    // } else if(this.menuCategory == 3) {
+                    //     console.log('현재 category 번호:', this.menuCategory);
+                    //     const setUrl = await this.$router.replace({path: `/quizMain/${this.menuCategory}/1`});
+                    //     this.$router.afterEach((to) => {
+                    //         console.log('현재 주소:', to.path);
 
-                    if(category[0].quiz_category == 3 && category[0].quiz_level == 1) {
-                        this.$router.push({path: 'quiz/3/1'});
-                    }
+                    //         if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
+                    //         this.$store.commit('setCurrentUrl', '');
+                    //     }
+                    //         this.$store.commit('setCurrentUrl', setUrl);
+                    //     })
+                    // } else if(this.menuCategory == 4) {
+                    //     console.log('현재 category 번호:', this.menuCategory);
+                    //     const setUrl = await this.$router.replace({path: `/quizMain/${this.menuCategory}/1`});
+                    //     this.$router.afterEach((to) => {
+                    //         console.log('현재 주소:', to.path);
 
-                    if(category[0].quiz_category == 4 && category[0].quiz_level == 1) {
-                        this.$router.push({path: 'quiz/4/1'});
-                    }
-                }
-            } catch (error) {
-                console.log('error:', error);
-            }
+                    //         if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
+                    //         this.$store.commit('setCurrentUrl', '');
+                    //     }
+                    //         this.$store.commit('setCurrentUrl', setUrl);
+                    //     })
+                    // }
+                
+            // } catch (error) {
+            //     console.log('error:', error);
+            // }
         },
-        Intermediate() {
+ async Intermediate() {
+        this.changeLevel(2);
+            // try {  
+                    // if(this.menuCategory == 1) {
+                    //     console.log('현재 category 번호:', this.menuCategory);
+                    //     const setUrl = await this.$router.replace({path: `/quizMain/${this.menuCategory}/2`});
+                    //     this.$router.afterEach((to) => {
+                    //         console.log('현재 주소:', to.path);
 
-            try {
-                    const quizCategory = axios.get(`http://localhost:3000/quiz/list`)
-                    for(const category in quizCategory.data) {
-                        console.log(category);
-                        if(category[0].quiz_category == 1 && category[0].quiz_level == 2) {
-                            this.$router.push({path: 'quiz/1/1'});
-                        }
+                    //         if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
+                    //         this.$store.commit('setCurrentUrl', '');
+                    //     }
+                    //         this.$store.commit('setCurrentUrl', setUrl);
+                    //     })
+                    // } else if (this.menuCategory == 2) {
+                    //     console.log('현재 category 번호:', this.menuCategory);
+                    //     const setUrl = await this.$router.replace({path: `/quizMain/${this.menuCategory}/2`});
+                    //     this.$router.afterEach((to) => {
+                    //         console.log('현재 주소:', to.path);
 
-                        if (category[0].quiz_category == 2 && category[0].quiz_level == 2) {
-                            this.$router.push({path: 'quiz/2/1'});
-                        } else if (category[0])
+                    //         if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
+                    //         this.$store.commit('setCurrentUrl', '');
+                    //     }
+                    //         this.$store.commit('setCurrentUrl', setUrl);
+                    //     })
+                    // } else if(this.menuCategory == 3) {
+                    //     console.log('현재 category 번호:', this.menuCategory);
+                    //     const setUrl = await this.$router.replace({path: `/quizMain/${this.menuCategory}/2`});
+                    //     this.$router.afterEach((to) => {
+                    //         console.log('현재 주소:', to.path);
 
-                        if(category[0].quiz_category == 3 && category[0].quiz_level == 2) {
-                            this.$router.push({path: 'quiz/3/1'});
-                        }
+                    //         if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
+                    //         this.$store.commit('setCurrentUrl', '');
+                    //     }
+                    //         this.$store.commit('setCurrentUrl', setUrl);
+                    //     })
+                    // } else if(this.menuCategory == 4) {
+                    //     console.log('현재 category 번호:', this.menuCategory);
+                    //     const setUrl = await this.$router.replace({path: `/quizMain/${this.menuCategory}/2`});
+                    //     this.$router.afterEach((to) => {
+                    //         console.log('현재 주소:', to.path);
 
-                        if(category[0].quiz_category == 4 && category[0].quiz_level == 2) {
-                            this.$router.push({path: 'quiz/4/1'});
-                        }
-                    }
-                } catch (error) {
-                    console.log('error:', error);
-            }
+                    //         if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
+                    //         this.$store.commit('setCurrentUrl', '');
+                    //     }
+                    //         this.$store.commit('setCurrentUrl', setUrl);
+                    //     })
+                    // }
+                
+            //     } catch (error) {
+            //         console.log('error:', error);
+            // }
         },
-        Advanced() {
+ async Advanced() {
+    this.changeLevel(3);
 
-            try {
-                    const quizCategory = axios.get(`http://localhost:3000/quiz/list`)
-                    for(const category in quizCategory.data) {
-                        console.log(category);
-                        if(category[0].quiz_category == 1 && category[0].quiz_level == 3) {
-                            this.$router.push({path: 'quiz/1/3'});
-                        }
+            // try {  
 
-                        if (category[0].quiz_category == 2 && category[0].quiz_level == 3) {
-                            this.$router.push({path: 'quiz/2/3'});
-                        } else if (category[0])
+                    // if(this.menuCategory == 1) {
 
-                        if(category[0].quiz_category == 3 && category[0].quiz_level == 3) {
-                            this.$router.push({path: 'quiz/3/3'});
-                        }
+                    //     console.log('현재 category 번호:', this.menuCategory);
+                    //     const setUrl = await this.$router.replace({path: `/quizMain/${this.menuCategory}/3`});
+                    //     this.$router.afterEach((to) => {
+                    //         console.log('현재 주소:', to.path);
 
-                        if(category[0].quiz_category == 4 && category[0].quiz_level == 3) {
-                            this.$router.push({path: 'quiz/4/3'});
-                        }
-                    }
-                } catch (error) {
-                    console.log('error:', error);
-            }
+                    //         if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
+                    //         this.$store.commit('setCurrentUrl', '');
+                    //     }
+                    //         this.$store.commit('setCurrentUrl', setUrl);
+                    //     })
+                    // } else if (this.menuCategory == 2) {
+
+                    //     console.log('현재 category 번호:', this.menuCategory);
+                    //     const setUrl = await this.$router.replace({path: `/quizMain/${this.menuCategory}/3`});
+                    //     // this.$router.afterEach((to) => {
+                    //     //     console.log('현재 주소:', to.path);
+
+                    //     //     if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
+                    //     //     this.$store.commit('setCurrentUrl', '');
+                    //     // }
+                    //     //     this.$store.commit('setCurrentUrl', setUrl);
+                    //     // })
+                    // } else if(this.menuCategory == 3) {
+
+                    //     console.log('현재 category 번호:', this.menuCategory);
+                    //     const setUrl = await this.$router.replace({path: `/quizMain/${this.menuCategory}/3`});
+                    //     this.$router.afterEach((to) => {
+                    //         console.log('현재 주소:', to.path);
+
+                    //         if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
+                    //         this.$store.commit('setCurrentUrl', '');
+                    //     }
+                    //         this.$store.commit('setCurrentUrl', setUrl);
+                    //     })
+                    // } else if(this.menuCategory == 4) {
+
+                    //     console.log('현재 category 번호:', this.menuCategory);
+                    //     const setUrl = await this.$router.replace({path: `/quizMain/${this.menuCategory}/3`});
+                    //     this.$router.afterEach((to) => {
+                    //         console.log('현재 주소:', to.path);
+
+                    //         if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
+                    //         this.$store.commit('setCurrentUrl', '');
+                    //     }
+                    //         this.$store.commit('setCurrentUrl', setUrl);
+                    //     })
+
+                    // }
+                
+            //     } catch (error) {
+            //         console.log('error:', error);
+            // }
         },
         updateWidth() {
             const width = this.$refs.sidebar;
@@ -248,6 +349,22 @@ export default {
 
             }
         },
+
+        categoryClick(category) {
+
+            this.menuCategory = category;
+        },
+
+        async changeLevel(level) {
+            try {
+                if(this.menuCategory) {
+                    const path = `/quizMain/${this.menuCategory}/${level}`;
+                    await this.$router.replace(path);
+                }
+            } catch(error) {
+                console.log('error:',)
+            }
+        }
 
 
     }

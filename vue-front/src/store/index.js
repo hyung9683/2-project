@@ -15,7 +15,9 @@ const store = createStore({
             },
             headerHeight: 0, // headerHeight를 저장할 state 추가
             naviHeight: 0,
-            // sidebarWidth: 0,
+            currentUrl: '',
+            quizCategory: '',
+            quizLevel: '',
         }
         
     },
@@ -37,9 +39,15 @@ const store = createStore({
             state.naviHeight = height;
             },
 
-        // setSidebarWidth(state, width) {
-        //     state.sidebarWidth = width;
-        //     },
+        setCurrentUrl(state, url) {
+            state.currentUrl = url;
+            console.log(state.currentUrl);
+            const urlParts = url.split('/');
+            if(urlParts.length == 3) {
+                state.quizCategory = urlParts[1];
+                state.quizLevel = urlParts[2];
+            }
+        },
         
     },
     plugins: [

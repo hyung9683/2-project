@@ -16,7 +16,7 @@
 
 import Header from './header.vue'
 import MenuLayout from './MenuLayout.vue'
-import Navigation from './Navigation.vue';
+import Navigation from './QuizNavigation.vue';
 
 
 export default {
