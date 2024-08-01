@@ -3,17 +3,20 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
         <div class="userPage">
-            <h2>회원정보</h2>
+            <br><br>
+            <h1>회원 정보</h1>
+            <br>
         </div>
 
         <table class="userinfo">
             <colgroup>
-                <col width="14%" />
-                <col width="14%" />
-                <col width="20%" />
-                <col width="20%" />
                 <col width="12%" />
-                <col width="18%" />
+                <col width="7%" />
+                <col width="12%" />
+                <col width="12%" />
+                <col width="15%" />
+                <col width="14%" />
+                <col width="10%" />
             </colgroup>
             <thead>
                 <tr>
@@ -21,9 +24,9 @@
                     <th class="user_title nick">닉네임</th>
                     <th class="user_title img">이미지</th>
                     <th class="user_title email">이메일</th>
-                    <th class="user_title logty">로그인타입</th>
+                    <th class="user_title logty">로그인 타입</th>
                     <th class="user_title date">가입일</th>
-                    <th class="user_title user">사용자상태</th>
+                    <th class="user_title user">사용자 상태</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,7 +39,7 @@
                     <td>{{ item.user_email }}</td>
                     <td>{{ item.user_login_ty }}</td>
                     <td>{{ formatDate(item.user_day) }}</td>
-                    <td><button class="del_btn" @click="confirmDeleteContent(item)">삭제</button></td>
+                    <td><button class="del_btn2" @click="confirmDeleteContent(item)">삭제</button></td>
                     <td><button class="del_btn" @click="confirmLockContent(item)">잠금</button></td>
                     <td><button class="del_btn" @click="showReportDetails(item)">신고</button></td>
                 </tr>
@@ -82,7 +85,7 @@
                     <textarea v-model="selectedReport.content"></textarea>
                 </div>
                 <div>
-                    <button @click="hideReportDetails">뒤로가기</button>
+                    <button @click="hideReportDetails" style="background-color:#e6c9a7">닫기</button>
                     <!-- <button @click="submitReport">제출</button> -->
                 </div>
             </div>
@@ -400,9 +403,9 @@ div {
 }
 
 table {
-    margin: auto;
+    margin-left: auto;
     position: relative;
-    width: 90%;
+    width: 100%;
 }
 
 .userinfo th {
@@ -414,6 +417,7 @@ table {
     border-bottom: 1px solid #eee;
     padding: 5px 0;
     height: 100%;
+    
 }
 
 td {
@@ -425,8 +429,8 @@ thead {
 }
 
 .page-btn {
-    height: 25px;
-    width: 50px;
+    height: 26px;
+    width: 7%;
     border: none;
     background-color: #fbdbb6;
     font-family: 'GmarketSansMedium';
@@ -449,8 +453,16 @@ button.page-btn:hover {
 }
 
 .del_btn {
-    height: 23px;
-    width: 50px;
+    height: 35px;
+    width: 67px;
+    border: none;
+    background-color: #fbdbb6;
+    font-family: 'GmarketSansMedium';
+    font-size: 14px;
+}
+.del_btn2 {
+    height: 35px;
+    width: 100px;
     border: none;
     background-color: #fbdbb6;
     font-family: 'GmarketSansMedium';

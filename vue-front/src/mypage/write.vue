@@ -366,7 +366,9 @@
   <style scoped>
   .main-container {
     position: relative;
+    top: 100px;
     padding-top: 60px; /* 상단 여백 제거 */
+    background-color: #ccffcc;
   }
   
   .back-button {

@@ -37,3 +37,15 @@ CREATE TABLE quiz_comments (
     FOREIGN KEY (user_nick) REFERENCES quiz_user(user_nick) ON DELETE CASCADE,
     FOREIGN KEY (user_no) REFERENCES quiz_user(user_no) ON DELETE CASCADE
 );
+
+create table quiz_reports (
+reports_no int not null auto_increment,
+user_no int not null,
+content varchar(100),
+report_day TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+user_nick varchar(45),
+quiz_no INT,
+comment_id INT,
+primary key(reports_no)
+) comment = '신고 테이블'
+engine=InnoDB;

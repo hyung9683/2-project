@@ -45,33 +45,64 @@
 
     <!-- 댓글 작성 및 리스트 -->
     <div class="comment-section">
-      <h2>댓글</h2>
-      <form @submit.prevent="submitComment" class="comment-form">
-        <textarea v-model="newComment" placeholder="댓글을 입력하세요..." rows="4" required></textarea>
-        <button type="submit" class="submit-comment-button">댓글 작성</button>
-      </form>
-      <div class="comment-list" ref="commentList">
-        <div class="comment" v-for="comment in comments" :key="comment.id">
-          <p><strong>{{ comment.user_nick }}</strong>: {{ comment.text }}</p>
-          <div class="comment-buttons">
-            <button @click="deleteComment(comment.id)" class="delete-button" aria-label="댓글 삭제">
-              <i class="fas fa-trash"></i>
-            </button>
-            <button @click="reportComment(comment.id)" class="report-button" aria-label="댓글 신고">
-              <i class="fas fa-flag"></i>
-            </button>
-          </div>
-        </div>
-      </div>
+              <h2>댓글</h2>
+              <form @submit.prevent="submitComment">
+                <textarea v-model="newComment" placeholder="댓글을 입력하세요..." rows="4" required></textarea>
+                <button type="submit">댓글 작성</button>
+              </form>
+              <div class="comment-list" ref="commentList">
+                <div class="comment" v-for="comment in comments" :key="comment.id">
+                  <p><strong>{{ comment.user_nick }}</strong>: {{ comment.text }}</p>
+                  <div class="comment-buttons">
+                    <button @click="deleteComment(comment.id)" class="delete-button" aria-label="댓글 삭제">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                    <button @click="reportComment(comment.id)" class="report-button" aria-label="댓글 신고">
+                      <i class="fas fa-flag"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
     </div>
     <div v-if="quizCompleted" class="confetti">
       <span v-for="n in 100" :key="n" :style="{ top: `${Math.random() * 100}vh`, left: `${Math.random() * 100}vw`, animationDelay: `${Math.random() * 3}s`, animationDuration: `${2 + Math.random() * 2}s` }"></span>
+    </div>
+    <!-- Report Popup -->
+    <div v-if="showReportPopup" class="report-popup">
+      <div class="report-popup-content">
+        <h2>댓글 신고</h2>
+        <button @click="closeReportPopup" class="close-button">&times;</button>
+        <div>
+          <label>신고유형</label>
+          <div>
+            <label>
+              <input type="radio" value="비속어 사용" v-model="selectedReport.type" /> 비속어 사용
+            </label>
+            <label>
+              <input type="radio" value="분란 조장" v-model="selectedReport.type" /> 분란 조장
+            </label>
+            <label>
+              <input type="radio" value="스팸/광고" v-model="selectedReport.type" /> 스팸/광고
+            </label>
+            <label>
+              <input type="radio" value="개인정보 노출" v-model="selectedReport.type" /> 개인정보 노출
+            </label>
+          </div>
+        </div>
+        <div>
+          <label>신고 내용:</label>
+          <textarea v-model="selectedReport.content"></textarea>
+        </div>
+        <button @click="handleReport">신고하기</button>
+        <button @click="closeReportPopup" style="background-color:#e6c9a7">닫기</button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
+import { mapState } from 'vuex';
 
 export default {
   data() {
@@ -90,8 +121,23 @@ export default {
       comments: [], // 댓글 목록
       newComment: '',
       quizNo: this.$route.params.quizNo,
-      imageAttemptsLeft: 3 // 각 이미지마다 남은 기회
+      imageAttemptsLeft: 3, // 각 이미지마다 남은 기회
+      showReportPopup: false,
+      selectedReport: {
+        type: '',
+        content: ''
+      },
+      reportCommentId: null
     };
+  },
+  computed: {
+    ...mapState(['user']),
+    userNo() {
+      return this.user.user_no;
+    },
+    userNick() {
+      return this.user.user_nick;
+    }
   },
   created() {
     // 쿼리 파라미터에서 개수를 가져옴
@@ -128,43 +174,73 @@ export default {
         });
     },
     submitComment() {
-      if (!this.newComment.trim()) return;
+      if (!this.newComment || !this.userNo) {
+        alert('댓글을 입력하거나 사용자 정보를 확인하세요.');
+        return;
+      }
 
-      const userNo = 1; // 실제로는 로그인된 사용자의 ID를 사용해야 합니다.
-
-      axios.post(`http://localhost:3000/quiz/comments/${this.quizNo}`, { text: this.newComment, userNo })
-        .then(response => {
-          const newComment = {
-            id: response.data.id,
-            text: response.data.text,
-            user_nick: response.data.user_nick,
-            createdAt: response.data.createdAt
-          };
-          this.comments.push(newComment);
-          this.newComment = ''; // 입력 필드 초기화
-          this.scrollToBottom(); // 댓글 추가 후 스크롤 이동
-        })
-        .catch(error => {
-          console.error('댓글 제출 중 오류 발생:', error);
-        });
+      axios.post(`http://localhost:3000/quiz/comments/${this.quizNo}`, {
+        text: this.newComment,
+        userNo: this.userNo
+      })
+      .then(() => {
+        this.newComment = '';
+        this.loadComments();
+      })
+      .catch(error => {
+        console.error('댓글 작성 중 오류 발생:', error);
+      });
     },
     deleteComment(commentId) {
-      axios.delete(`http://localhost:3000/quiz/delete/${this.quizNo}/${commentId}`)
-        .then(() => {
-          this.comments = this.comments.filter(comment => comment.id !== commentId);
-        })
-        .catch(error => {
-          console.error('댓글 삭제 중 오류 발생:', error);
-        });
-    },
+    if (!this.userNo) {
+        alert('사용자 정보를 확인하세요.');
+        return;
+    }
+
+    axios.delete(`http://localhost:3000/quiz/delete/${this.quizNo}/${commentId}`, {
+        data: { userNo: this.userNo } // 사용자 ID를 요청 본문에 포함
+    })
+    .then(() => {
+        this.loadComments();
+    })
+    .catch(error => {
+        console.error('댓글 삭제 중 오류 발생:', error);
+        alert('아이디가 다릅니다');
+    });
+},
     reportComment(commentId) {
-      axios.post(`http://localhost:3000/quiz/report/${this.quizNo}/${commentId}`)
-        .then(() => {
-          alert('댓글이 신고되었습니다.');
-        })
-        .catch(error => {
-          console.error('댓글 신고 중 오류 발생:', error);
-        });
+      this.reportCommentId = commentId;
+      this.showReportPopup = true;
+    },
+    handleReport() {
+    if (!this.selectedReport.type || !this.selectedReport.content) {
+      alert('신고 유형과 내용을 모두 입력하세요.');
+      return;
+    }
+
+    const reportData = {
+      comment_id: this.reportCommentId,
+      type: this.selectedReport.type,
+      content: this.selectedReport.content,
+      user_no: this.userNo // 추가된 부분
+    };
+
+    axios.post('http://localhost:3000/quiz/report', reportData)
+      .then(() => {
+        alert('신고가 접수되었습니다.');
+        this.closeReportPopup();
+      })
+      .catch(error => {
+        console.error('신고 처리 중 오류 발생:', error.response ? error.response.data : error.message);
+      });
+  },
+    closeReportPopup() {
+      this.showReportPopup = false;
+      this.selectedReport = {
+        type: '',
+        content: ''
+      };
+      this.reportCommentId = null;
     },
     scrollToBottom() {
       this.$nextTick(() => {
@@ -244,8 +320,11 @@ export default {
 
 <style>
 .quiz-container {
+  position: relative;
   text-align: center;
-  padding: 20px;
+    top: 100px;
+    padding-top: 60px; /* 상단 여백 제거 */
+    background-color: #eff9e9;
 }
 
 .quiz-image-container {
@@ -394,9 +473,56 @@ button:hover {
   background-color: #0056b3;
 }
 
-.comment-section h2 {
-  text-align: left; /* 제목을 왼쪽으로 정렬 */
-  margin-left: 0; /* 제목의 왼쪽 여백을 제거 */
+.comment-section {
+  margin-top: 30px; /* 댓글 입력 영역 상단 여백 조정 */
+  width: 100%;
+  max-width: 800px; /* 댓글 입력 영역의 최대 너비를 400px로 설정 */
+  margin: 0 auto; /* 댓글 입력 영역을 가운데 정렬 */
+  text-align: left;
+}
+
+.report-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.report-popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 500px;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.report-popup-content h2 {
+  margin: 0;
+}
+
+.report-popup-content textarea {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.report-popup-content button {
+  margin-top: 10px;
 }
 
 @keyframes confetti-fall {

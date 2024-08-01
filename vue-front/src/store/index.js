@@ -12,6 +12,7 @@ const store = createStore({
             user: {
                 user_id: '',
                 user_no: '',
+                user_nick: '',
             }
         }
         
