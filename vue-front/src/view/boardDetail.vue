@@ -5,36 +5,42 @@
           <label class="t2">작성자</label>&nbsp;&nbsp;
           <label class="writer" style="font-size: 17px; font-style: bold;">{{ content[0].user_nick }}</label>
   
-          <div class="card d-flex flex-row">
-            <!-- 이미지 칸 -->
-            <div class="main-image text-center"> <!-- 가운데 정렬 추가 -->
-              <img
-                v-if="!board.board_img"
-                src="../assets/img_notReady.png"
-                alt="..."
-                width="20%"
-              />
-              <img
-                v-else
+          <div class="card"> 
+             <div class="main-content">
+             <div class="t3"></div>
+             <p class="text2" :disabled="editable === false" style="font-size: 17px;">{{ content[0].board_tit }}</p>
+             <hr class="hr-style">
+             <div class="t4"></div>
+             <p class="text1" :disabled="editable === false" style="font-size: 17px;">{{ content[0].board_content }}</p>
+             </div>
+             <!-- 이미지 칸 -->
+             <div class="main-image text-center"> <!-- 가운데 정렬 추가 -->
+                 <!-- 예시 이미지 제거 -->
+                 <img
+                 v-if="board.board_img"
                 :src="require(`../../../node-back/uploads/${board.board_img}`)"
-                alt="..."
-                width="20%"
-              />
+                 alt="게시된 이미지"
+                 width="20%"
+                 />
+                  <!-- 이미지가 없는 경우 빈 상태로 유지 -->
+                <img
+                 v-else
+                 style="display: none;"
+                 src="../assets/img_notReady.png"
+                 alt="미리보기 이미지 없음"
+                 width="20%"
+                 />
+                </div>
             </div>
-          
-          <div class="t2">제목</div>
-          <textarea class="text2" :disabled="editable === false" v-model="content[0].board_tit" style="font-size: 17px;"></textarea>
+              
+            
   
-          <div class="t2">내용</div>
-          <textarea class="text1" :disabled="editable === false" v-model="content[0].board_content" style="font-size: 17px;"></textarea>
-        </div>
-  
-        <div class="btn-area">
-          <div v-if="this.user.user_no == this.content[0].user_no" class="right_btn">
-            <button type="button" class="btn" @click="editContent()" v-if="editable === false">수정</button>
-            <button type="button" class="btn" @click="confirmEditContent()" v-else>수정완료</button>
-            <button type="button" class="btn" @click="confirmDeleteContent(board.board_no)">삭제</button>
-          </div>
+             <div class="btn-area">
+             <div v-if="this.user.user_no == this.content[0].user_no" class="right_btn">
+              <button type="button" class="btn" @click="editContent()" v-if="editable === false">수정</button>
+              <button type="button" class="btn" @click="confirmEditContent()" v-else>수정완료</button>
+              <button type="button" class="btn" @click="confirmDeleteContent(board.board_no)">삭제</button>
+            </div> 
         </div>
   
         <!-- 댓글 목록 -->
@@ -248,6 +254,82 @@ export default {
 	padding: 0;
 }
 
+/* 작성자, 제목, 내용, 삽입 이미지 칸 */
+.board-content{ 
+  resize: none;
+}
+
+/* 작성자 */
+.t2 {
+	margin: 20px 0px 5px 0px;
+	font-size: 17px;
+	font-weight: bold;
+}
+
+/*제목*/
+.text2 {
+	resize: none;
+	height: 30px;
+	font-family: 'GmarketSansMedium';
+}
+
+/* 이미지 칸 */
+.main-image {
+  display: flex;
+  justify-content: center; /* 이미지 중앙 정렬 */
+  margin-top: 20px; /* 제목과 이미지 사이 여백 */
+}
+
+/* 이미지 크기 조정 */
+.main-image img {
+  max-width: 100%; /* 이미지의 최대 너비를 부모 요소에 맞춤 */
+  height: auto; /* 이미지 비율 유지 */
+}
+
+/* 메인 내용 */
+.main-content {
+  display: flex;
+  flex-direction: column; /* 내용이 수직 방향으로 배치되도록 설정 */
+}
+
+/* 가로 줄 */
+.hr-style {
+  border: none; /* 기본 테두리 제거 */
+  border-top: 1px solid black; /* 가로 줄 추가 */
+  margin: 20px 0; /* 위아래 여백 */
+}
+
+
+/* 내용 */
+.text1 {
+
+display: block;
+resize: none;
+font-family: 'GmarketSansMedium';
+height: 100px;
+width: 100px;
+
+}
+
+/* 작성자 닉네임 가져온거 */
+.writer{
+  margin: 20px 0px 5px 0px;
+  font-size: 16px;
+  font-weight: lighter;
+}
+
+/* 글 전체 내용(제목, 내용, 삽입 이미지) 박스 */
+.card{
+  display: flex;
+  flex-direction: column; /* 수직 방향으로 배치 */
+  border: 2px solid #ccc;
+  padding: 20px;
+  margin: 10px 0;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+
 div {
 	font-family: 'GmarketSansMedium';
 }
@@ -261,20 +343,6 @@ div {
 
 .content textarea {
 	width: 100%;
-}
-
-.text1 {
-
-    width: 85%;
-	resize: none;
-	height: 200px;
-	font-family: 'GmarketSansMedium';
-}
-
-.text2 {
-	resize: none;
-	height: 25px;
-	font-family: 'GmarketSansMedium';
 }
 
 
@@ -292,14 +360,14 @@ div {
 
 .right_btn {
 	margin-left: auto;
-	height: 85px;
+	height: 60px;
 	margin: 1px;
 }
 
 .btn {
 	font-size: 16px;
-	width: 80px;
-	height: 50px;
+	width: 60px;
+	height: 30px;
 	margin-left: auto;
 	background-color: rgb(230, 168, 84);
 	border: none;
@@ -313,11 +381,6 @@ div {
 	background-color: rgb(230, 168, 84);
 }
 
-.t2 {
-	margin: 20px 0px 5px 0px;
-	font-size: 17px;
-	font-weight: bold;
-}
 
 .t4{
 	margin: 20px 0px 5px 0px;
@@ -371,7 +434,7 @@ div {
 
 }
 
-
+/* 댓글작성 버튼 */
 .commentwrite {
   resize: none;
   display: block;
@@ -391,7 +454,7 @@ div {
 }
 
 .commentA{
-  font-size: 18px;
+  font-size: 15px;
   margin-top: 0px;
   display: block;
   resize: none;
@@ -400,7 +463,7 @@ div {
 }
 
 .commentB{
-  font-size: 17px;
+  font-size: 14px;
   margin-top: 0;
   display: block;
   resize: none;
@@ -408,7 +471,7 @@ div {
 }
 
 .box1{
-  padding: 10px;
+  padding: 1px;
   border: 1px solid #ddd;
   border-radius: 4px;
   background-color: #f9f9f9;
@@ -422,18 +485,18 @@ div {
 .recommentbtn{
   resize: none;
   display: block;
-  height: 25px;
+  height: 20px;
   width: 40px;
-  border: none;
+  border: 1px solid gray;
   border-radius: 4px;
   background-color: rgb(230, 168, 84);
   font-family: 'GmarketSansMedium';
-  font-size: 16px;
+  font-size: 13px;
   cursor: pointer;
 }
 
 .box2{
-  padding: 10px;
+  padding: 1px;
   border: 1px solid #ddd;
   border-radius: 4px;
   background-color: #f9f9f9;
@@ -444,7 +507,7 @@ div {
 .commentwriteA{
   resize: none;
   display: block;
-  margin-top: -10px;
+  margin-top: -15px;
   margin-bottom: 5px;
   height: 20px;
   width: 65px;
@@ -455,4 +518,5 @@ div {
   font-size: 14px;
   cursor: pointer;
 }
+
 </style>

@@ -10,11 +10,14 @@ import store from './store';
 
 import defaultLayout from './layout/defaultLayout.vue';
 import MainPage from './view/main';
-import WritePage from './view/Write';
+import WritePage from './view/write';
 import MyQuizPage from './view/Myquiz';
 import QuizPage from './view/Quizdetail';
 import StartPage from './view/Quizstart';
 import TestPage from './view/Test';
+import board from './view/board.vue';
+import writeboard from './view/writeboard.vue';
+import boardDetail from './view/boardDetail.vue';
 
 import mitt from 'mitt';
 
@@ -32,7 +35,10 @@ import QnaContent from './admin/qnaContent.vue'
 import UserInfo  from './admin/userinfo.vue'
 import Board  from './admin/board.vue'
 import ReportDetails from './admin/reportDetail.vue'; 
-import Quizzes from './admin/quizzes.vue'; 
+import Quizzes from './admin/quizzes.vue';
+import notice from './admin/notice.vue';
+import noticeDetail from './admin/noticeDetail.vue';
+import writenotice from './admin/writenotice.vue';
 
 import AdminLayout from './layout/adminLayout.vue'
 
@@ -104,8 +110,20 @@ const routes = [
             },
             {
                 path: '/qna/qnacontent',
-                component:qnaContent,
+                component:qnaContent
             },
+            {
+                path:'board',
+                component:board
+            },
+            {
+                path:'board/boardwrite',
+                component:writeboard
+            },
+            {
+                path:'board/boardDetail',
+                component:boardDetail
+            }
         ]},
         {
             path: '/admin/',
@@ -139,6 +157,18 @@ const routes = [
                     path:'quizzes',
                     component:Quizzes
                 },
+                {
+                    path:'notice',
+                    component:notice
+                },
+                {
+                    path:'notice/noticewrite',
+                    component:writenotice
+                },
+                {
+                    path:'notice/noticeDetail',
+                    component:noticeDetail
+                }
             ]},
             {
         

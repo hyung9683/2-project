@@ -69,7 +69,7 @@
                                     </div>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link text-white p-3 mb-2 sidebar-link">
+                                    <a href="#" class="nav-link text-white p-3 mb-2 sidebar-link" @click="goToBoard">
                                         <i class="bi bi-alipay"></i>자유게시판
                                     </a>
                                 </li>
@@ -207,6 +207,9 @@ export default {
         goToQna() {
             return window.location.href = 'http://localhost:8080/qna?page=1'
             // return this.$router.push({ path:'/qna?page=1'});
+        },
+        goToBoard() {
+            return window.location.href = 'http://localhost:8080/board?page=1'
         },
         han_Beginner() {
             return this.$router.push()

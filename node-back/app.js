@@ -18,9 +18,13 @@ const authRouter = require('./routes/auth');
 const qnaRouter = require('./routes/qna');
 const adminRouter = require('./routes/admin');
 const MyPage = require('./routes/mypage');
+const bd = require('./routes/bd');
+const notice = require('./routes/notice');
 
 
 
+app.use('/notice', notice);
+app.use('/bd', bd);
 app.use('/auth', authRouter);
 app.use('/admin', adminRouter);
 app.use('/qna', qnaRouter);

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>자유게시판</h1>
+    <h2 class="tit">자유게시판</h2>
 
     <table class="tbList">
       <colgroup>
@@ -272,16 +272,31 @@ button.page-btn:hover {
   background-color: transparent;
 }
 
+.navbar_search{
+  width: 25%;
+  margin: auto;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  margin-top: 1%;
+}
+
+.form-control{
+  width: 120%;
+  padding: 0%;
+}
+
 .btn-search {
   height: 25px;
-  width: 60px;
+  width: 80px;
   border: none;
   border-radius: 4px;
   background-color: rgb(230, 168, 84);
   font-family: 'GmarketSansMedium';
-  font-size: 16px;
+  font-size: 12.3px;
   box-shadow: 0px 1px 9px 1px rgb(221, 221, 221);
 }
+
 
 button.btn-search:hover {
   cursor: pointer;
@@ -307,5 +322,11 @@ button.btn-search:hover {
   border: 1px solid #ddd; /* 테이블 헤더 border 추가 */
   padding: 8px; /* 헤더의 padding 설정 */
   text-align: center; /* 헤더 텍스트 가운데 정렬 */
+}
+
+
+
+.tit{
+  margin-top: 6%;
 }
 </style>

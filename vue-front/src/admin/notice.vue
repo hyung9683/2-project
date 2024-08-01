@@ -126,7 +126,7 @@ export default {
         .then(() => {
           // 조회수 증가 후 상세 페이지로 이동
           this.$router.push({
-            path: `/notice/noticeDetail`,
+            path: `/admin/notice/noticeDetail`,
             query: { notice_no },
           });
         })
