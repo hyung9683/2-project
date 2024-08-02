@@ -162,8 +162,7 @@ export default {
 
     },
     methods: {
-
-        // header에서 toggled시 메뉴가 펼쳐지고, main에 이벤트 전송
+        //head에서 toggled시 메뉴가 나온다
         toggleMenu() {
             this.offOn = !this.offOn;
             if (!this.offOn) {
@@ -370,6 +369,7 @@ Beginner() {
         goToBoard() {
             return window.location.href = 'http://localhost:8080/board?page=1'
         },
+
 
     }
 }
