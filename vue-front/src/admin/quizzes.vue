@@ -8,16 +8,17 @@
         <col width="7%" />
         <col width="7%" />
         <col width="10%" />
-        <col width="9%" />
-        <col width="9%" />
+        <!-- <col width="9%" />
+        <col width="9%" /> -->
         <col width="7%" />
         <col width="7%" />
         <col width="7%" />
         <col width="5%" />
         <col width="5%" />
         <col width="8%" />
-        <col width="7%" />
-        <col width="11%" />
+        <!-- <col width="7%" /> -->
+        <col width="18%" />
+        <col width="5%" />
       </colgroup>
       <thead>
         <tr>
@@ -25,16 +26,17 @@
           <th>유저 번호</th>
           <th>유저 이름</th>
           <th>퀴즈 제목</th>
-          <th>힌트 1</th>
-          <th>힌트 2</th>
+          <!-- <th>힌트 1</th>
+          <th>힌트 2</th> -->
           <th>메인사진</th>
           <th>퀴즈사진</th>
           <th>카테고리</th>
           <th>레벨</th>
           <th>조회수</th>
           <th>날짜</th>
-          <th>정답</th>
+          <!-- <th>정답</th> -->
           <th>내용</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -43,8 +45,8 @@
           <td>{{ quiz.user_no }}</td>
           <td>{{ quiz.user_nick }}</td>
           <td>{{ quiz.quiz_tit }}</td>
-          <td>{{ quiz.quiz_hint1 }}</td>
-          <td>{{ quiz.quiz_hint2 }}</td>
+          <!-- <td>{{ quiz.quiz_hint1 }}</td>
+          <td>{{ quiz.quiz_hint2 }}</td> -->
           <td>
             <img v-if="!quiz.quiz_thimg" src="../assets/img_notReady.png" alt="이미지 준비 중" width="100%">
             <img v-else :src="require(`../../../node-back/uploads/${quiz.quiz_thimg}`)" alt="퀴즈 이미지" width="100%">
@@ -57,7 +59,7 @@
           <td>{{ quiz.quiz_level }}</td>
           <td>{{ quiz.quiz_view }}</td>
           <td>{{ formatDate(quiz.quiz_day) }}</td>
-          <td>{{ quiz.quiz_answer }}</td>
+          <!-- <td>{{ quiz.quiz_answer }}</td> -->
           <td>{{ quiz.quiz_content }}</td>
           <td><button class="del_btn" @click="confirmDeleteContent(item.quiz_no)">삭제</button></td>
         </tr>
