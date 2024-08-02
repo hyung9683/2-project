@@ -64,7 +64,7 @@
                                     </div>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link text-white p-3 mb-2 sidebar-link">
+                                    <a href="#" class="nav-link text-white p-3 mb-2 sidebar-link" @click="goToBoard">
                                         <i class="bi bi-alipay"></i>자유게시판
                                     </a>
                                 </li>
@@ -195,6 +195,7 @@ export default {
         goToQna() {
             return window.location.href = 'http://localhost:8080/qna?page=1'
         },
+<<<<<<< HEAD
 Beginner() {
     this.changeLevel(1);
             //  try {   
@@ -384,6 +385,13 @@ Beginner() {
             } catch(error) {
                 console.log('error:',)
             }
+=======
+        goToBoard() {
+            return window.location.href = 'http://localhost:8080/board?page=1'
+        },
+        han_Beginner() {
+            return this.$router.push()
+>>>>>>> f5f39b967c7d1bc5811e18e12b335913d3ea5bcb
         }
 
 
