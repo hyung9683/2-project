@@ -89,26 +89,6 @@
 <script>
 
 export default {
-<<<<<<< HEAD
-=======
-    setup(){
-    const {headerHeight} = useResize();
-    const offOn = ref(false);
-    const sidebar = computed(() => {
-
-        return { 
-            
-            top: `${headerHeight.value}px`,
-            marginLeft: offOn.value ? '0' : '-30rem',
-            transition:'margin 0.25s ease-out',
-        };
-
-    
-});
-
-    return {headerHeight, sidebar};
-    },
->>>>>>> 85c584817cacc1327f1b3755027dfd244c3fa6d6
     data() {
         return {
             offOn: false,
@@ -182,6 +162,8 @@ export default {
 
     },
     methods: {
+
+        // header에서 toggled시 메뉴가 펼쳐지고, main에 이벤트 전송
         toggleMenu() {
             this.offOn = !this.offOn;
             if (!this.offOn) {
@@ -195,7 +177,6 @@ export default {
         goToQna() {
             return window.location.href = 'http://localhost:8080/qna?page=1'
         },
-<<<<<<< HEAD
 Beginner() {
     this.changeLevel(1);
             //  try {   
@@ -385,15 +366,10 @@ Beginner() {
             } catch(error) {
                 console.log('error:',)
             }
-=======
+        },
         goToBoard() {
             return window.location.href = 'http://localhost:8080/board?page=1'
         },
-        han_Beginner() {
-            return this.$router.push()
->>>>>>> f5f39b967c7d1bc5811e18e12b335913d3ea5bcb
-        }
-
 
     }
 }
