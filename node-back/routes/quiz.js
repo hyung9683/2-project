@@ -270,21 +270,42 @@ router.get('/commentlist/:quizNo', (req, res) => {
 router.delete('/delete/:quizNo/:commentId', (req, res) => {
     const quizNo = req.params.quizNo;
     const commentId = req.params.commentId;
+    const userNo = req.body.userNo; // 사용자 ID를 요청 본문에서 받아옵니다.
 
-    // 댓글 삭제 쿼리
-    const deleteQuery = 'DELETE FROM quiz_comments WHERE comment_id = ? AND quiz_no = ?';
-    db.query(deleteQuery, [commentId, quizNo], (error, result) => {
+    // 댓글 조회 쿼리
+    const getCommentQuery = 'SELECT user_no FROM quiz_comments WHERE comment_id = ? AND quiz_no = ?';
+    db.query(getCommentQuery, [commentId, quizNo], (error, result) => {
         if (error) {
-            console.error('댓글 삭제 중 오류 발생:', error);
-            return res.status(500).json({ error: '댓글 삭제 중 오류가 발생했습니다.' });
+            console.error('댓글 조회 중 오류 발생:', error);
+            return res.status(500).json({ error: '댓글 조회 중 오류가 발생했습니다.' });
         }
 
-        // 삭제 성공 응답
-        if (result.affectedRows > 0) {
-            res.status(200).json({ message: '댓글이 삭제되었습니다.' });
-        } else {
-            res.status(404).json({ error: '댓글을 찾을 수 없습니다.' });
+        if (result.length === 0) {
+            return res.status(404).json({ error: '댓글을 찾을 수 없습니다.' });
         }
+
+        const commentOwner = result[0].user_no;
+
+        // 댓글 작성자와 요청자 일치 여부 확인
+        if (commentOwner !== userNo) {
+            return res.status(403).json({ error: '본인의 댓글만 삭제할 수 있습니다.' });
+        }
+
+        // 댓글 삭제 쿼리
+        const deleteQuery = 'DELETE FROM quiz_comments WHERE comment_id = ? AND quiz_no = ?';
+        db.query(deleteQuery, [commentId, quizNo], (error, result) => {
+            if (error) {
+                console.error('댓글 삭제 중 오류 발생:', error);
+                return res.status(500).json({ error: '댓글 삭제 중 오류가 발생했습니다.' });
+            }
+
+            // 삭제 성공 응답
+            if (result.affectedRows > 0) {
+                res.status(200).json({ message: '댓글이 삭제되었습니다.' });
+            } else {
+                res.status(404).json({ error: '댓글을 찾을 수 없습니다.' });
+            }
+        });
     });
 });
 
@@ -314,6 +335,59 @@ router.get('/top-quizzes/:category', (req, res) => {
             return res.status(500).json({ error: '퀴즈 목록 조회 중 오류가 발생했습니다.' });
         }
         res.json(results);
+    });
+});
+
+router.post('/report', (req, res) => {
+    const { comment_id, type, content, user_no } = req.body; // 댓글 ID, 신고 유형, 신고 내용, 사용자 ID
+
+    if (!comment_id || !type || !content || !user_no) {
+        return res.status(400).json({ error: '모든 필드를 입력해야 합니다.' });
+    }
+
+    // 사용자 닉네임 조회
+    const getNickQuery = 'SELECT user_nick FROM quiz_user WHERE user_no = ?';
+
+    db.query(getNickQuery, [user_no], (err, result) => {
+        if (err) {
+            console.error('닉네임 조회 중 오류 발생:', err);
+            return res.status(500).json({ error: '닉네임 조회 중 오류가 발생했습니다.' });
+        }
+
+        if (result.length === 0) {
+            return res.status(404).json({ error: '사용자를 찾을 수 없습니다.' });
+        }
+
+        const userNick = result[0].user_nick;
+
+        // 댓글 작성자 ID와 퀴즈 번호 조회
+        const getCommentQuery = 'SELECT user_no, quiz_no FROM quiz_comments WHERE comment_id = ?';
+
+        db.query(getCommentQuery, [comment_id], (err, commentResult) => {
+            if (err) {
+                console.error('댓글 조회 중 오류 발생:', err);
+                return res.status(500).json({ error: '댓글 조회 중 오류가 발생했습니다.' });
+            }
+
+            if (commentResult.length === 0) {
+                return res.status(404).json({ error: '댓글을 찾을 수 없습니다.' });
+            }
+
+            const commentUserNo = commentResult[0].user_no;
+            const quizNo = commentResult[0].quiz_no;
+
+            // 신고 추가
+            const insertReportQuery = 'INSERT INTO quiz_reports (user_no, content, user_nick, quiz_no, comment_id) VALUES (?, ?, ?, ?, ?)';
+
+            db.query(insertReportQuery, [commentUserNo, type + ': ' + content, userNick, quizNo, comment_id], (error, result) => {
+                if (error) {
+                    console.error('신고 추가 중 오류 발생:', error);
+                    return res.status(500).json({ error: '신고 추가 중 오류가 발생했습니다.' });
+                }
+
+                res.status(201).json({ message: '신고가 접수되었습니다.' });
+            });
+        });
     });
 });
 

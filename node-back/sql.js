@@ -47,6 +47,11 @@ reportDetails: `
       
 SELECT * FROM quiz_reports WHERE user_no = ?;
 `,
+
+reportDetails3: `
+      
+SELECT * FROM quiz_reports WHERE comment_id = ? AND user_no = ?;
+`,
 // reportDetails2: `
       
 // select * from quiz_reports join quiz_user 

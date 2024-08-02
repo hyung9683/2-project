@@ -10,7 +10,6 @@ import store from './store';
 
 import defaultLayout from './layout/defaultLayout.vue';
 import MainPage from './view/main';
-import WritePage from './view/Write';
 import MyQuizPage from './view/Myquiz';
 import QuizPage from './view/Quizdetail';
 import StartPage from './view/Quizstart';
@@ -55,12 +54,6 @@ const routes = [
             {
                 path: '/',
                 component: MainPage,
-            },
-            {
-                path: '/write/:quizNo',  // 동적 경로
-                name: 'WritePage',
-                component: WritePage,
-                props: true  // 컴포넌트에 route.params를 props로 전달
             },
             {
                 path: '/myquiz',
@@ -147,7 +140,6 @@ const routes = [
                 },
             ]},
             {
-        
                 path: '/mypage/',
                 name: 'mypagelayout',
                 component: MyPageLayout,

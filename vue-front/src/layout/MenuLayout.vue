@@ -89,6 +89,26 @@
 <script>
 
 export default {
+<<<<<<< HEAD
+=======
+    setup(){
+    const {headerHeight} = useResize();
+    const offOn = ref(false);
+    const sidebar = computed(() => {
+
+        return { 
+            
+            top: `${headerHeight.value}px`,
+            marginLeft: offOn.value ? '0' : '-30rem',
+            transition:'margin 0.25s ease-out',
+        };
+
+    
+});
+
+    return {headerHeight, sidebar};
+    },
+>>>>>>> 85c584817cacc1327f1b3755027dfd244c3fa6d6
     data() {
         return {
             offOn: false,
