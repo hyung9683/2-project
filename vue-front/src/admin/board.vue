@@ -174,6 +174,8 @@ axios({
       font-weight: normal;
       font-style: normal;
     }
+
+    
     
     p {
       height: 10px;
@@ -195,6 +197,7 @@ axios({
     
     .tbList th {
       border-top: 1px solid #888;
+      background-color: #F2F2F2;
     
     }
     
@@ -214,7 +217,7 @@ axios({
     }
     
     thead {
-      background-color: #fbdbb6;
+      background-color: #C1A3FF;
     }
     
     
@@ -249,7 +252,7 @@ axios({
       width: 70px;
       border: none;
       border-radius: 4px;
-      background-color: #fbdbb6;
+      background-color: #C1A3FF;
       font-family: 'GmarketSansMedium';
       font-size: 14px;
       box-shadow: 0px 1px 9px 1px rgb(234, 234, 234);
@@ -266,7 +269,7 @@ axios({
       width: 7%;
       border: none;
       margin-top:5%;
-      background-color: #fbdbb6;
+      background-color: #C1A3FF;
       font-family: 'GmarketSansMedium';
       font-size: 14px;
       box-shadow: 0px 1px 10px 0.1px rgb(240, 240, 240);
@@ -276,7 +279,7 @@ axios({
   height: 35px;
   width: 67px;
   border: none;
-  background-color: #fbdbb6;
+  background-color: #C1A3FF;
   font-family: 'GmarketSansMedium';
   font-size: 14px;
  
@@ -284,7 +287,7 @@ axios({
 }
 button.del_btn:hover {
   cursor: pointer;
-  background-color:#eaccab;
+  background-color:#C1A3FF;
 
 }
     </style>

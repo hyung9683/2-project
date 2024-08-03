@@ -134,6 +134,12 @@
   table {
     margin: auto;
     width: 80%;
+    
+  }
+
+  .tbAdd th{
+    background-color: #F2F2F2;
+    resize: none;
   }
   
   .tbList th {
@@ -175,18 +181,20 @@
   
   .write_btn {
     height: 35px;
-    width: 80px;
+    width: 85px;
     border: none;
     border-radius: 4px;
-    background-color: rgb(230, 168, 84);
+    background-color: #C1A3FF;
     font-family: 'GmarketSansMedium';
-    font-size: 16px;
+    font-size: 13px;
     box-shadow: 0px 1px 9px 1px rgb(221, 221, 221);
+    color: black;
+    margin: auto;
   }
   
   button.write_btn:hover {
     cursor: pointer;
-    background-color: rgb(230, 168, 84);
+    background-color: #C1A3FF;
   }
   
   .page-btn {
@@ -209,15 +217,16 @@
     width: 60px;
     border: none;
     border-radius: 4px;
-    background-color: rgb(230, 168, 84);
+    background-color: #C1A3FF;
     font-family: 'GmarketSansMedium';
     font-size: 16px;
     box-shadow: 0px 1px 9px 1px rgb(221, 221, 221);
+    color: black;
   }
   
   button.btn-search:hover {
     cursor: pointer;
-    background-color: rgb(230, 168, 84);
+    background-color: #C1A3FF;
   }
   
   .btn-back {
@@ -231,18 +240,20 @@
   
   .back_btn {
     height: 35px;
-    width: 80px;
+    width: 90px;
     border: none;
     border-radius: 4px;
-    background-color: rgb(230, 168, 84);
+    background-color: #C1A3FF;
     font-family: 'GmarketSansMedium';
-    font-size: 16px;
+    font-size: 12px;
     box-shadow: 0px 1px 9px 1px rgb(221, 221, 221);
+    color: black;
+    margin-top: 10%;
   }
   
   button.back_btn:hover {
     cursor: pointer;
-    background-color: rgb(230, 168, 84);
+    background-color: #C1A3FF;
   }
   
   .large-input {
@@ -277,6 +288,7 @@
   
   .form-label {
     margin-right: 10px;
+    
   }
   
   .form-control3 {
@@ -295,10 +307,11 @@
     display: inline-block;
     padding: 6px 12px;
     cursor: pointer;
-    background-color: rgb(230, 168, 84);
+    background-color: #C1A3FF;
     color: white;
     border-radius: 4px;
     font-family: 'GmarketSansMedium';
+    color: black;
   }
   
   .input-img input[type="file"] {
@@ -306,7 +319,7 @@
   }
   
   .input-img label:hover {
-    background-color: rgb(210, 148, 64);
+    background-color: #C1A3FF;
   }
   
   .preview-img {

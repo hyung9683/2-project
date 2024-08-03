@@ -350,12 +350,13 @@ div {
 	font-size: 16px;
 	width: 80px;
 	height: 40px;
-	background-color: rgb(255, 225, 160);
+	background-color: #C1A3FF;
 	border: black;
 	border-radius: 4px;
 	cursor: pointer;
 	font-family: 'GmarketSansMedium';
 	vertical-align: middle;
+  color: black;
 }
 
 .right_btn {
@@ -369,16 +370,17 @@ div {
 	width: 60px;
 	height: 30px;
 	margin-left: auto;
-	background-color: rgb(230, 168, 84);
+	background-color: #C1A3FF;
 	border: none;
 	border-radius: 4px;
 	cursor: pointer;
 	font-family: 'GmarketSansMedium';
-	margin: 3px
+	margin: 3px;
+  color: black;
 }
 
 .btn:hover {
-	background-color: rgb(230, 168, 84);
+	background-color: #C1A3FF;
 }
 
 
@@ -443,14 +445,15 @@ div {
   width: 80px;
   border: none;
   border-radius: 4px;
-  background-color: rgb(230, 168, 84);
+  background-color: #C1A3FF;
   font-family: 'GmarketSansMedium';
   font-size: 16px;
   cursor: pointer;
+  color: black;
 }
 
 .writeans:hover {
-  background-color: rgb(210, 148, 64);
+  background-color: #C1A3FF;
 }
 
 .commentA{
@@ -489,10 +492,11 @@ div {
   width: 40px;
   border: 1px solid gray;
   border-radius: 4px;
-  background-color: rgb(230, 168, 84);
+  background-color: #C1A3FF;
   font-family: 'GmarketSansMedium';
   font-size: 13px;
   cursor: pointer;
+  color: black;
 }
 
 .box2{
@@ -513,10 +517,11 @@ div {
   width: 65px;
   border: none;
   border-radius: 4px;
-  background-color: rgb(230, 168, 84);
+  background-color: #C1A3FF;
   font-family: 'GmarketSansMedium';
   font-size: 14px;
   cursor: pointer;
+  color: black;
 }
 
 </style>

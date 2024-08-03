@@ -246,15 +246,16 @@ thead {
   width: 80px;
   border: none;
   border-radius: 4px;
-  background-color: rgb(230, 168, 84);
+  background-color: #C1A3FF;
   font-family: 'GmarketSansMedium';
   font-size: 16px;
   box-shadow: 0px 1px 9px 1px rgb(221, 221, 221);
+  color: black;
 }
 
 button.write_btn:hover {
   cursor: pointer;
-  background-color: rgb(230, 168, 84);
+  background-color: #C1A3FF;
 }
 
 .page-btn {
@@ -291,16 +292,17 @@ button.page-btn:hover {
   width: 80px;
   border: none;
   border-radius: 4px;
-  background-color: rgb(230, 168, 84);
+  background-color: #C1A3FF;
   font-family: 'GmarketSansMedium';
   font-size: 12.3px;
   box-shadow: 0px 1px 9px 1px rgb(221, 221, 221);
+  color: black;
 }
 
 
 button.btn-search:hover {
   cursor: pointer;
-  background-color: rgb(230, 168, 84);
+  background-color: #C1A3FF;
 }
 
 .tbList tbody {
