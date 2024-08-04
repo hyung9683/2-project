@@ -227,7 +227,7 @@ thead {
   width: 80px;
   border: none;
   border-radius: 4px;
-  background-color: rgb(230, 168, 84);
+  background-color: #C1A3FF;
   font-family: 'GmarketSansMedium';
   font-size: 16px;
   box-shadow: 0px 1px 9px 1px rgb(221, 221, 221);
@@ -235,7 +235,7 @@ thead {
 
 button.write_btn:hover {
   cursor: pointer;
-  background-color: rgb(230, 168, 84);
+  background-color: #C1A3FF;
 }
 
 .page-btn {
@@ -243,7 +243,7 @@ button.write_btn:hover {
       width: 7%;
       border: none;
       margin-top:5%;
-      background-color: #fbb6;
+      background-color: #C1A3FF;
       font-family: 'GmarketSansMedium';
       font-size: 14px;
       box-shadow: 0px 1px 10px 0.1px rgb(240, 240, 240);
@@ -261,7 +261,7 @@ button.page-btn:hover {
   width: 67px;
   border: none;
   border-radius: 4px;
-  background-color: rgb(230, 168, 84);
+  background-color: #C1A3FF;
   font-family: 'GmarketSansMedium';
   font-size: 14px;
   box-shadow: 0px 1px 9px 1px rgb(221, 221, 221);
@@ -277,7 +277,7 @@ button.page-btn:hover {
 
 button.btn-search:hover {
   cursor: pointer;
-  background-color: rgb(230, 168, 84);
+  background-color: #C1A3FF;
 }
 
 .tbList tbody {
