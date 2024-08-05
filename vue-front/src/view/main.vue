@@ -90,18 +90,12 @@ export default {
     mounted() {
         // MenuLayout이 펼쳐지고 접혀질때 main화면의 이동여부
          this.emitter.on('sidebar-toggled', this.toggleMain);
-        //  this.sideHeight();
         this.noticeList();
         this.QuizList();
 
-
-        // window.addEventListener('resize', this.sideHeight);
     },
     beforeUnmount() {
         this.emitter.off('sidebar-toggled', this.toggleMain);
-        // this.emitter.on('headerHeight', this.sideHeight);
-
-        // window.removeEventListener('resize', this.sideHeight);
     },
     computed: {
 
