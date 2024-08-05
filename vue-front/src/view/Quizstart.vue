@@ -45,28 +45,31 @@
 
     <!-- 댓글 작성 및 리스트 -->
     <div class="comment-section">
-              <h2>댓글</h2>
-              <form @submit.prevent="submitComment">
-                <textarea v-model="newComment" placeholder="댓글을 입력하세요..." rows="4" required></textarea>
-                <button type="submit">댓글 작성</button>
-              </form>
-              <div class="comment-list" ref="commentList">
-                <div class="comment" v-for="comment in comments" :key="comment.id">
-                  <p><strong>{{ comment.user_nick }}</strong>: {{ comment.text }}</p>
-                  <div class="comment-buttons">
-                    <button @click="deleteComment(comment.id)" class="delete-button" aria-label="댓글 삭제">
-                      <i class="fas fa-trash-alt"></i>
-                    </button>
-                    <button @click="reportComment(comment.id)" class="report-button" aria-label="댓글 신고">
-                      <i class="fas fa-flag"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
+      <h2>댓글</h2>
+      <form @submit.prevent="submitComment">
+        <textarea v-model="newComment" placeholder="댓글을 입력하세요..." rows="4" required></textarea>
+        <button type="submit">댓글 작성</button>
+      </form>
+      <div class="comment-list" ref="commentList">
+        <div class="comment" v-for="comment in comments" :key="comment.id">
+          <p><strong>{{ comment.user_nick }}</strong>: {{ comment.text }}</p>
+          <div class="comment-buttons">
+            <button @click="deleteComment(comment.id)" class="delete-button" aria-label="댓글 삭제">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+            <button @click="reportComment(comment.id)" class="report-button" aria-label="댓글 신고">
+              <i class="fas fa-flag"></i>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- Confetti -->
     <div v-if="quizCompleted" class="confetti">
       <span v-for="n in 100" :key="n" :style="{ top: `${Math.random() * 100}vh`, left: `${Math.random() * 100}vw`, animationDelay: `${Math.random() * 3}s`, animationDuration: `${2 + Math.random() * 2}s` }"></span>
     </div>
+
     <!-- Report Popup -->
     <div v-if="showReportPopup" class="report-popup">
       <div class="report-popup-content">
@@ -256,6 +259,7 @@ export default {
     showNextImage() {
       if (this.currentIndex >= this.shuffledImages.length) {
         this.quizCompleted = true;
+        this.updateQuizCompletedTime(); // 퀴즈 완료 시간 업데이트
         return;
       }
 
@@ -313,6 +317,15 @@ export default {
     },
     goToHomePage() {
       this.$router.push('/'); // 메인 페이지로 이동
+    },
+    updateQuizCompletedTime() {
+      axios.put(`http://localhost:3000/quiz/complete/${this.quizNo}`)
+        .then(() => {
+          console.log('퀴즈 완료 시간이 업데이트되었습니다.');
+        })
+        .catch(error => {
+          console.error('퀴즈 완료 시간 업데이트 중 오류 발생:', error);
+        });
     }
   }
 };

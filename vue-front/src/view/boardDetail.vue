@@ -1,58 +1,56 @@
 <template>
-    <div>
-      <div class="content" v-for="board in content" :key="board.board_no">
-        <div class="board_content">
-          <label class="t2">작성자</label>&nbsp;&nbsp;
-          <label class="writer" style="font-size: 17px; font-style: bold;">{{ content[0].user_nick }}</label>
-  
-          <div class="card"> 
-             <div class="main-content">
-             <div class="t3"></div>
-             <p class="text2" :disabled="editable === false" style="font-size: 17px;">{{ content[0].board_tit }}</p>
-             <hr class="hr-style">
-             <div class="t4"></div>
-             <p class="text1" :disabled="editable === false" style="font-size: 17px;">{{ content[0].board_content }}</p>
-             </div>
-             <!-- 이미지 칸 -->
-             <div class="main-image text-center"> <!-- 가운데 정렬 추가 -->
-                 <!-- 예시 이미지 제거 -->
-                 <img
-                 v-if="board.board_img"
-                :src="require(`../../../node-back/uploads/${board.board_img}`)"
-                 alt="게시된 이미지"
-                 width="20%"
-                 />
-                  <!-- 이미지가 없는 경우 빈 상태로 유지 -->
-                <img
-                 v-else
-                 style="display: none;"
-                 src="../assets/img_notReady.png"
-                 alt="미리보기 이미지 없음"
-                 width="20%"
-                 />
-                </div>
-            </div>
-              
-            
-  
-             <div class="btn-area">
-             <div v-if="this.user.user_no == this.content[0].user_no" class="right_btn">
-              <button type="button" class="btn" @click="editContent()" v-if="editable === false">수정</button>
-              <button type="button" class="btn" @click="confirmEditContent()" v-else>수정완료</button>
-              <button type="button" class="btn" @click="confirmDeleteContent(board.board_no)">삭제</button>
-            </div> 
+  <div>
+    <div class="content" v-for="board in content" :key="board.board_no">
+      <div class="board_content">
+        <label class="t2">작성자</label>&nbsp;&nbsp;
+        <label class="writer" style="font-size: 17px; font-style: bold;">{{ content[0].user_nick }}</label>
+
+        <div class="card">
+          <div class="main-content">
+            <div class="t3"></div>
+            <input v-if="editable" v-model="content[0].board_tit" type="text" style="font-size: 17px;" />
+            <p v-else class="text2" style="font-size: 17px;">{{ content[0].board_tit }}</p>
+            <hr class="hr-style">
+            <div class="t4"></div>
+            <textarea v-if="editable" v-model="content[0].board_content" style="font-size: 17px;"></textarea>
+            <p v-else class="text1" style="font-size: 17px;">{{ content[0].board_content }}</p>
+          </div>
+          <!-- 이미지 칸 -->
+          <div class="main-image text-center"> <!-- 가운데 정렬 추가 -->
+            <img
+              v-if="board.board_img"
+              :src="require(`../../../node-back/uploads/uploadBoard/${board.board_img}`)"
+              alt="게시된 이미지"
+              width="20%"
+            />
+            <img
+              v-else
+              style="display: none;"
+              src="../assets/img_notReady.png"
+              alt="미리보기 이미지 없음"
+              width="20%"
+            />
+          </div>
         </div>
-  
+
+        <div class="btn-area">
+          <div v-if="this.user.user_no == this.content[0].user_no" class="right_btn">
+            <button type="button" class="btn" @click="editContent" v-if="!editable">수정</button>
+            <button type="button" class="btn" @click="confirmEditContent" v-else>수정완료</button>
+            <button type="button" class="btn" @click="confirmDeleteContent(board.board_no)">삭제</button>
+          </div>
+        </div>
+
         <!-- 댓글 목록 -->
         <div v-for="comment in comments" :key="comment.comment_id">
           <div class="box1">
-          <p class="commentA">{{ comment.user_nick }} : {{ comment.comment_content }}</p>
-          <button @click="showReplyForm(comment.comment_id, $event)" class="recommentbtn">댓글</button>
-        </div>
+            <p class="commentA">{{ comment.user_nick }} : {{ comment.comment_content }}</p>
+            <button @click="showReplyForm(comment.comment_id, $event)" class="recommentbtn">댓글</button>
+          </div>
           <div v-if="comment.replies && comment.replies.length">
             <div v-for="reply in comment.replies" :key="reply.comment_id" style="margin-left: 20px;">
               <div class="box2">
-              <p class="commentB">{{ reply.user_nick }} : {{ reply.comment_content }}</p>
+                <p class="commentB">{{ reply.user_nick }} : {{ reply.comment_content }}</p>
               </div>
             </div>
           </div>
@@ -67,15 +65,14 @@
           <textarea v-model="newcomment" class="text6" placeholder="댓글을 작성해주세요"></textarea>
           <button type="button" class="commentwrite" @click="commentwrite">댓글 작성</button>
         </div>
-  
-  
+
         <div class="btn_area">
           <button type="button" class="main_btn" @click="boardMain">목록으로</button>
         </div>
       </div>
     </div>
-    </div>
-  </template>
+  </div>
+</template>
 
 <script>
 import axios from 'axios';
@@ -90,7 +87,7 @@ export default {
       newcomment: '',
       replyFormVisible: null,
       replyContent: ''
-    }
+    };
   },
   computed: {
     user() {
@@ -103,72 +100,69 @@ export default {
   },
   methods: {
     confirmDeleteContent(board_no) {
-			if (this.user.user_no != this.content[0].user_no) {
-				this.$swal("본인이 작성한 글만 삭제 가능합니다.")
-			} else {
-				this.$swal({
-					title: `${board_no}번 게시글을 삭제하시겠습니까?`,
-					icon: 'board',
-					showCancelButton: true,
-					confirmButtonText: '삭제',
-					cancelButtonText: '취소',
-					reverseButtons: true
-				}).then(result => {
-					if (result.value) {
-						this.deleteContent(board_no);
-						this.$swal({
-							position: 'top',
-							icon: 'success',
-							title: '삭제되었습니다',
-							showConfirmButton: false,
-							timer: 1500
-						});
-						this.$router.push('/boardmain?page=1');
-					}
-				});
-			}
-		},
-		deleteContent(board_no) {
-			axios({
-				url: "http://localhost:3000/bd/delete",
-				method: "POST",
-				data: {
-					boardno: board_no
-				},
-			}).then(res => {
-				this.content = res.data;
-				window.location.href = '/board?page=1';
-			}).catch(err => {
-				alert(err);
-			});
-		},
-		editContent() {
-			if (this.user.user_no != this.content[0].user_no) {
-				this.$swal("본인이 작성한 글만 수정 가능합니다.")
-			} else {
-				this.editable = true;
-			}
-		},
-		navigateToBoardMain() {
-			this.$router.push('/board?page=1');
-		},
-		confirmEditContent() {
-			axios.post("http://localhost:3000/bd/edit", {
-				content: this.content[0].board_content,
-				tit: this.content[0].board_tit,
-				no: this.content[0].board_no
-			})
-			.then(() => {
-				this.$swal("수정완료");
-				this.editable = false;
-			})
-			.catch(error => {
-				console.log(error);
-			});
-		},
-		boardMain() {
-			this.$router.push('/board?page=1');
-		},
+      if (this.user.user_no !== this.content[0].user_no) {
+        this.$swal("본인이 작성한 글만 삭제 가능합니다.");
+      } else {
+        this.$swal({
+          title: `${board_no}번 게시글을 삭제하시겠습니까?`,
+          icon: 'board',
+          showCancelButton: true,
+          confirmButtonText: '삭제',
+          cancelButtonText: '취소',
+          reverseButtons: true
+        }).then(result => {
+          if (result.value) {
+            this.deleteContent(board_no);
+            this.$swal({
+              position: 'top',
+              icon: 'success',
+              title: '삭제되었습니다',
+              showConfirmButton: false,
+              timer: 1500
+            });
+            this.$router.push('/boardmain?page=1');
+          }
+        });
+      }
+    },
+    deleteContent(board_no) {
+      axios({
+        url: "http://localhost:3000/bd/delete",
+        method: "POST",
+        data: {
+          boardno: board_no
+        },
+      }).then(res => {
+        this.content = res.data;
+        window.location.href = '/board?page=1';
+      }).catch(err => {
+        alert(err);
+      });
+    },
+    editContent() {
+      if (this.user.user_no !== this.content[0].user_no) {
+        this.$swal("본인이 작성한 글만 수정 가능합니다.");
+      } else {
+        this.editable = true;
+      }
+    },
+    confirmEditContent() {
+      axios.post("http://localhost:3000/bd/edit", {
+        content: this.content[0].board_content,
+        tit: this.content[0].board_tit,
+        no: this.content[0].board_no
+      })
+      .then(() => {
+        this.$swal("수정완료");
+        this.editable = false;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    },
+    boardMain() {
+      this.$router.push('/board?page=1');
+    },
     loadContent() {
       axios.post("http://localhost:3000/bd/boardcontent", {
         board_no: this.board_no

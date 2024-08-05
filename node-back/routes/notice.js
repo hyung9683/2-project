@@ -185,4 +185,16 @@ router.post('/contentsearch', function (request, response, next) {
   });
 });
 
+// 공지사항 제목만 불러오기
+router.get('/notice_titles', (req, res) => {
+  const query = 'SELECT notice_no, notice_tit FROM quiz_notice ORDER BY notice_no DESC';
+  db.query(query, (error, results) => {
+    if (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Failed to retrieve notice titles' });
+    }
+    res.json(results);
+  });
+});
+
 module.exports = router; 

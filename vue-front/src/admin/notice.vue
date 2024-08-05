@@ -119,21 +119,20 @@ export default {
       });
     },
     // 게시글 상세 페이지로 이동
-    handlenoticeClick(notice_no) {
-      // 게시글 조회수 증가 요청
-      axios
-        .post("http://localhost:3000/notice/noticecontent", { notice_no })
-        .then(() => {
-          // 조회수 증가 후 상세 페이지로 이동
-          this.$router.push({
-            path: `/admin/notice/noticeDetail`,
-            query: { notice_no },
-          });
-        })
-        .catch((err) => {
-          console.error("게시글 조회수 증가 중 오류:", err);
+  handlenoticeClick(notice_no) {
+    // 게시글 조회수 증가 요청
+    axios.post("http://localhost:3000/notice/incrementnoticeView", { notice_no })
+      .then(() => {
+        // 조회수 증가 후 상세 페이지로 이동
+        this.$router.push({
+          path: `/admin/notice/noticeDetail`,
+          query: { notice_no },
         });
-    },
+      })
+      .catch((err) => {
+        console.error("게시글 조회수 증가 중 오류:", err);
+      });
+  },
     // 이전 페이지로 이동
     movetopreviouspage() {
       if (this.currentPage > 1) {

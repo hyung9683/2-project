@@ -18,7 +18,7 @@
                <!-- 예시 이미지 제거 -->
                <img
                v-if="notice.notice_img"
-              :src="require(`../../../node-back/uploads/${notice.notice_img}`)"
+              :src="require(`../../../node-back/uploads/uploadnotice/${notice.notice_img}`)"
                alt="게시된 이미지"
                width="20%"
                />

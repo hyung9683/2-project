@@ -47,11 +47,6 @@ reportDetails: `
       
 SELECT * FROM quiz_reports WHERE user_no = ?;
 `,
-
-reportDetails3: `
-      
-SELECT * FROM quiz_reports WHERE comment_id = ? AND user_no = ?;
-`,
 // reportDetails2: `
       
 // select * from quiz_reports join quiz_user 
@@ -110,7 +105,7 @@ WHERE user_no = ?`,
 
    //qna
    qnaContent: `SELECT * FROM quiz_qna JOIN quiz_user 
-                WHERE quiz_qna.user_no=quiz_user.user_no AND qna_no = ?;`,
+                WHERE trip_qna.user_no=quiz_user.user_no AND qna_no = ?;`,
   qnaWrite: `INSERT INTO quiz_qna (user_no, qna_tit, qna_content, qna_secret) VALUES (?, ?, ?, ?)`, 
   qna: `SELECT * FROM quiz_qna JOIN quiz_user 
                 WHERE quiz_qna.user_no=quiz_user.user_no 
@@ -158,17 +153,20 @@ admin_search: `SELECT * FROM quiz_user`,
     show_board: `select * from quiz_board join quiz_user 
           where quiz_board.user_no=quiz_user.user_no and quiz_board.user_no ORDER BY board_no DESC LIMIT ? OFFSET ?;`,
     board_cnt: `SELECT COUNT(*) FROM quiz_board`,
-    board_search: `SELECT * FROM quiz_board join quiz_user WHERE quiz_board.user_no = quiz_user.user_no and board_tit LIKE ? ORDER BY board_no DESC`,
+    board_search: `SELECT * FROM quiz_board WHERE board_tit LIKE ? ORDER BY board_no DESC`,
     board_admin: `SELECT * FROM quiz_board JOIN quiz_user WHERE quiz_board.user_no = quiz_user.user_no`, //1
     board_Detail: `SELECT * FROM quiz_board JOIN quiz_user WHERE quiz_board.user_no=quiz_user.user_no AND board_no = ?; `, //게시글 상세
     board_delete: `DELETE FROM quiz_board WHERE board_no = ?`,
     board_Edit: `UPDATE quiz_board SET board_content = ?, board_tit = ? WHERE board_no = ?;`,
     comment_list: `SELECT comment_id, comment_content, parent_comment_id, comment_at, user_no, board_no FROM board_comments WHERE board_no = ?`,
     comment_write: `INSERT INTO board_comments(user_no, comment_content) VALUES(?, ?)`,
+
     boardcnt: `SELECT COUNT(*) FROM quiz_board`,
+
   myboard: `select * from quiz_board join quiz_user 
         where quiz_board.user_no=quiz_user.user_no and quiz_board.user_no = ? ORDER BY board_no DESC LIMIT ? OFFSET ?;`,
   deletereview: 'DELETE FROM quiz_review WHERE review_no = ?',
+
   viewcount: `SELECT board_tit, board_view
           FROM quiz_board;`,
 
@@ -185,29 +183,30 @@ admin_search: `SELECT * FROM quiz_user`,
    all_quiz_list: `SELECT quiz_no, quiz_tit, quiz_thimg
                   FROM quiz_info`,
 
-//공지사항
-   notice_write: `INSERT INTO quiz_notice(notice_tit, notice_content,user_no, notice_img) VALUES(?, ?, ?, ?);`,
-   show_notice: `select * from quiz_notice join quiz_user 
-         where quiz_notice.user_no=quiz_user.user_no and quiz_notice.user_no ORDER BY notice_no DESC LIMIT ? OFFSET ?;`,
-   notice_cnt: `SELECT COUNT(*) FROM quiz_notice`,
-   notice_search: `SELECT * FROM quiz_quiz join quiz_user WHERE quiz_quiz.user_no = quiz_user.user_no and quiz_tit LIKE ? ORDER BY quiz_no DESC`,
-   notice_admin: `SELECT * FROM quiz_notice JOIN quiz_user WHERE quiz_notice.user_no = quiz_user.user_no`, //1
-   notice_Detail: `SELECT * FROM quiz_notice JOIN quiz_user WHERE quiz_notice.user_no=quiz_user.user_no AND notice_no = ?; `, //게시글 상세
-   notice_delete: `DELETE FROM quiz_notice WHERE notice_no = ?`,
-   notice_Edit: `UPDATE quiz_notice SET notice_content = ?, notice_tit = ? WHERE notice_no = ?;`,
-   not_comment_list: `SELECT comment_id, comment_content, parent_comment_id, comment_at, user_no, notice_no FROM notice_comments WHERE notice_no = ?`,
-   not_comment_write: `INSERT INTO notice_comments(user_no, comment_content) VALUES(?, ?)`,
-   noticecnt: `SELECT COUNT(*) FROM quiz_notice`,
-   adminnotice: `select * from quiz_notice join quiz_user 
-         where quiz_notice.user_no=quiz_user.user_no and quiz_notice.user_no ORDER BY notice_no DESC LIMIT ? OFFSET ?;`,
-   deletenotice: `DELETE FROM quiz_notice WHERE notice_no = ?`,
+ //공지사항
+ notice_write: `INSERT INTO quiz_notice(notice_tit, notice_content,user_no, notice_img) VALUES(?, ?, ?, ?);`,
+ show_notice: `select * from quiz_notice join quiz_user 
+       where quiz_notice.user_no=quiz_user.user_no and quiz_notice.user_no ORDER BY notice_no DESC LIMIT ? OFFSET ?;`,
+ notice_cnt: `SELECT COUNT(*) FROM quiz_notice`,
+ notice_search: `SELECT * FROM quiz_notice WHERE notice_tit LIKE ? ORDER BY notice_no DESC`,
+ notice_admin: `SELECT * FROM quiz_notice JOIN quiz_user WHERE quiz_notice.user_no = quiz_user.user_no`, //1
+ notice_Detail: `SELECT * FROM quiz_notice JOIN quiz_user WHERE quiz_notice.user_no=quiz_user.user_no AND notice_no = ?; `, //게시글 상세
+ notice_delete: `DELETE FROM quiz_notice WHERE notice_no = ?`,
+ notice_Edit: `UPDATE quiz_notice SET notice_content = ?, notice_tit = ? WHERE notice_no = ?;`,
+ comment_list: `SELECT comment_id, comment_content, parent_comment_id, comment_at, user_no, notice_no FROM notice_comments WHERE notice_no = ?`,
+ comment_write: `INSERT INTO notice_comments(user_no, comment_content) VALUES(?, ?)`,
+ noticecnt: `SELECT COUNT(*) FROM quiz_notice`,
+ adminnotice: `select * from quiz_notice join quiz_user 
+       where quiz_notice.user_no=quiz_user.user_no and quiz_notice.user_no ORDER BY notice_no DESC LIMIT ? OFFSET ?;`,
+ deletenotice: `DELETE FROM quiz_notice WHERE notice_no = ?`,
+   
 
 //퀴즈 작성
    quizwrite : `insert into quiz_info (quiz_tit, quiz_hint, quiz_img) values(?, ?, ?);`,
    quiz: `SELECT quiz_img 
-   FROM quiz_info 
-   ORDER BY RAND() 
-   LIMIT 1;`,
+	FROM quiz_info 
+	ORDER BY RAND() 
+	LIMIT 1;`,
    bestquiz : `select  quiz_no, quiz_tit, quiz_thimg from quiz_info where quiz_no = ? order by quiz_view desc;`,
    quiz_comment_list: `SELECT comment_id, quiz_context, parent_comment_id, comment_at, user_no, quiz_no FROM quiz_comments WHERE quiz_no = ?`,
    quiz_comment_write: `INSERT INTO quiz_comments(user_no, quiz_context) VALUES(?, ?)`,
@@ -215,6 +214,6 @@ admin_search: `SELECT * FROM quiz_user`,
 
 //마이페이지
 myquiz : `select  quiz_no, quiz_tit, quiz_thimg from quiz_info join quiz_user
-      where quiz_info.user_no = quiz_user.user_no and quiz_info.user_no = ? order by quiz_no desc`, 
+	   where quiz_info.user_no = quiz_user.user_no and quiz_info.user_no = ? order by quiz_no desc`, 
 
 }
