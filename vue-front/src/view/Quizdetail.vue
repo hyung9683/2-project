@@ -131,15 +131,9 @@ export default {
     },
     userNick() {
       return this.user.user_nick;
-    }
-  },
-  mounted() {
-    this.loadQuizzes();
-    this.loadComments();
-  },
-  computed: {
-
-      headerHeight() {
+    },
+    
+    headerHeight() {
         return this.$store.state.headerHeight;
       },
 
@@ -167,7 +161,10 @@ export default {
           top:`${this.computedTop}px`,
         };
       },
- 
+  },
+  mounted() {
+    this.loadQuizzes();
+    this.loadComments();
   },
   watch: {
     quizCategory(newCategory) {

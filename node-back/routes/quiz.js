@@ -391,4 +391,15 @@ router.post('/report', (req, res) => {
     });
 });
 
+
+// 메인 화면에 표시할 인기 퀴즈
+router.get('/quizList', (req, res) => {
+    db.query(sql.quiz_best, (error, results, fields) => {
+        if(error) {
+            return res.status(500).json({error: '오류 발생'});
+        }
+        return res.status(200).json({message:'success', results});
+    } )
+})
+
 module.exports = router;

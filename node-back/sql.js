@@ -174,6 +174,8 @@ admin_search: `SELECT * FROM quiz_user`,
 
       // 퀴즈 불러오기
       quiz_All: `select quiz_no, user_no, quiz_tit, quiz_thimg, quiz_category, quiz_level, quiz_day from quiz_info`,
+      //퀴즈 인기순
+      quiz_best: `select quiz_no, user_no, user_count, quiz_tit, quiz_thimg, quiz_category, quiz_level, quiz_day from quiz_info order by user_count desc`,
 
     //게시판 기능
     boardcnt: `SELECT COUNT(*) FROM quiz_board`,
@@ -199,8 +201,11 @@ admin_search: `SELECT * FROM quiz_user`,
    not_comment_write: `INSERT INTO notice_comments(user_no, comment_content) VALUES(?, ?)`,
    noticecnt: `SELECT COUNT(*) FROM quiz_notice`,
    adminnotice: `select * from quiz_notice join quiz_user 
-         where quiz_notice.user_no=quiz_user.user_no and quiz_notice.user_no ORDER BY notice_no DESC LIMIT ? OFFSET ?;`,
+         where quiz_notice.user_no=quiz_user.user_no and quiz_notice.user_no ORDER BY notice_no DESC LIMIT ? OFFSET ?`,
    deletenotice: `DELETE FROM quiz_notice WHERE notice_no = ?`,
+   rownuminit: `set @rownum := 0`,
+//    mainNotice: `select * from (select *, @rownum := @rownum + 1 as r from quiz_notice order by notice_day desc)sub where r <= 4`,
+mainNotice: `select notice_no, notice_tit, notice_content, notice_day from quiz_notice order by notice_day desc limit 4`,
 
 //퀴즈 작성
    quizwrite : `insert into quiz_info (quiz_tit, quiz_hint, quiz_img) values(?, ?, ?);`,

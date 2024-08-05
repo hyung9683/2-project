@@ -1,18 +1,24 @@
 <template>
          <!-- 현재 위치 navigation -->
-         <nav class="navbar navbar-expand-md navbar-light bg-body-tertiary position-relative Navi_head" style="top: 3rem; height:2rem; " :style="sideDefaul" :class="{'offOn': offOn}">
-            <div class="navbar nav d-flex col-lg-6 fs-6" ref="navi">
-                    <div class="location-bar d-flex col-md-8">
-                        <button type="button" class="btn d-flex" data-bs-toggle="button" style="max-height:1.7rem;">
-                            <div @click="Home()">Home</div>
+         <nav class="navbar navbar-expand-md navbar-light bg-primary fixed-top Navi_head" style="height:2.5rem;" :style="navi" ref="navi">
+            <div class="navbar nav d-flex col-lg-12 fs-6">
+                      <div>
+                        <button type="button" class="btn col-2 align-items-middle" data-bs-toggle="button" style="max-height:1.7rem; text-align: center;" @click="Home()">
+                            Home
                         </button>
-                        <i v-if="this.Menu.category" class="bi bi-caret-right align-middle" style="max-height:100%;"></i>
-                          <div>{{this.Menu.category}}</div>
-                        <i v-if="this.Menu.category && this.Menu.level" class="bi bi-caret-right align-middle" style="height:100%;"></i>
-                        <button type="button" class="btn d-flex" data-bs-toggle="button" :class="{'btn btn-primary': button_active,'active': isActive_t}" style="height:100%;">
-                          <div @click="menuList()">{{ this.Menu.level }}</div>
-                        </button>
-                    </div>
+                      </div>
+                        <div v-if="this.Menu.category" class="col-2" style="text-align: center;">
+                          <button class="btn">
+                            <i class="bi bi-caret-right" style="height:100%;"></i>
+                            {{this.Menu.category}}
+                          </button>
+                        </div>
+                        <div v-if="this.Menu.category && this.Menu.level" class="col-2" style="text-align: center;">
+                          <i class="bi bi-caret-right" style="height:100%;"></i>
+                          <button type="button" class="btn" data-bs-toggle="button" style="height:100%;" @click="menuList()">
+                            {{ this.Menu.level }}
+                          </button>
+                        </div>
                     <div class="col-md-4"></div>
             </div>
         </nav>
@@ -30,12 +36,7 @@ export default {
                 category: '',
                 level: '',
             },
-            offOn: false,
-            // sideDefaul: {
-            //     position: 'relative',
-            //     transition: 'transform 0.25s ease-out',
-            //     transform: '',
-            // },
+            naviTop: '0',
         }
     }, 
     created() {
@@ -45,7 +46,11 @@ export default {
         // this.emitter.on('sidebar-toggled', this.toggleDefaul);
         this.updateNaviHeight();
         window.addEventListener('resize', this.updateNaviHeight);
-        this.menuName();
+        
+        this.$router.afterEach((to) => {
+              console.log('가져온 주소',to.path);
+              this.menuName();
+            })
     },
 
     beforeUnmount() {
@@ -67,21 +72,43 @@ export default {
 
         addLevel() {
           return this.$store.state.quizLevel;
-        }
+        },
+        headerHeight() {
+          return this.$store.state.headerHeight;
+        },
+        baseTop() {
+          return parseInt(this.naviTop || '0', 10);
+        },
+
+        computedTop() {
+          const height = this.headerHeight;
+          const baseTop = this.baseTop;
+
+          if(!isNaN(height) && !isNaN(baseTop)) {
+
+            return baseTop + height;
+          }
+
+          return baseTop;
+        },
+        navi() {
+          return {
+            top:`${this.computedTop}px`
+          }
+        },
 
     },
     methods: {
+
     menuName() {
           try {
             // store에 저장된 $router주소
             // const currentAddress = this.currentUrl;
-            const currentCategory = this.quizCategory;
-            const currentLevel = this.quizLevel;
+            const currentCategory = this.addCategory;
+            const currentLevel = this.addLevel;
+            console.log(currentCategory, ',' , currentLevel);
             // const category = await axios.get(`http://localhost:3000/quiz/list`)
             // console.log([category.data]);
-            this.$router.afterEach((to) => {
-              console.log('가져온 주소',to.path);
-            })
             
           if(currentCategory == 1) {
             this.Menu.category = '수학'
@@ -199,4 +226,6 @@ export default {
   .Navi_head {
     box-shadow: 1px 0 0.5px #000000;
   }
+
+
 </style>

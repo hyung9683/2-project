@@ -109,13 +109,11 @@ export default {
         this.emitter.on('SideBarMenu', this.toggleMenu);
         this.$router.afterEach((to) => {
                         console.log('현재 주소:', to.path);
-
-                        if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
+                        if(to.path) {
                         // this.$store.commit('setCurrentUrl', '');
                         this.$store.commit('setCurrentUrl', to.path);
                     }
-                        // this.$store.commit('setCurrentUrl', );
-                 })
+                 });
 
     },
     beforeUnmount() {
@@ -150,7 +148,7 @@ export default {
         },
         sidebar() {
             return {
-                top: `${this.computedTop - 12}px`,
+                top: `${this.computedTop}px`,
                 marginLeft: '-30rem',
                 transition: 'margin 0.25s ease-out',
             };
@@ -177,170 +175,19 @@ export default {
             return window.location.href = 'http://localhost:8080/qna?page=1'
         },
 Beginner() {
+
     this.changeLevel(1);
-            //  try {   
-                    // if(this.menuCategory == 1) {
-                    //     console.log('현재 category 번호:', this.menuCategory);
-                    //     const setUrl = await this.$router.replace({path: `/quizMain/${this.menuCategory}/1`});
-                    //     this.$router.afterEach((to) => {
-                    //         console.log('현재 주소:', to.path);
 
-                    //         if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
-                    //         this.$store.commit('setCurrentUrl', '');
-                    //     }
-                    //         this.$store.commit('setCurrentUrl', setUrl);
-                    //     })
-                    // } else if (this.menuCategory == 2) {
-                    //     console.log('현재 category 번호:', this.menuCategory);
-                    //     const setUrl = await this.$router.replace({path: `/quizMain/${this.menuCategory}/1`});
-                    //     this.$router.afterEach((to) => {
-                    //         console.log('현재 주소:', to.path);
-
-                    //         if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
-                    //         this.$store.commit('setCurrentUrl', '');
-                    //     }
-                    //         this.$store.commit('setCurrentUrl', setUrl);
-                    //     })
-                    // } else if(this.menuCategory == 3) {
-                    //     console.log('현재 category 번호:', this.menuCategory);
-                    //     const setUrl = await this.$router.replace({path: `/quizMain/${this.menuCategory}/1`});
-                    //     this.$router.afterEach((to) => {
-                    //         console.log('현재 주소:', to.path);
-
-                    //         if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
-                    //         this.$store.commit('setCurrentUrl', '');
-                    //     }
-                    //         this.$store.commit('setCurrentUrl', setUrl);
-                    //     })
-                    // } else if(this.menuCategory == 4) {
-                    //     console.log('현재 category 번호:', this.menuCategory);
-                    //     const setUrl = await this.$router.replace({path: `/quizMain/${this.menuCategory}/1`});
-                    //     this.$router.afterEach((to) => {
-                    //         console.log('현재 주소:', to.path);
-
-                    //         if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
-                    //         this.$store.commit('setCurrentUrl', '');
-                    //     }
-                    //         this.$store.commit('setCurrentUrl', setUrl);
-                    //     })
-                    // }
-                
-            // } catch (error) {
-            //     console.log('error:', error);
-            // }
         },
- async Intermediate() {
+Intermediate() {
+
         this.changeLevel(2);
-            // try {  
-                    // if(this.menuCategory == 1) {
-                    //     console.log('현재 category 번호:', this.menuCategory);
-                    //     const setUrl = await this.$router.replace({path: `/quizMain/${this.menuCategory}/2`});
-                    //     this.$router.afterEach((to) => {
-                    //         console.log('현재 주소:', to.path);
 
-                    //         if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
-                    //         this.$store.commit('setCurrentUrl', '');
-                    //     }
-                    //         this.$store.commit('setCurrentUrl', setUrl);
-                    //     })
-                    // } else if (this.menuCategory == 2) {
-                    //     console.log('현재 category 번호:', this.menuCategory);
-                    //     const setUrl = await this.$router.replace({path: `/quizMain/${this.menuCategory}/2`});
-                    //     this.$router.afterEach((to) => {
-                    //         console.log('현재 주소:', to.path);
-
-                    //         if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
-                    //         this.$store.commit('setCurrentUrl', '');
-                    //     }
-                    //         this.$store.commit('setCurrentUrl', setUrl);
-                    //     })
-                    // } else if(this.menuCategory == 3) {
-                    //     console.log('현재 category 번호:', this.menuCategory);
-                    //     const setUrl = await this.$router.replace({path: `/quizMain/${this.menuCategory}/2`});
-                    //     this.$router.afterEach((to) => {
-                    //         console.log('현재 주소:', to.path);
-
-                    //         if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
-                    //         this.$store.commit('setCurrentUrl', '');
-                    //     }
-                    //         this.$store.commit('setCurrentUrl', setUrl);
-                    //     })
-                    // } else if(this.menuCategory == 4) {
-                    //     console.log('현재 category 번호:', this.menuCategory);
-                    //     const setUrl = await this.$router.replace({path: `/quizMain/${this.menuCategory}/2`});
-                    //     this.$router.afterEach((to) => {
-                    //         console.log('현재 주소:', to.path);
-
-                    //         if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
-                    //         this.$store.commit('setCurrentUrl', '');
-                    //     }
-                    //         this.$store.commit('setCurrentUrl', setUrl);
-                    //     })
-                    // }
-                
-            //     } catch (error) {
-            //         console.log('error:', error);
-            // }
         },
- async Advanced() {
+ Advanced() {
+
     this.changeLevel(3);
 
-            // try {  
-
-                    // if(this.menuCategory == 1) {
-
-                    //     console.log('현재 category 번호:', this.menuCategory);
-                    //     const setUrl = await this.$router.replace({path: `/quizMain/${this.menuCategory}/3`});
-                    //     this.$router.afterEach((to) => {
-                    //         console.log('현재 주소:', to.path);
-
-                    //         if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
-                    //         this.$store.commit('setCurrentUrl', '');
-                    //     }
-                    //         this.$store.commit('setCurrentUrl', setUrl);
-                    //     })
-                    // } else if (this.menuCategory == 2) {
-
-                    //     console.log('현재 category 번호:', this.menuCategory);
-                    //     const setUrl = await this.$router.replace({path: `/quizMain/${this.menuCategory}/3`});
-                    //     // this.$router.afterEach((to) => {
-                    //     //     console.log('현재 주소:', to.path);
-
-                    //     //     if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
-                    //     //     this.$store.commit('setCurrentUrl', '');
-                    //     // }
-                    //     //     this.$store.commit('setCurrentUrl', setUrl);
-                    //     // })
-                    // } else if(this.menuCategory == 3) {
-
-                    //     console.log('현재 category 번호:', this.menuCategory);
-                    //     const setUrl = await this.$router.replace({path: `/quizMain/${this.menuCategory}/3`});
-                    //     this.$router.afterEach((to) => {
-                    //         console.log('현재 주소:', to.path);
-
-                    //         if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
-                    //         this.$store.commit('setCurrentUrl', '');
-                    //     }
-                    //         this.$store.commit('setCurrentUrl', setUrl);
-                    //     })
-                    // } else if(this.menuCategory == 4) {
-
-                    //     console.log('현재 category 번호:', this.menuCategory);
-                    //     const setUrl = await this.$router.replace({path: `/quizMain/${this.menuCategory}/3`});
-                    //     this.$router.afterEach((to) => {
-                    //         console.log('현재 주소:', to.path);
-
-                    //         if(this.$store.state.currentUrl && this.$store.state.currentLevel) {
-                    //         this.$store.commit('setCurrentUrl', '');
-                    //     }
-                    //         this.$store.commit('setCurrentUrl', setUrl);
-                    //     })
-
-                    // }
-                
-            //     } catch (error) {
-            //         console.log('error:', error);
-            // }
         },
         updateWidth() {
             const width = this.$refs.sidebar;
@@ -360,7 +207,14 @@ Beginner() {
             try {
                 if(this.menuCategory) {
                     const path = `/quizMain/${this.menuCategory}/${level}`;
+                    console.log(this.menuCategory);
+                    console.log(level);
                     await this.$router.replace(path);
+
+                // if(this.setUpUrl.currentUrl) {
+                //     this.$store.commit('setCurrentUrl', '');
+                //     this.$store.commit('setCurrentUrl', this.changeLevel(level));
+                // }
                 }
             } catch(error) {
                 console.log('error:',)

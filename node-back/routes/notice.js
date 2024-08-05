@@ -185,4 +185,28 @@ router.post('/contentsearch', function (request, response, next) {
   });
 });
 
+
+//메인 홈에서 최신순으로 가져오기
+router.get('/noticeList', (req, res) => {
+  db.query(sql.rownuminit, (error, results, fields) => {
+    if(error) {
+
+          console.error({message: '초기화 실패', error});
+
+    } else {
+      db.query(sql.mainNotice, (error, results, fields) => {
+
+        if(error) {
+
+          return res.status(500).json({ error: '데이터 연결 실패'});
+        }
+
+        res.status(200).json({ message: 'success', results});
+      });
+
+    };
+
+  });
+})
+
 module.exports = router; 

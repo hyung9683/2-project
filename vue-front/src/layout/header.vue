@@ -120,7 +120,7 @@ export default {
             this.$router.push({ path: '/join'});
         },
         goToHome() {
-            this.$router.push({ path: '/' });
+            window.location.href=`http://localhost:8080/`;
         },
 
        logout() {

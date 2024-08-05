@@ -1,6 +1,6 @@
 <template>
     <!-- 전체 화면 -->
-    <div class="container" :style="sideMain" :class="{'offOn': offOn}" style="top: 3rem;">
+    <div class="container" :style="sideMain" :class="{'offOn': offOn}">
         <!-- 검색 기능 -->
         <nav class="navbar navbar-expand-md navbar-light position-relative" >
             <div class="col-md-4"></div>
@@ -21,10 +21,9 @@
             <div class="d-flex text-align-center" id="MainContent">
                 <div class="col-4" style="border-right: 2px groove #eee; padding-right:0.7rem;">
                     <div style="text-align: center;">공지사항</div>
-                            <div class="mt-2 announcmentMainList" style="text-align: center;">
-                                <div class="border-bottom pb-2 announcment ">공지사항 첫번째 작성</div>
-                                <div class="border-bottom pb-2 announcment">공지사항 첫번째 작성</div>
-                                <div class="border-bottom pb-2 announcment">공지사항 첫번째 작성</div>
+                            <div v-for="(notice, i) in notices" :key="i" class="mt-2 announcmentMainList" style="text-align: center;">
+                                <div class="announcment pb-1">{{ notice.notice_tit }}</div>
+                                <div class="border-bottom pb-2 noticeContent">{{ notice.notice_content }}</div>
                             </div>
                         </div>
                     <div class="col-8">
@@ -43,15 +42,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12" style="margin-left:0.7rem; padding-right: 1.2rem; padding-top: 2rem;">
+                        <div class="d-grid col-12" style="margin-left:0.7rem; padding-right: 1.2rem; padding-top: 2rem;">
                             <div class="bestQui" style="text-align: center;">인기 퀴즈</div>
                                 <div class="mt-2 imageQuiz">
-                                    <div class="container-fluid" style="text-align: center; box-shadow: 0 1px 0;">
+                                    <div class="container-fluid row col-md-4" style="box-shadow: 0 1px 0;">
                                         <div class="card" v-for="(item, i) in bestList" :key="i">
-                                            <img class="card-img-top img-fluid" :src="thImage" />
+                                            <img class="card-img-top img-fluid" :src="thImage ? require(`../../../node-back/uploads/${item.quiz_thimg}`) : require(`../../goodsempty.jpg`)"/>
                                             <div class="card-body">
-                                                <div class="card-title">
-                                                    <div>{{ item.quiz_tit}}</div>
+                                                <div class="card-title text-dark">
+                                                   제목:{{ item.quiz_tit}}
                                                 </div>
                                             </div>
                                         </div>
@@ -73,20 +72,18 @@ import axios from 'axios';
 export default {
     data() {
     return {
-        sideMain: {
-            position:'relative',
-            transition:'transform 0.25s ease-out',
-            transform: '',
-            top: '0',
-            left: '0'
-        },
         offOn: false,
         quiz: {},
         bestList: {},
         thImage: {},
+        notices: {},
+        isLoading: true,
+        sideMainTop: '0',
     }
 }, 
     created() {
+        this.noticeList();
+        this.QuizList();
         this.emitter.on('sidebar-toggled', this.toggleMain);
         this.emitter.on('headerHeight', this.sideHeight);
     },
@@ -94,6 +91,8 @@ export default {
         // MenuLayout이 펼쳐지고 접혀질때 main화면의 이동여부
          this.emitter.on('sidebar-toggled', this.toggleMain);
         //  this.sideHeight();
+        this.noticeList();
+        this.QuizList();
 
 
         // window.addEventListener('resize', this.sideHeight);
@@ -108,6 +107,39 @@ export default {
 
         user() {
             return this.$store.state.user;
+        },
+
+        headerHeight() {
+            return this.$store.state.headerHeight;
+        },
+        baseTop() {
+            return parseInt(this.sideMainTop || '0', 10);
+
+        },
+        naviHeight() {
+            return this.$store.state.naviHeight;
+        },
+
+        computedTop() {
+            const height = this.headerHeight;
+            const naviHeight = this.naviHeight;
+            const baseTop = this.baseTop;
+
+            if(!isNaN(height) && !isNaN(baseTop) && !isNaN(naviHeight)) {
+
+                return baseTop + (height + naviHeight);
+            }
+
+            return baseTop;
+        },
+        sideMain() {
+            return {
+                top: `${this.computedTop}px`,
+                position:'relative',
+                transition:'transform 0.25s ease-out',
+                transform: '',
+                left: '0'
+            }
         }
     },
     methods: {
@@ -129,15 +161,31 @@ export default {
 
             try {
                 const response = await axios.get(`http://localhost:3000/quiz/quizList`);
-                
-                if (response.message === 'success') {
-                    this.besList = response.data;
+                console.log(response.data);
+                if (response.data.message === 'success') {
+                    this.bestList = response.data.results;
+                    this.thImage = response.data.results.quiz_thimg;
                 }
             } catch(error) {
 
                 console.error(error);
 
              }
+        },
+        async noticeList() {
+
+            try {
+                const response = await axios.get(`http://localhost:3000/notice/noticeList`);
+                if(response.data.message === 'success') {
+                    console.log(response.data.results);
+                    console.log(response.data.message);
+                   return this.notices = response.data.results;
+                }
+            } catch(error) {
+                console.error('에러 발생:', error);
+            } finally {
+                this.isLoading = false;
+            }
         },
     }
 }

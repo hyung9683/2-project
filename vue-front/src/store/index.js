@@ -41,11 +41,11 @@ const store = createStore({
 
         setCurrentUrl(state, url) {
             state.currentUrl = url;
-            console.log(state.currentUrl);
             const urlParts = url.split('/');
-            if(urlParts.length == 3) {
-                state.quizCategory = urlParts[1];
-                state.quizLevel = urlParts[2];
+            console.log(urlParts);
+            if(urlParts.length) {
+                state.quizCategory = urlParts[2];
+                state.quizLevel = urlParts[3];
             }
         },
         

@@ -7,7 +7,7 @@
       <Header class="header" ref="header" />
           <menu-layout class="menu"></menu-layout>
   </nav>
-      <navigation></navigation>
+      <navigation class="naviGation"></navigation>
       <router-view />
   </div>
 </template>
@@ -41,6 +41,10 @@ export default {
 .header {
   z-index: 999;
 
+}
+
+.naviGation {
+  z-index: 2;
 }
 
 .menu {
