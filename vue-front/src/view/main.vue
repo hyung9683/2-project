@@ -57,7 +57,7 @@
                 <div class="col-4" style="margin-left:0.7rem; padding-right: 1.2rem;">
                     <div style="text-align: center;">공지사항</div>
                     <div class="mt-2 announcmentMainList">
-                        <div class="bottom-border pb-2 announcment">공지사항 첫번째 작성</div>
+                        <div class="bottom-border pb-2 announcment" v-for="notice in noticeList" :key="notice.notice_no" @click="goToNotice(notice.notice_no)">{{ notice.notice_tit }}</div>
                         <div class="bottom-border pb-2 announcment">공지사항 첫번째 작성</div>
                         <div class="bottom-border pb-2 announcment">공지사항 첫번째 작성</div>
                     </div>
@@ -87,6 +87,7 @@ export default {
         quiz: {},
         bestList: {},
         thImage: {},
+        noticeList: [],
     }
 }, 
     created() {
@@ -97,7 +98,7 @@ export default {
         // MenuLayout이 펼쳐지고 접혀질때 main화면의 이동여부
          this.emitter.on('sidebar-toggled', this.toggleMain);
          this.sideHeight();
-
+         this.NoticeList();
 
         window.addEventListener('resize', this.sideHeight);
     },
@@ -140,6 +141,16 @@ export default {
                 console.error(error);
 
              }
+        },
+        async NoticeList() {
+            try{
+                const response =await axios.post('http://localhost:3000/notice/notice');
+                if(response.data.message === 'success') {
+                    this.noticeList = response.data.data;
+                }
+            }catch(error) {
+                console.log(error);
+            }
         },
     }
 }

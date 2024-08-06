@@ -1,0 +1,5 @@
+ALTER TABLE `quiz`.`quiz_notice` 
+CHANGE COLUMN `notice_content` `notice_content` VARCHAR(4000) NOT NULL ;
+
+ALTER TABLE `quiz`.`quiz_board` 
+CHANGE COLUMN `board_content` `board_content` VARCHAR(4000) NULL DEFAULT NULL ;
