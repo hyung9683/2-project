@@ -157,7 +157,7 @@ router.put('/settings/:quizNo', upload.single('thumbnail'), (req, res) => {
 });
 
 router.get('/list', (req, res) => {
-    const query = 'SELECT * FROM quiz_info'; // 모든 퀴즈를 가져오는 쿼리
+    const query = 'SELECT * FROM quiz_info ORDER BY quiz_view DESC'; // 조회수 기준 내림차순 정렬
     db.query(query, (error, results) => {
         if (error) {
             console.error('퀴즈 목록 조회 중 오류 발생:', error);
@@ -339,9 +339,9 @@ router.get('/top-quizzes/:category', (req, res) => {
 });
 
 router.post('/report', (req, res) => {
-    const { comment_id, type, content, user_no } = req.body; // 댓글 ID, 신고 유형, 신고 내용, 사용자 ID
+    const { comment_id, report_type_id, content, user_no } = req.body; // 댓글 ID, 신고 유형 ID, 신고 내용, 사용자 ID
 
-    if (!comment_id || !type || !content || !user_no) {
+    if (!comment_id || !report_type_id || !content || !user_no) {
         return res.status(400).json({ error: '모든 필드를 입력해야 합니다.' });
     }
 
@@ -377,9 +377,9 @@ router.post('/report', (req, res) => {
             const quizNo = commentResult[0].quiz_no;
 
             // 신고 추가
-            const insertReportQuery = 'INSERT INTO quiz_reports (user_no, content, user_nick, quiz_no, comment_id) VALUES (?, ?, ?, ?, ?)';
+            const insertReportQuery = 'INSERT INTO quiz_reports (user_no, report_type_id, content, user_nick, quiz_no, comment_id) VALUES (?, ?, ?, ?, ?, ?)';
 
-            db.query(insertReportQuery, [commentUserNo, type + ': ' + content, userNick, quizNo, comment_id], (error, result) => {
+            db.query(insertReportQuery, [commentUserNo, report_type_id, content, userNick, quizNo, comment_id], (error, result) => {
                 if (error) {
                     console.error('신고 추가 중 오류 발생:', error);
                     return res.status(500).json({ error: '신고 추가 중 오류가 발생했습니다.' });
@@ -401,5 +401,37 @@ router.get('/quizList', (req, res) => {
         return res.status(200).json({message:'success', results});
     } )
 })
+
+// 퀴즈 완료를 처리하는 라우트
+router.put('/complete/:quizNo', (req, res) => {
+    const quizNo = req.params.quizNo;
+
+    // 현재 시간을 가져옵니다
+    const currentTime = new Date();
+
+    // 데이터베이스 쿼리
+    const query = 'UPDATE quiz_info SET uploads_at = ? WHERE quiz_no = ?';
+    db.query(query, [currentTime, quizNo], (err, result) => {
+        if (err) {
+            console.error('퀴즈 완료 시간 업데이트 중 오류 발생:', err);
+            res.status(500).send('서버 오류 발생');
+        } else {
+            res.status(200).send('퀴즈 완료 시간 업데이트 성공');
+        }
+    });
+});
+
+router.get('/recent-quizzes', (req, res) => {
+    const query = 'SELECT quiz_no, quiz_tit, quiz_thimg FROM quiz_info WHERE uploads_at IS NOT NULL ORDER BY uploads_at DESC LIMIT 6';
+
+    db.query(query, (error, results) => {
+        if (error) {
+            console.error('퀴즈 목록 조회 중 오류 발생:', error);
+            return res.status(500).json({ error: '퀴즈 목록 조회 중 오류가 발생했습니다.' });
+        }
+        res.json(results);
+    });
+});
+
 
 module.exports = router;

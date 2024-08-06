@@ -1,5 +1,8 @@
 <template>
   <div class="quiz-container"><br><br><br>
+    <!-- 퀴즈 만들기 버튼 -->
+    <li class="write" @click="showModal = true">퀴즈 만들기</li>
+    
     <!-- 퀴즈 목록 -->
     <div class="quiz-list"><br>
        <h2>내가 만든 퀴즈</h2>
@@ -15,7 +18,8 @@
         </div>
       </div>
     </div>
-     <!-- 퀴즈 푼 목록 -->
+    
+    <!-- 퀴즈 푼 목록 -->
     <div class="solved-quiz-list">
       <h2>내가 푼 퀴즈</h2>
       <div class="quiz-cards">
@@ -30,9 +34,6 @@
         </div>
       </div>
     </div>
-    
-    <!-- 퀴즈 만들기 버튼 -->
-    <li class="write" @click="showModal = true">퀴즈 만들기</li>
 
     <!-- 퀴즈 만들기 모달 -->
     <div v-if="showModal" class="modal">
@@ -193,8 +194,14 @@
         this.$router.push(`/write/${quizNo}`); // 클릭된 퀴즈 번호를 포함한 페이지로 이동
       },
       handleCardClick2(quizNo) {
-        this.$router.push(`/write/${quizNo}`); // 클릭된 퀴즈 번호를 포함한 페이지로 이동
-      },
+            axios.post(`http://localhost:3000/quiz/view/${quizNo}`)
+              .then(() => {
+                this.$router.push(`/quiz/${quizNo}`);
+              })
+              .catch(error => {
+                console.error('조회 수 업데이트 중 오류 발생:', error);
+              });
+        },
       getImageUrl(quiz) {
     return `http://localhost:3000/uploads/${quiz.quiz_thimg}`;
   },
@@ -286,10 +293,11 @@
   .category-buttons button,
   .level-buttons button {
     padding: 10px 20px;
-    border: 1px solid #ddd;
+    border: 1px solid #0a0505;
     background-color: #f8f8f8;
     cursor: pointer;
     transition: background-color 0.3s;
+    color: #000;
   }
   
   .category-buttons button.selected,
@@ -315,7 +323,7 @@
     margin-bottom: 20px;
     padding: 10px;
     background-color: #9dff9d;
-    color: #fff;
+    color: #030303;
     border-radius: 5px;
     text-align: center;
   }

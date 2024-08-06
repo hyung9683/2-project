@@ -70,36 +70,35 @@
       </div>
     </div>
     
-    <!-- Report Popup -->
     <div v-if="showReportPopup" class="report-popup">
-      <div class="report-popup-content">
-        <h2>댓글 신고</h2>
-        <button @click="closeReportPopup" class="close-button">&times;</button>
-        <div>
-          <label>신고유형</label>
-          <div>
-            <label>
-              <input type="radio" value="비속어 사용" v-model="selectedReport.type" /> 비속어 사용
-            </label>
-            <label>
-              <input type="radio" value="분란 조장" v-model="selectedReport.type" /> 분란 조장
-            </label>
-            <label>
-              <input type="radio" value="스팸/광고" v-model="selectedReport.type" /> 스팸/광고
-            </label>
-            <label>
-              <input type="radio" value="개인정보 노출" v-model="selectedReport.type" /> 개인정보 노출
-            </label>
-          </div>
-        </div>
-        <div>
-          <label>신고 내용:</label>
-          <textarea v-model="selectedReport.content"></textarea>
-        </div>
-        <button @click="handleReport">신고하기</button>
-        <button @click="closeReportPopup" style="background-color:#e6c9a7">닫기</button>
+  <div class="report-popup-content">
+    <h2>댓글 신고</h2>
+    <button @click="closeReportPopup" class="close-button">&times;</button>
+    <div>
+      <label>신고유형</label>
+      <div>
+        <label>
+          <input type="radio" value="1" v-model="selectedReport.typeId" /> 비속어 사용
+        </label>
+        <label>
+          <input type="radio" value="2" v-model="selectedReport.typeId" /> 분란 조장
+        </label>
+        <label>
+          <input type="radio" value="3" v-model="selectedReport.typeId" /> 스팸/광고
+        </label>
+        <label>
+          <input type="radio" value="4" v-model="selectedReport.typeId" /> 개인정보 노출
+        </label>
       </div>
     </div>
+    <div>
+      <label>신고 내용:</label>
+      <textarea v-model="selectedReport.content"></textarea>
+    </div>
+    <button @click="handleReport">신고하기</button>
+    <button @click="closeReportPopup" style="background-color:#e6c9a7">닫기</button>
+  </div>
+</div>
   </div>
 </template>
 
@@ -119,7 +118,8 @@ export default {
       showReportPopup: false,
       selectedReport: {
         type: '',
-        content: ''
+        content: '',
+        typeId: null // 신고 유형 ID 추가
       },
       reportCommentId: null
     };
@@ -132,7 +132,6 @@ export default {
     userNick() {
       return this.user.user_nick;
     },
-    
     headerHeight() {
         return this.$store.state.headerHeight;
       },
@@ -302,16 +301,16 @@ export default {
       this.showReportPopup = true;
     },
     handleReport() {
-    if (!this.selectedReport.type || !this.selectedReport.content) {
+    if (!this.selectedReport.typeId || !this.selectedReport.content) {
       alert('신고 유형과 내용을 모두 입력하세요.');
       return;
     }
 
     const reportData = {
       comment_id: this.reportCommentId,
-      type: this.selectedReport.type,
+      report_type_id: this.selectedReport.typeId,
       content: this.selectedReport.content,
-      user_no: this.userNo // 추가된 부분
+      user_no: this.userNo // 사용자 번호 추가
     };
 
     axios.post('http://localhost:3000/quiz/report', reportData)
@@ -323,15 +322,17 @@ export default {
         console.error('신고 처리 중 오류 발생:', error.response ? error.response.data : error.message);
       });
   },
-    closeReportPopup() {
-      this.showReportPopup = false;
-      this.selectedReport = {
-        type: '',
-        content: ''
-      };
-      this.reportCommentId = null;
-    }
+
+  closeReportPopup() {
+    this.showReportPopup = false;
+    this.selectedReport = {
+      type: '',
+      content: '',
+      typeId: null // 초기화
+    };
+    this.reportCommentId = null;
   }
+}
 };
 </script>
 
