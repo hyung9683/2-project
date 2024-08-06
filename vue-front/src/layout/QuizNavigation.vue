@@ -1,25 +1,23 @@
 <template>
          <!-- 현재 위치 navigation -->
-         <nav class="navbar navbar-expand-md navbar-light bg-primary fixed-top Navi_head" style="height:2.5rem;" :style="navi" ref="navi">
-            <div class="navbar nav d-flex col-lg-12 fs-6">
-                      <div>
-                        <button type="button" class="btn col-2 align-items-middle" data-bs-toggle="button" style="max-height:1.7rem; text-align: center;" @click="Home()">
+         <nav class="navbar navbar-expand-md navbar-light fixed-top Navi_head" style="height:1.6rem; align-items: center;" :style="navi" ref="navi">
+            <div class="navbar nav d-flex col-lg-12 fs-6" style="width:33rem;">
+                      <div class="col-1" style="position:relative;">
+                        <button type="button" class="btn d-flex align-items-center justify-content-center" data-bs-toggle="button" style="height:100%; align-items: center; text-align: center;" @click="Home()">
                             Home
                         </button>
                       </div>
-                        <div v-if="this.Menu.category" class="col-2" style="text-align: center;">
-                          <button class="btn">
-                            <i class="bi bi-caret-right" style="height:100%;"></i>
+                      <div v-if="this.Menu.category && this.Menu.level" class="col-4 d-flex align-items-center" style="text-align: center;">
+                          <i class="bi bi-caret-right" style="height:100%;"></i>
+                          <button class="btn" style="height:100%;">
                             {{this.Menu.category}}
                           </button>
-                        </div>
-                        <div v-if="this.Menu.category && this.Menu.level" class="col-2" style="text-align: center;">
                           <i class="bi bi-caret-right" style="height:100%;"></i>
                           <button type="button" class="btn" data-bs-toggle="button" style="height:100%;" @click="menuList()">
                             {{ this.Menu.level }}
                           </button>
                         </div>
-                    <div class="col-md-4"></div>
+                    <div class="col-md-6"></div>
             </div>
         </nav>
 </template>
@@ -225,6 +223,7 @@ export default {
 <style scoped>
   .Navi_head {
     box-shadow: 1px 0 0.5px #000000;
+    background-color: #a7b9b6;
   }
 
 

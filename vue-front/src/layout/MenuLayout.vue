@@ -18,9 +18,9 @@
                                     </a>
                                     <div class="collapse" id="Han">
                                         <ul class="navbar-nav text-white flex-column ms-4">
-                                            <li class="nav-item" @click="Beginner"><a href="#" class="nav-link">초급</a></li>
-                                            <li class="nav-item" @click="Intermediate"><a href="#" class="nav-link">중급</a></li>
-                                            <li class="nav-item" @click="Advanced"><a href="#" class="nav-link">고급</a></li>
+                                            <li class="nav-item" @click="changeLevel(3, 1)"><a href="#" class="nav-link">초급</a></li>
+                                            <li class="nav-item" @click="changeLevel(3, 2)"><a href="#" class="nav-link">중급</a></li>
+                                            <li class="nav-item" @click="changeLevel(3, 3)"><a href="#" class="nav-link">고급</a></li>
                                         </ul>
                                     </div>
                                 </li>
@@ -31,9 +31,9 @@
                                     </a>
                                     <div class="collapse" id="Eng">
                                         <ul class="navbar-nav text-white flex-column ms-4">
-                                            <li class="nav-item" @click="Beginner"><a href="#" class="nav-link">초급</a></li>
-                                            <li class="nav-item" @click="Intermediate"><a href="#" class="nav-link">중급</a></li>
-                                            <li class="nav-item"  @click="Advanced"><a href="#" class="nav-link">고급</a></li>
+                                            <li class="nav-item" @click="changeLevel(2, 1)"><a href="#" class="nav-link">초급</a></li>
+                                            <li class="nav-item" @click="changeLevel(2, 2)"><a href="#" class="nav-link">중급</a></li>
+                                            <li class="nav-item"  @click="changeLevel(2, 3)"><a href="#" class="nav-link">고급</a></li>
                                         </ul>
                                     </div>
                                 </li>
@@ -44,9 +44,9 @@
                                     </a>
                                     <div class="collapse" id="Math">
                                         <ul class="navbar-nav text-white flex-column ms-4">
-                                            <li class="nav-item" @click="Beginner"><a href="#" class="nav-link">초급</a></li>
-                                            <li class="nav-item" @click="Intermediate"><a href="#" class="nav-link">중급</a></li>
-                                            <li class="nav-item" @click="Advanced"><a href="#" class="nav-link">고급</a></li>
+                                            <li class="nav-item" @click="changeLevel(1, 1)"><a href="#" class="nav-link">초급</a></li>
+                                            <li class="nav-item" @click="changeLevel(1, 2)"><a href="#" class="nav-link">중급</a></li>
+                                            <li class="nav-item" @click="changeLevel(1, 3)"><a href="#" class="nav-link">고급</a></li>
                                         </ul>
                                     </div>
                                 </li>
@@ -57,9 +57,9 @@
                                     </a>
                                     <div class="collapse" id="Lan">
                                         <ul class="navbar-nav text-white flex-column ms-4">
-                                            <li class="nav-item" @click="Beginner"><a href="#" class="nav-link">초급</a></li>
-                                            <li class="nav-item" @click="Intermediate"><a href="#" class="nav-link">중급</a></li>
-                                            <li class="nav-item" @click="Advanced"><a href="#" class="nav-link">고급</a></li>
+                                            <li class="nav-item" @click="changeLevel(4, 1)"><a href="#" class="nav-link">초급</a></li>
+                                            <li class="nav-item" @click="changeLevel(4, 2)"><a href="#" class="nav-link">중급</a></li>
+                                            <li class="nav-item" @click="changeLevel(4, 3)"><a href="#" class="nav-link">고급</a></li>
                                         </ul>
                                     </div>
                                 </li>
@@ -174,21 +174,21 @@ export default {
         goToQna() {
             return window.location.href = 'http://localhost:8080/qna?page=1'
         },
-Beginner() {
+// Beginner() {
 
-    this.changeLevel(1);
+//     this.changeLevel();
 
-        },
-Intermediate() {
+//         },
+// Intermediate() {
 
-        this.changeLevel(2);
+//         this.changeLevel(2);
 
-        },
- Advanced() {
+//         },
+//  Advanced() {
 
-    this.changeLevel(3);
+//     this.changeLevel(3);
 
-        },
+//         },
         updateWidth() {
             const width = this.$refs.sidebar;
             if(width) {
@@ -199,22 +199,23 @@ Intermediate() {
         },
 
         categoryClick(category) {
-
-            this.menuCategory = category;
+            this.menuCategory = category
         },
 
-        async changeLevel(level) {
+        async changeLevel(category, level) {
+
+            if(this.menuCategory !== category) {
+
+                this.menuCategory = category
+            }
+
             try {
+
                 if(this.menuCategory) {
                     const path = `/quizMain/${this.menuCategory}/${level}`;
                     console.log(this.menuCategory);
                     console.log(level);
                     await this.$router.replace(path);
-
-                // if(this.setUpUrl.currentUrl) {
-                //     this.$store.commit('setCurrentUrl', '');
-                //     this.$store.commit('setCurrentUrl', this.changeLevel(level));
-                // }
                 }
             } catch(error) {
                 console.log('error:',)

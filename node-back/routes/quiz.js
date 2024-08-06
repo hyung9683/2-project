@@ -399,8 +399,8 @@ router.get('/quizList', (req, res) => {
             return res.status(500).json({error: '오류 발생'});
         }
         return res.status(200).json({message:'success', results});
-    } )
-})
+    });
+});
 
 // 퀴즈 완료를 처리하는 라우트
 router.put('/complete/:quizNo', (req, res) => {
@@ -421,15 +421,13 @@ router.put('/complete/:quizNo', (req, res) => {
     });
 });
 
-router.get('/recent-quizzes', (req, res) => {
-    const query = 'SELECT quiz_no, quiz_tit, quiz_thimg FROM quiz_info WHERE uploads_at IS NOT NULL ORDER BY uploads_at DESC LIMIT 6';
+router.get('/currentQuiz', (req, res) => {
+    db.query(sql.quiz_current, (error, results, fields) => {
 
-    db.query(query, (error, results) => {
-        if (error) {
-            console.error('퀴즈 목록 조회 중 오류 발생:', error);
-            return res.status(500).json({ error: '퀴즈 목록 조회 중 오류가 발생했습니다.' });
+        if(error) {
+            return res.status(500).json({error: '오류 발생'});
         }
-        res.json(results);
+        return res.status(200).json({message:'success', results});
     });
 });
 

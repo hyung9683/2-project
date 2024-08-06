@@ -174,6 +174,8 @@ admin_search: `SELECT * FROM quiz_user`,
       quiz_All: `select quiz_no, user_no, quiz_tit, quiz_thimg, quiz_category, quiz_level, quiz_day from quiz_info`,
       //퀴즈 인기순
       quiz_best: `select quiz_no, user_no, user_count, quiz_tit, quiz_thimg, quiz_category, quiz_level, quiz_day from quiz_info order by user_count desc`,
+      //퀴즈 푼거 최근순
+      quiz_current:`select q.quiz_no, s.user_no, q.quiz_thimg, q.quiz_tit , s.created_at from quiz_info q inner join quiz_solving s on q.quiz_no = s.quiz_no where s.sol_whether = 1 order by s.created_at desc`,
 
     //게시판 기능
     boardcnt: `SELECT COUNT(*) FROM quiz_board`,
@@ -181,9 +183,6 @@ admin_search: `SELECT * FROM quiz_user`,
           where quiz_board.user_no=quiz_user.user_no and quiz_board.user_no ORDER BY board_no DESC LIMIT ? OFFSET ?;`,
     deleteboard: `DELETE FROM quiz_board WHERE board_no = ?`,
 
-//메인
-   all_quiz_list: `SELECT quiz_no, quiz_tit, quiz_thimg
-                  FROM quiz_info`,
 
 //공지사항
    notice_write: `INSERT INTO quiz_notice(notice_tit, notice_content,user_no, notice_img) VALUES(?, ?, ?, ?);`,
