@@ -146,11 +146,6 @@ export default {
             }
         },
 
-        // sideHeight(height) {
-        //     if (typeof height == 'number') {
-        //         this.sideMain.top = height + 'rem';
-        //     } 
-        // },
         async QuizList() {
 
             try {
