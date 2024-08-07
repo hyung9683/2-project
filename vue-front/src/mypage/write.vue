@@ -148,10 +148,10 @@
     </div>
 </template>
   
-  <script>
-  import axios from 'axios';
-  
-  export default {
+<script>
+import axios from 'axios';
+
+export default {
   data() {
     return {
       images: [],
@@ -159,14 +159,14 @@
       showSettingsModal: false,
       currentIndex: null,
       errorMessage: '',
-      quizNo: this.$route.params.quizNo, // URL에서 퀴즈 번호 가져오기
+      quizNo: this.$route.params.quizNo,
       settings: {
         title: '',
         content: '',
         thumbnail: null,
         thumbnailUrl: null,
-        category: null, // 카테고리
-        level: null // 난이도
+        category: null,
+        level: null,
       },
     };
   },
@@ -176,7 +176,7 @@
   },
   methods: {
     goToMain() {
-      this.$router.push('/mypage/quizpage'); // 메인 페이지로 이동
+      this.$router.push('/mypage/quizpage');
     },
     triggerFileInput() {
       this.$refs.fileInput.click();
@@ -187,7 +187,6 @@
     handleFileChange(event) {
       const files = event.target.files;
       const formData = new FormData();
-      const answers = this.images.map(img => img.answers.join(',')); // 각 이미지의 정답을 쉼표로 구분된 문자열로 변환
 
       if (!this.quizNo) {
         console.error('퀴즈 번호가 없습니다.');
@@ -198,8 +197,7 @@
         formData.append('upload', files[i]);
       }
 
-      formData.append('quiz_no', this.quizNo); // 퀴즈 번호 포함
-      formData.append('answers', JSON.stringify(answers)); // 정답 배열을 JSON 문자열로 변환하여 전송
+      formData.append('quiz_no', this.quizNo);
 
       axios.post('http://localhost:3000/quiz/upload', formData)
         .then(response => {
@@ -219,7 +217,7 @@
       const file = event.target.files[0];
       if (file) {
         this.settings.thumbnail = file;
-        this.settings.thumbnailUrl = URL.createObjectURL(file); // 미리보기 URL 생성
+        this.settings.thumbnailUrl = URL.createObjectURL(file);
       }
     },
     removeImage(index) {
@@ -250,11 +248,11 @@
       this.showSettingsModal = false;
     },
     setCategory(category) {
-    this.settings.category = category; // 수정
-  },
-  setLevel(level) {
-    this.settings.level = level; // 수정
-  },
+      this.settings.category = category;
+    },
+    setLevel(level) {
+      this.settings.level = level;
+    },
     addAnswer() {
       if (this.currentImage && Array.isArray(this.currentImage.answers)) {
         this.currentImage.answers.push('');
@@ -272,8 +270,8 @@
       }
       this.errorMessage = '';
 
-      const answers = this.currentImage.answers.join(','); // 쉼표로 구분된 문자열
-      const imageId = this.currentImage.id; // 현재 이미지 ID
+      const answers = this.currentImage.answers.join(',');
+      const imageId = this.currentImage.id;
       const hint1 = this.currentImage.hint1 || '';
       const hint2 = this.currentImage.hint2 || '';
 
@@ -282,6 +280,7 @@
           if (response.data.success) {
             this.loadImages(); // 이미지와 정답을 새로 고침
             this.closeModal(); // 모달을 닫기
+            this.currentImage.answers = []; // 정답 초기화
           } else {
             console.error('정답 저장 실패:', response.data);
           }
@@ -303,9 +302,9 @@
             this.images = response.data.map(image => ({
               id: image.id,
               url: `http://localhost:3000/uploads/${image.image_path}`,
-              answers: image.answers ? image.answers.split(',') : [], // 쉼표로 구분된 문자열을 배열로 변환
-              hint1: image.hint1 || '', // 힌트1 초기화
-              hint2: image.hint2 || ''  // 힌트2 초기화
+              answers: image.answers ? image.answers.split(',') : [],
+              hint1: image.hint1 || '',
+              hint2: image.hint2 || ''
             }));
           } else {
             console.error('예상하지 못한 응답 형식:', response.data);
@@ -356,11 +355,11 @@
   },
   computed: {
     currentImage() {
-      return this.images[this.currentIndex] || {}; // 빈 객체 반환
+      return this.images[this.currentIndex] || {};
     }
   }
 };
-  </script>
+</script>
   
   <style scoped>
   .main-container {

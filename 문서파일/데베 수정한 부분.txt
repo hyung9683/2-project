@@ -49,3 +49,15 @@ comment_id INT,
 primary key(reports_no)
 ) comment = '신고 테이블'
 engine=InnoDB;
+
+
+CREATE TABLE user_quiz (
+	count_id int NOT NULL AUTO_INCREMENT,
+    user_no INT NOT NULL,
+    quiz_no INT NOT NULL,
+    correct_count INT,
+    total_count INT,
+    PRIMARY KEY (count_id),
+    FOREIGN KEY (user_no) REFERENCES quiz_user(user_no),
+    FOREIGN KEY (quiz_no) REFERENCES quiz_info(quiz_no)
+);
