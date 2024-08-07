@@ -181,7 +181,7 @@ router.get('/mylist/:user_no', (req, res) => {
 router.get('/finish/:user_no', (req, res) => {
     const userNo = req.params.user_no;
     console.log(userNo)
-    db.query(sql.finish,[userNo], (error, results) => {
+    db.query(sql.quiz_current,[userNo], (error, results) => {
         if (error) {
             console.error('퀴즈 목록 조회 중 오류 발생:', error);
             return res.status(500).json({ error: '퀴즈 목록 조회 중 오류가 발생했습니다.' });

@@ -4,7 +4,7 @@
     <br>
     <table>
        <colgroup>
-        <col width="8%" />
+       
         <col width="7%" />
         <col width="7%" />
         <col width="10%" />
@@ -22,7 +22,7 @@
       </colgroup>
       <thead>
         <tr>
-          <th>푼 날짜</th>
+          
           <th>유저 번호</th>
           <th>유저 이름</th>
           <th>퀴즈 제목</th>
@@ -41,7 +41,7 @@
       </thead>
       <tbody>
         <tr v-for="quiz in quizzes" :key="quiz.quiz_no">
-          <td>{{ formatDate(quiz.uploads_at) }}</td>
+          
           <td>{{ quiz.user_no }}</td>
           <td>{{ quiz.user_nick }}</td>
           <td>{{ quiz.quiz_tit }}</td>
