@@ -22,7 +22,7 @@
                <!-- 예시 이미지 제거 -->
                <img
                v-if="board.board_img"
-              :src="require(`../../../node-back/uploads/${board.board_img}`)"
+              :src="require(`../../../node-back/uploads/uploadBoard/${board.board_img}`)"
                alt="게시된 이미지"
                width="20%"
                />
