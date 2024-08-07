@@ -7,7 +7,7 @@ const path = require("path");
 const multer = require('multer');
 
 
-// 게시글 삭제
+// 공지사항 삭제
 router.post('/delete', (req, res) => {
   const noticeno = req.body.noticeno;
 
@@ -23,7 +23,7 @@ router.post('/delete', (req, res) => {
 
 });
 
-// 게시글 수정
+// 공지사항 수정
 router.post('/edit', (req, res) => {
   const editnotice = req.body;
   db.query(sql.notice_Edit, [editnotice.content, editnotice.tit, editnotice.no], function (error, result) {
