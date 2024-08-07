@@ -171,9 +171,9 @@ admin_search: `SELECT * FROM quiz_user`,
           FROM quiz_board;`,
 
       // 퀴즈 불러오기
-      quiz_All: `select quiz_no, user_no, quiz_tit, quiz_thimg, quiz_category, quiz_level, quiz_day from quiz_info`,
+      quiz_All: `select quiz_no, user_no, quiz_tit, quiz_thimg, quiz_category, quiz_level, quiz_day, quiz_view from quiz_info where quiz_level = ? and quiz_category = ?`,
       //퀴즈 인기순
-      quiz_best: `select quiz_no, user_no, user_count, quiz_tit, quiz_thimg, quiz_category, quiz_level, quiz_day from quiz_info order by user_count desc`,
+      quiz_best: `select quiz_no, user_no, quiz_view, quiz_tit, quiz_thimg, quiz_category, quiz_level, quiz_day from quiz_info order by quiz_view desc`,
       //퀴즈 푼거 최근순
       quiz_current:`select q.quiz_no, s.user_no, q.quiz_thimg, q.quiz_tit , s.created_at from quiz_info q inner join quiz_solving s on q.quiz_no = s.quiz_no where s.sol_whether = 1 order by s.created_at desc`,
 

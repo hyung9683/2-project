@@ -110,7 +110,13 @@ export default {
             const headerElement = this.$refs.header;
             if(headerElement) {
                 this.$store.commit('setHeaderHeight', headerElement.offsetHeight);
-                console.log(headerElement.offsetHeight);
+                
+                if(this.isMounted) {
+                    console.log('header의 offsetHeight:', headerElement.offsetHeight);
+                } else {
+                    console.log('created:', headerElement.offsetHeight);
+                }
+                
             } 
         },
         login(){

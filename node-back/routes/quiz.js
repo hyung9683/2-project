@@ -257,6 +257,8 @@ router.get('/commentlist/:quizNo', (req, res) => {
     const quizNo = req.params.quizNo;
     const query = 'SELECT comment_id AS id, user_nick AS nick, quiz_content AS text, comment_at AS createdAt FROM quiz_comments WHERE quiz_no = ? ORDER BY comment_id DESC';
 
+    console.log();
+    
     db.query(query, [quizNo], (error, results) => {
         if (error) {
             console.error('댓글 조회 중 오류 발생:', error);
@@ -421,6 +423,7 @@ router.put('/complete/:quizNo', (req, res) => {
     });
 });
 
+//최근에 푼 퀴즈
 router.get('/currentQuiz', (req, res) => {
     db.query(sql.quiz_current, (error, results, fields) => {
 
@@ -428,6 +431,32 @@ router.get('/currentQuiz', (req, res) => {
             return res.status(500).json({error: '오류 발생'});
         }
         return res.status(200).json({message:'success', results});
+    });
+});
+
+// 메뉴 난이도 클릭시 나오는 퀴즈화면
+router.get('/:quizLevel/:quizCategory', (req, res) => {
+    const quizLevel = req.params.quizLevel
+    const quizCategory = req.params.quizCategory
+    console.log('요청 받은 레벨:',quizLevel);
+    console.log('요청 받은 카테고리:', quizCategory);
+    
+    
+    db.query(sql.quiz_All, [quizLevel, quizCategory], (error, results, fields) => {
+
+        if(error) {
+            console.log('현재 에러:', error);
+            
+            return res.status(500).json({error: '오류 발생'});
+        } else if(!quizLevel) {
+            console.log('요청 받은 레벨이 없을시:',error);
+            
+            return res.status(500).json({error: '해당 값이 없습니다.'})
+            
+        }
+        console.log(results);
+        
+        return res.status(200).json({ message: 'success', results});
     });
 });
 

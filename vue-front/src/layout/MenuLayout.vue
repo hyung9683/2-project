@@ -74,7 +74,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link text-white p-3 mb-2 sidebar-link">
+                                    <a href="#" class="nav-link text-white p-3 mb-2 sidebar-link" @click="goToNotice">
                                         <i class="bi bi-alipay"></i>공지사항
                                     </a>
                                 </li>
@@ -104,6 +104,7 @@ export default {
         }
 }, 
     created() {
+       
     },
     mounted() {
         this.emitter.on('SideBarMenu', this.toggleMenu);
@@ -112,7 +113,8 @@ export default {
                         if(to.path) {
                         // this.$store.commit('setCurrentUrl', '');
                         this.$store.commit('setCurrentUrl', to.path);
-                    }
+                            
+                        }
                  });
 
     },
@@ -149,7 +151,7 @@ export default {
         sidebar() {
             return {
                 top: `${this.computedTop}px`,
-                marginLeft: '-30rem',
+                marginLeft: this.$store.state.sidebarMarginLeft,
                 transition: 'margin 0.25s ease-out',
             };
         },
@@ -162,33 +164,23 @@ export default {
     methods: {
         //head에서 toggled시 메뉴가 나온다
         toggleMenu() {
+            // this.offOn = !this.offOn;
+            // if (!this.offOn) {
+            //     this.sidebar.marginLeft = '-30rem';
+            //     this.emitter.emit('sidebar-toggled', 'closed');
+            // } else if (this.offOn) {
+            //     this.sidebar.marginLeft = '0';
+            //     this.emitter.emit('sidebar-toggled', 'open');
+            // }
             this.offOn = !this.offOn;
-            if (!this.offOn) {
-                this.sidebar.marginLeft = '-30rem';
-                this.emitter.emit('sidebar-toggled', 'closed');
-            } else if (this.offOn) {
-                this.sidebar.marginLeft = '0';
-                this.emitter.emit('sidebar-toggled', 'open');
-            }
+            const newMarginLeft = this.offOn ? '0' : '-30rem';
+            this.$store.commit('setSidebarMarginLeft', newMarginLeft);
+            this.emitter.emit('sidebar-toggled', this.offOn ? 'open' : 'closed');
         },
         goToQna() {
             return window.location.href = 'http://localhost:8080/qna?page=1'
         },
-// Beginner() {
 
-//     this.changeLevel();
-
-//         },
-// Intermediate() {
-
-//         this.changeLevel(2);
-
-//         },
-//  Advanced() {
-
-//     this.changeLevel(3);
-
-//         },
         updateWidth() {
             const width = this.$refs.sidebar;
             if(width) {
@@ -212,10 +204,17 @@ export default {
             try {
 
                 if(this.menuCategory) {
-                    const path = `/quizMain/${this.menuCategory}/${level}`;
+                    const path = `/quiz/${this.menuCategory}/${level}`;
+                    if(this.isMounted) {
                     console.log(this.menuCategory);
                     console.log(level);
-                    await this.$router.replace(path);
+
+                    } else {
+                        
+                    console.log('created:',this.menuCategory);
+                    console.log('created:',level);
+                    }
+                    await this.$router.push(path);
                 }
             } catch(error) {
                 console.log('error:',)
@@ -223,6 +222,9 @@ export default {
         },
         goToBoard() {
             return window.location.href = 'http://localhost:8080/board?page=1'
+        },
+        goToNotice() {
+            return window.location.href = `http://localhost:8080/notice?page=1`
         },
 
 

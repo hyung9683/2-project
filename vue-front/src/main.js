@@ -66,7 +66,7 @@ const routes = [
                 component: MyQuizPage,
             },
             {
-                path: '/quiz/:quizNo',  // 동적 경로
+                path: '/quiz/:quizCategory/:quizLevel/:quizNo',  // 동적 경로
                 name: 'QuizPage',
                 component: QuizPage,
                 props: true  // 컴포넌트에 route.params를 props로 전달
@@ -108,7 +108,7 @@ const routes = [
                 component:qnaContent,
             },
             {
-                path: '/quizMain/:quizCategory/:quizLevel',
+                path: '/quiz/:quizCategory/:quizLevel',
                 component:QuizMain,
             },
             {
@@ -215,6 +215,16 @@ const router = createRouter({
     history: createWebHistory(),
     routes
 });
+
+// 홈으로 이동시 메뉴 접음
+router.beforeEach((to, from, next) => {
+    if (to.path == '/') {
+        store.commit('setSidebarMarginLeft', '-30rem');
+        store.commit(store.state.quizGetCategory = '');
+        store.commit(store.state.quizGetLevel = '');
+    }
+    next();
+})
 
 const emitter = mitt();
 

@@ -16,8 +16,10 @@ const store = createStore({
             headerHeight: 0, // headerHeight를 저장할 state 추가
             naviHeight: 0,
             currentUrl: '',
-            quizCategory: '',
-            quizLevel: '',
+            quizGetCategory: '',
+            quizGetLevel: '',
+            // Menulayout.vue marginLeft 값
+            sidebarMarginLeft: '-30rem',
         }
         
     },
@@ -44,17 +46,21 @@ const store = createStore({
             const urlParts = url.split('/');
             console.log(urlParts);
             if(urlParts.length) {
-                state.quizCategory = urlParts[2];
-                state.quizLevel = urlParts[3];
+                state.quizGetCategory = urlParts[2];
+                state.quizGetLevel = urlParts[3];
             }
         },
+        setSidebarMarginLeft(state, marginLeft) {
+
+            state.sidebarMarginLeft = marginLeft;
+        }
         
     },
     plugins: [
         // 로컬스토리지에 자동으로 저장시킬 persistedstate 모듈을 plugins에 연결
         persistedstate({
             //어떤 state를 저장할지 정한다
-            paths: ['user']
+            paths: ['user', 'sidebarMarginLeft', 'currentUrl','quizCategory', 'quizLevel']
         })
     ]
 });

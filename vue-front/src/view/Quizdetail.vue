@@ -160,6 +160,16 @@ export default {
           top:`${this.computedTop}px`,
         };
       },
+      addressUrl() {
+        return this.$store.state.currentUrl;
+      },
+      addCategory() {
+          return this.$store.state.quizGetCategory;
+      },
+
+        addLevel() {
+          return this.$store.state.quizGetLevel;
+      },
   },
   mounted() {
     this.loadQuizzes();
@@ -184,7 +194,7 @@ export default {
         return;
       }
 
-      axios.get(`http://localhost:3000/quiz/detail/${this.quizNo}`)
+      axios.get(`http://localhost:3000/quiz/detail/${this.$route.params.quizNo}`)
         .then(response => {
           this.quizzes = [response.data];
           this.quizCategory = response.data.quiz_category;

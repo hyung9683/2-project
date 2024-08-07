@@ -30,17 +30,19 @@
                 <!-- /공지사항 -->
                  <!-- 로그인 했을시 나오는 푼 퀴즈 -->
                     <div class="col-8 quizMainList" style="max-height:100%;">
-                        <div class="col-12 border-bottom pb-4 mb-4" style="margin-left:1.5rem; padding-left:1.8rem; padding-right:0.2rem; align-content: center; max-height:100vh" v-if="this.user.user_no">
+                        <div class="col-12 border-bottom pb-4 mb-4" style="margin-left:1.5rem; padding-left:1.8rem; padding-right:0.2rem; align-content: center; max-height:100vh">
                             <div class="pb-4 currentQui" style="text-align: center;">최근에 푼 퀴즈</div>
                             <div class="mt-2">
                                 <div class="row col-4 imageQuiz" style="text-align: center;">
                                     <div class="card" style="padding:0; margin:auto; width:100%; height:16rem;" v-for="(item, i) in currentQuiz" :key="i">
+                                        <div v-if="this.user.user_no == item.user_no">
                                             <img class="card-img-top" style="padding-right:0; border:none; max-width: auto; max-height: auto; box-shadow: 0 1px 0; text-align: center;" :src="thImage ? require(`../../../node-back/uploads/${item.quiz_thimg}`) : require(`../../goodsempty.jpg`)"/>
                                             <div class="card-body p-0">
                                                 <div class="card-title text-dark" style="font-size: 16px;">
                                                    제목:{{ item.quiz_tit}}
                                                 </div>
                                             </div>
+                                        </div>
                                         </div>
                                 </div>
                             </div>
@@ -200,7 +202,10 @@ export default {
                     
 
                     for (this.thImage of this.currentQuiz) {
-                        console.log(this.thImage.quiz_thimg);
+                        
+                        if(this.isMounted){
+                            console.log(this.thImage.quiz_thimg);
+                        }
                         
                     }
                  }   

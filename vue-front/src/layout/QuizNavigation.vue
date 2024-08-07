@@ -16,6 +16,10 @@
                           <button type="button" class="btn" data-bs-toggle="button" style="height:100%;" @click="menuList()">
                             {{ this.Menu.level }}
                           </button>
+                          <!-- <i class="bi bi-caret-right" style="height:100%;"></i>
+                          <button type="button" class="btn" data-bs-toggle="button" style="height:100%;" @click="menuList()">
+                            {{ this.Menu.category }}
+                          </button> -->
                         </div>
                     <div class="col-md-6"></div>
             </div>
@@ -46,7 +50,10 @@ export default {
         window.addEventListener('resize', this.updateNaviHeight);
         
         this.$router.afterEach((to) => {
+          if(this.isMounted){
               console.log('가져온 주소',to.path);
+          }
+              
               this.menuName();
             })
     },
@@ -65,11 +72,11 @@ export default {
         },
 
         addCategory() {
-          return this.$store.state.quizCategory;
+          return this.$store.state.quizGetCategory;
         },
 
         addLevel() {
-          return this.$store.state.quizLevel;
+          return this.$store.state.quizGetLevel;
         },
         headerHeight() {
           return this.$store.state.headerHeight;
@@ -101,122 +108,113 @@ export default {
     menuName() {
           try {
             // store에 저장된 $router주소
-            // const currentAddress = this.currentUrl;
             const currentCategory = this.addCategory;
             const currentLevel = this.addLevel;
-            console.log(currentCategory, ',' , currentLevel);
-            // const category = await axios.get(`http://localhost:3000/quiz/list`)
-            // console.log([category.data]);
+            
             
           if(currentCategory == 1) {
+
             this.Menu.category = '수학'
-            console.log('현재 카테고리:', currentCategory);
+
             if(currentLevel == 1) {
-              console.log('현재 난이도:', currentLevel);
               this.Menu.level = '초급'
-              console.log(this.Menu.level);
 
             } else if(currentLevel == 2) {
-              console.log('현재 난이도:', currentLevel);
               this.Menu.level = '중급'
-              console.log(this.Menu.level);
 
             } else if(currentLevel == 3) {
-              console.log('현재 난이도:', currentLevel);
               this.Menu.level = '고급'
-              console.log(this.Menu.level);
 
             }
 
             } else if(currentCategory == 2) {
               this.Menu.category = '영어'
-              console.log('현재 카테고리:', currentCategory);
 
               if(currentLevel == 1) {
-                console.log('현재 난이도:', currentLevel);
+
                 this.Menu.level = '초급'
-                console.log(this.Menu.level);
 
               } else if(currentLevel == 2) {
-                console.log('현재 난이도:', currentLevel);
+
                 this.Menu.level = '중급'
-                console.log(this.Menu.level);
 
               } else if(currentLevel == 3) {
-                console.log('현재 난이도:', currentLevel);
+
                 this.Menu.level = '고급'
-                console.log(this.Menu.level);
 
               }
 
             } else if(currentCategory == 3) {
               this.Menu.category = '한자'
-              console.log('현재 카테고리:', currentCategory);
 
               if(currentLevel == 1) {
-                console.log('현재 난이도:', currentLevel);
+
                 this.Menu.level = '초급'
-                console.log(this.Menu.level);
 
               } else if(currentLevel == 2) {
-                console.log('현재 난이도:', currentLevel);
+
                 this.Menu.level ='중급'
-                console.log(this.Menu.level);
 
               } else if(currentLevel == 3) {
-                console.log('현재 난이도:', currentLevel);
                 this.Menu.level = '고급'
-                console.log(this.Menu.level);
 
               }
 
             } else if(currentCategory == 4) {
               this.Menu.category = '국어'
-              console.log('현재 카테고리:', currentCategory);
 
               if(currentLevel == 1) {
-                console.log('현재 난이도:', currentLevel);
+
                 this.Menu.level = '초급'
-                console.log(this.Menu.level);
 
               } else if(currentLevel == 2) {
-                console.log('현재 난이도:', currentLevel);
+
                 this.Menu.level = '중급'
-                console.log(this.Menu.level);
 
               } else if(currentLevel == 3) {
-                console.log('현재 난이도:', currentLevel);
+
                 this.Menu.level = '고급'
-                console.log(this.Menu.level);
 
               }
             }
+            if(this.isMounted) {
+              
+              console.log('현재 카테고리:', currentCategory, this.Menu.category);
+              console.log('현재 난이도:', currentLevel, this.Menu.level);
+
+            } else {
+              
+              console.log('created, 카테고리:', currentCategory, this.Menu.category);
+              console.log('created, 난이도:', currentLevel, this.Menu.level);
+
+            }
+
           } catch(error) {
             console.error(error);
           }
-    },
-   menuList() {
-      const saveAddress = this.$store.state.currentUrl;
-      this.$router.push({path: saveAddress});
-    },
-    Home() {
-      window.location.href = `http://localhost:8080`;
-    },
-    updateNaviHeight() {
-      const NaviElement = this.$refs.navi;
-      if(NaviElement) {
-        this.$store.commit('setNaviHeight', NaviElement.offsetHeight);
-        console.log(NaviElement.offsetHeight);
-      }
-    },
-    // toggleDefaul(state) {
-    //     this.offOn = !this.offOn
-    //     if(state === 'open' && !this.offOn) {
-    //         this.sideDefaul.transform = `translateX(${this.sidebarWidth}px)`;
-    //     } else if (state === 'closed' && this.offOn) {
-    //         this.sideDefaul.transform = 'translate(0)';
-    //     }
-    // },
+      },
+    menuList() {
+        const saveAddress = this.$store.state.currentUrl;
+        this.$router.push({path: saveAddress});
+      },
+      Home() {
+        window.location.href = `http://localhost:8080`;
+      },
+      updateNaviHeight() {
+        const NaviElement = this.$refs.navi;
+        if(NaviElement) {
+          this.$store.commit('setNaviHeight', NaviElement.offsetHeight);
+
+          if(this.isMounted) {
+
+            console.log(NaviElement.offsetHeight);
+
+          } else {
+            
+            console.log('created:',NaviElement.offsetHeight);
+          }
+        }
+      },
     }
 }
 </script>
