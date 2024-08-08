@@ -10,6 +10,7 @@ const multer = require('multer');
 router.get('/quizzes', function (req, res, next) {
   const query = `
     SELECT 
+      q.quiz_no,
       q.uploads_at,
       q.user_no,
       u.user_nick, 
