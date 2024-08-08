@@ -37,6 +37,7 @@ export default {
             offOn: false,
             quizList: {},
             thImage: {},
+            sideMainTop: '0',
         }
     }, 
     created() {
@@ -157,7 +158,7 @@ export default {
                 
         
             try {
-                const response = await axios.get(`http://localhost:3000/quiz/${this.addLevel}/${this.addCategory}`);
+                const response = await axios.get(`http://localhost:3000/quiz/quizMain/${this.addLevel}/${this.addCategory}`);
                 
 
                 if(response.data.message == 'success') {

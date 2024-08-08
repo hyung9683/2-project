@@ -170,12 +170,16 @@ admin_search: `SELECT * FROM quiz_user`,
   viewcount: `SELECT board_tit, board_view
           FROM quiz_board;`,
 
-      // 퀴즈 불러오기
+      // 퀴즈 전부 가져오기
+      quizMain: `select * from quiz_info`,
+      // 퀴즈 category 및 level 별로 불러오기
       quiz_All: `select quiz_no, user_no, quiz_tit, quiz_thimg, quiz_category, quiz_level, quiz_day, quiz_view from quiz_info where quiz_level = ? and quiz_category = ?`,
       //퀴즈 인기순
       quiz_best: `select quiz_no, user_no, quiz_view, quiz_tit, quiz_thimg, quiz_category, quiz_level, quiz_day from quiz_info order by quiz_view desc`,
       //퀴즈 푼거 최근순
       quiz_current:`select q.quiz_no, s.user_no, q.quiz_thimg, q.quiz_tit , s.created_at from quiz_info q inner join quiz_solving s on q.quiz_no = s.quiz_no where s.sol_whether = 1 order by s.created_at desc`,
+      //퀴즈 검색
+      quizMain_search:`select quiz_no, quiz_category, quiz_level, quiz_thimg, quiz_tit, quiz_day from quiz_info where quiz_category = ? and quiz_tit like ?`,
 
     //게시판 기능
     boardcnt: `SELECT COUNT(*) FROM quiz_board`,

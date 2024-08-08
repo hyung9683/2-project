@@ -428,6 +428,8 @@ export default {
               }
             }
           });
+          console.log('현재 차트:',chart);
+          
         } else {
           console.error('getContext 실패: chart가 없습니다.');
         }
