@@ -67,6 +67,10 @@
     },
     methods: {
       savePost() {
+        if(!this.notices.noticeTitle) {
+          alert('제목을 입력하세요.');
+          return;
+        }
         axios.post('http://localhost:3000/notice/write', {
           user_no: this.user.user_no,
           notice_tit: this.notices.noticeTitle,
@@ -248,7 +252,7 @@
     font-size: 12px;
     box-shadow: 0px 1px 9px 1px rgb(221, 221, 221);
     color: black;
-    margin-top: 10%;
+    margin: auto;
   }
   
   button.back_btn:hover {
