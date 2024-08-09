@@ -143,7 +143,8 @@ methods: {
             showConfirmButton: false,
             timer: 1500
           });
-          this.$router.push('/noticemain?page=1');
+            this.$router.push('/noticemain?page=1');
+
         }
       });
     }

@@ -74,8 +74,10 @@
                 <div class="col-4 noticeMain" style="border-right: 2px groove #eee; padding-right:0.7rem; max-height:100%;" >
                     <div style="text-align: center; padding-bottom: 2px; border-bottom: 2px;">공지사항</div>
                         <div v-for="(notice, i) in notices" :key="i" class="mt-2 announcmentMainList" style="text-align: center;">
-                            <div class="announcment pb-1">{{ notice.notice_tit }}</div>
-                            <div class="border-bottom pb-2 noticeContent">{{ notice.notice_content }}</div>
+                            <div @click="goToNoticeDeatil(notice.notice_no)">
+                                <div class="announcment pb-1">{{ notice.notice_tit }}</div>
+                                <div class="border-bottom pb-2 noticeContent">{{ notice.notice_content }}</div>
+                            </div>
                         </div>
                 </div>
                 <!-- /공지사항 -->
@@ -86,7 +88,7 @@
                             <div class="mt-2">
                                 <div class="row col-4 imageQuiz" style="text-align: center;">
                                     <div class="card" style="padding:0; margin:auto; width:100%; height:16rem;" v-for="(item, i) in currentQuiz" :key="i">
-                                        <div v-if="this.user.user_no == item.user_no">
+                                        <div v-if="this.user.user_no == item.user_no" @click="goToQuizDetail(item.quiz_category,item.quiz_level,item.quiz_no)">
                                             <img class="card-img-top" style="padding-right:0; border:none; max-width: auto; max-height: auto; box-shadow: 0 1px 0; text-align: center;" :src="thImage ? require(`../../../node-back/uploads/${item.quiz_thimg}`) : require(`../../goodsempty.jpg`)"/>
                                             <div class="card-body p-0">
                                                 <div class="card-title text-dark" style="font-size: 16px;">
@@ -105,10 +107,12 @@
                                 <div class="mt-2">
                                     <div class="row col-4 imageQuiz" style="text-align:center;">
                                         <div class="card" style="padding:0; margin:auto; width:100%; height:16rem;" v-for="(item, i) in bestList" :key="i">
-                                            <img class="card-img-top" style="padding-right:0; border:none; max-width: auto; max-height: auto; box-shadow: 0 1px 0; text-align: center;" :src="thImage ? require(`../../../node-back/uploads/${item.quiz_thimg}`) : require(`../../goodsempty.jpg`)"/>
-                                            <div class="card-body p-0">
-                                                <div class="card-title text-dark" style="font-size: 16px;">
-                                                   제목:{{ item.quiz_tit}}
+                                            <div @click="goToQuizDetail(item.quiz_category,item.quiz_level,item.quiz_no)">
+                                                <img class="card-img-top" style="padding-right:0; border:none; max-width: auto; max-height: auto; box-shadow: 0 1px 0; text-align: center;" :src="thImage ? require(`../../../node-back/uploads/${item.quiz_thimg}`) : require(`../../goodsempty.jpg`)"/>
+                                                <div class="card-body p-0">
+                                                    <div class="card-title text-dark" style="font-size: 16px;">
+                                                    제목:{{ item.quiz_tit}}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -327,6 +331,11 @@ export default {
                 .catch(error => {
                     console.error('조회 수 업데이트 중 오류 발생:', error);
                 });
+
+        },
+        goToNoticeDeatil(number) {
+
+                return this.$router.push({path: `/notice/noticeDetail/${number}`});
 
         }
     }
