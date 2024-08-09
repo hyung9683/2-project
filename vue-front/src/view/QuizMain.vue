@@ -205,6 +205,7 @@ export default {
     }
 }
 </script>
+
 <style scoped>
 .quizMain {
     position: relative;
