@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :style="sideMain" :class="{'offOn': offOn}">
     <h1 class="tit">공지사항 게시판</h1>
 
     <table class="tbList">
@@ -52,6 +52,8 @@ export default {
       pageSize: 10, // 페이지당 게시글 수
       currentPage: parseInt(this.$route.query.page) || 1, // 현재 페이지 번호
       searchnotice: '', // 검색어
+      sideMainTop: '0',
+      offOn: false,
     };
   },
   computed: {
@@ -65,12 +67,60 @@ export default {
         return Math.ceil(this.cnt / this.pageSize); // 전체 페이지 수 계산
       }
     },
+    //추가
+    headerHeight() {
+            return this.$store.state.headerHeight;
+        },
+        baseTop() {
+            return parseInt(this.sideMainTop || '0', 10);
+
+        },
+        naviHeight() {
+            return this.$store.state.naviHeight;
+        },
+
+        computedTop() {
+            const height = this.headerHeight;
+            const naviHeight = this.naviHeight;
+            const baseTop = this.baseTop;
+
+            if(!isNaN(height) && !isNaN(baseTop) && !isNaN(naviHeight)) {
+
+                return baseTop + (height + naviHeight);
+            }
+
+            return baseTop;
+        },
+        sideMain() {
+            return {
+                top: `${this.computedTop}px`,
+                position:'relative',
+                transition:'transform 0.25s ease-out',
+                transform: 'translateX(9rem)',
+            }
+        },
+  },
+  created() {
+    this.emitter.on('sidebar-toggled', this.toggleMain);
   },
   mounted() {
     this.fetchContent(); // 컴포넌트가 마운트되면 게시글 가져오기
     this.fetchContentCount(); // 전체 게시글 수 가져오기
+    // MenuLayout이 펼쳐지고 접혀질때 main화면의 이동여부
+    this.emitter.on('sidebar-toggled', this.toggleMain);
   },
+  beforeUnmount() {
+        this.emitter.off('sidebar-toggled', this.toggleMain);
+    },
   methods: {
+    toggleMain(state) {
+            this.offOn = !this.offOn
+            if (state === 'open'&& !this.offOn) {
+                this.sideMain.transform = 'translateX(9rem)';
+            } else if(state === 'closed' && this.offOn) {
+                this.sideMain.transform = 'translate(0)';
+            }
+        },
     // 게시글 가져오기
     fetchContent() {
       axios

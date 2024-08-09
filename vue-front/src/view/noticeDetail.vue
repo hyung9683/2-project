@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :style="sideMain" :class="{'offOn': offOn}">
     <div class="content" v-for="notice in content" :key="notice.notice_no">
       <div class="notice_content">
         <label class="t2">작성자</label>&nbsp;&nbsp;
@@ -93,13 +93,47 @@ data() {
     editable: false,
     newcomment: '',
     replyFormVisible: null,
-    replyContent: ''
+    replyContent: '',
+    sideMainTop: '0',
+    offOn: false,
   }
 },
 computed: {
   user() {
     return this.$store.state.user;
   },
+   //추가
+   headerHeight() {
+            return this.$store.state.headerHeight;
+        },
+        baseTop() {
+            return parseInt(this.sideMainTop || '0', 10);
+
+        },
+        naviHeight() {
+            return this.$store.state.naviHeight;
+        },
+
+        computedTop() {
+            const height = this.headerHeight;
+            const naviHeight = this.naviHeight;
+            const baseTop = this.baseTop;
+
+            if(!isNaN(height) && !isNaN(baseTop) && !isNaN(naviHeight)) {
+
+                return baseTop + (height + naviHeight);
+            }
+
+            return baseTop;
+        },
+        sideMain() {
+            return {
+                top: `${this.computedTop}px`,
+                position:'relative',
+                transition:'transform 0.25s ease-out',
+                transform: 'translateX(9rem)',
+            }
+        },
 },
 mounted() {
   this.loadContent();
@@ -111,6 +145,14 @@ mounted() {
     })
 },
 methods: {
+  toggleMain(state) {
+            this.offOn = !this.offOn
+            if (state === 'open'&& !this.offOn) {
+                this.sideMain.transform = 'translateX(9rem)';
+            } else if(state === 'closed' && this.offOn) {
+                this.sideMain.transform = 'translate(0)';
+            }
+        },
   adjustHeight() {
     this.$nextTick(() => {
       const textarea = this.$refs.textarea;

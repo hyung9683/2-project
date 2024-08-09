@@ -138,7 +138,6 @@ export default {
     return {
         offOn: false,
         quiz: {},
-        bestList: {},
         thImage: {},
         notices: {},
         isLoading: true,
@@ -150,6 +149,8 @@ export default {
         searchMain: '',
         selectCategory: '',
         searchList: {},
+        // sliceList: [],
+        bestList:{},
         
         
     }
@@ -333,9 +334,9 @@ export default {
                 });
 
         },
-        goToNoticeDeatil(number) {
+        goToNoticeDeatil(notice_no) {
 
-                return this.$router.push({path: `/notice/noticeDetail/${number}`});
+                return this.$router.push({path: `/notice/noticeDetail`, query:{notice_no}});
 
         }
     }
@@ -391,6 +392,7 @@ export default {
         display: grid;
         position: relative;
         grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: auto;
         gap:20px;
         width: 100%;
         text-align: center;

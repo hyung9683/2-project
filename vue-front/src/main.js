@@ -175,7 +175,7 @@ const routes = [
                     component:writenotice
                 },
                 {
-                    path:'notice/noticeDetail/:noticeNo',
+                    path:'notice/noticeDetail',
                     component:noticeDetail
                 }
             ]},
