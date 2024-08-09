@@ -272,7 +272,7 @@ button.write_btn:hover {
 
 .page-btn {
   height: 26px;
-  width: 4.1%;
+  width: 6.2%;
   border: none;
   background-color: #fbdbb6;
   font-family: 'GmarketSansMedium';
