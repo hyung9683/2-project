@@ -12,7 +12,6 @@
         <col width="9%" /> -->
         <col width="7%" />
         <col width="7%" />
-        <col width="7%" />
         <col width="5%" />
         <col width="5%" />
         <col width="8%" />
@@ -29,7 +28,6 @@
           <!-- <th>힌트 1</th>
           <th>힌트 2</th> -->
           <th>메인사진</th>
-          <th>퀴즈사진</th>
           <th>카테고리</th>
           <th>레벨</th>
           <th>조회수</th>
@@ -40,8 +38,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="quiz in quizzes" :key="quiz.quiz_no">
-          
+        <tr v-for="quiz in quizzes" :key="quiz.quiz_no"  @click="handleCardClick(quiz.quiz_no)">
           <td>{{ quiz.user_no }}</td>
           <td>{{ quiz.user_nick }}</td>
           <td>{{ quiz.quiz_tit }}</td>
@@ -51,10 +48,10 @@
             <img v-if="!quiz.quiz_thimg" src="../assets/img_notReady.png" alt="이미지 준비 중" width="100%">
             <img v-else :src="require(`../../../node-back/uploads/${quiz.quiz_thimg}`)" alt="퀴즈 이미지" width="100%">
           </td>
-          <td>
+          <!-- <td>
             <img v-if="!quiz.quiz_img" src="../assets/img_notReady.png" alt="이미지 준비 중" width="100%">
             <img v-else :src="require(`../../../node-back/uploads/${quiz.quiz_img}`)" alt="퀴즈 이미지" width="100%">
-          </td>
+          </td> -->
           <td>{{ quiz.quiz_category }}</td>
           <td>{{ quiz.quiz_level }}</td>
           <td>{{ quiz.quiz_view }}</td>
@@ -87,6 +84,9 @@ export default {
       });
   },
   methods:{
+    handleCardClick(quizNo) {
+        this.$router.push(`/write/${quizNo}`); // 클릭된 퀴즈 번호를 포함한 페이지로 이동
+      },
     
      confirmDeleteContent(quiz_no) {
 
