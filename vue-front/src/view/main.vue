@@ -14,7 +14,7 @@
                             <option value="영어">영어</option>
                             <option value="국어">국어</option>
                         </select>
-                        <input type="text" class="form-control search-input" placeholder="Search...." v-model="searchMain">
+                        <input type="text" class="form-control search-input" placeholder="Search...." v-model="searchMain" @keydown.enter.prevent="submitMain">
                         <button type="button" class="btn btn-light search-button" @click="submitMain">
                             <i class="bi bi-search text-danger"></i>
                         </button>
@@ -23,9 +23,9 @@
             </div>
         </nav>
         <!-- 검색할 시 나오는 화면 -->
-                <div class="container-fluid" style="position:relative; top:1rem; border-left: 2px groove #eee; border-right: 2px groove #eee; min-height:300vh; padding-left: 3.6rem;" id="content" v-if="searchMain !== '' && searchList.length > 0 && submitMain">
+                <div class="container-fluid" style="position:relative; top:1rem; border-left: 2px groove #eee; border-right: 2px groove #eee; min-height:300vh; padding-left: 3.6rem;" id="content" v-if="searchMain && searchList.length > 0 && submitMain">
                     <div class="col-12 quizMainList" style="max-height:100%;">
-                            <div class="pb-2 mb-3 pe-2 border-bottom text-start currentQui" style="text-align: center; margin-right: 5rem;">{{ selectCategory }}</div>
+                            <div class="pb-2 mb-3 pe-2 border-bottom text-start fs-4 currentQui" style="text-align: center; margin-right: 5rem;">{{ selectCategory }}</div>
                             <div class="mt-2">
                                 <div class="row col-4 pb-5 border-bottom searchQuiz" style="text-align: center;">
                                     <div class="pb-4 border-bottom col-12 level">초급</div>
@@ -290,13 +290,40 @@ export default {
                             quiz_category: this.selectCategory,
                         
                     });
-
-                    if(response.data.message == 'success') {
+                    
                         console.log('서버에서 갖고온 데이터:' ,response.data.results);
+                       console.log('검색 값:', this.searchMain);
+                       
                         
-                       return this.searchList = response.data.results
+                       this.searchList = response.data.results;
 
-                    }
+                    //    for(const item of this.searchList) {
+
+                            if(this.searchList.length == 0) {
+
+                                console.log('검색 결과:', this.searchList.length);
+
+                                    this.$swal({
+                                        position: 'top',
+                                        icon: 'error',
+                                        title: '검색 결과가 없습니다.',
+                                        showConfirmButton: false,
+                                        timer: 1000
+                                    })
+
+                            } 
+                    //    }
+
+                       if (response.data.message == 'success') {
+
+                            return this.searchList = response.data.results;
+
+                        }
+                       
+
+                    
+
+                    return this.searchList = response.data.results
                 
             } catch(error) {
 
