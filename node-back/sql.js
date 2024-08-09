@@ -2,7 +2,7 @@ module.exports = {
       // finish:`SELECT * FROM quiz_info WHERE uploads_at IS NOT NULL;`,
       finish:`SELECT q.quiz_no,q.user_no,u.user_nick,q.quiz_tit,q.quiz_hint1,q.quiz_hint2,  q.quiz_thimg,q.quiz_img, q.quiz_category,q.quiz_level,q.quiz_view,q.quiz_report,q.quiz_day,q.quiz_answer,q.quiz_content, q.uploads_at FROM quiz_info q JOIN quiz_user u ON q.user_no = u.user_no WHERE q.user_no = ? and uploads_at IS NOT NULL;`,
 
-      mylist:`SELECT q.quiz_no,q.user_no,u.user_nick,q.quiz_tit,q.quiz_hint1,q.quiz_hint2,  q.quiz_thimg,q.quiz_img, q.quiz_category,q.quiz_level,q.quiz_view,q.quiz_report,q.quiz_day,q.quiz_answer,q.quiz_content FROM quiz_info q JOIN quiz_user u ON q.user_no = u.user_no WHERE q.user_no = ?`,
+      mylist:`SELECT quiz_no, quiz_tit, quiz_thimg, quiz_view, quiz_day FROM quiz_info WHERE user_no = ?`,
       // mylist:`SELECT * FROM quiz_info JOIN quiz_user WHERE quiz_info.user_no=quiz_user.user_no `,
       // mylist:`select * from quiz_info join quiz_user where quiz_info.user_no=quiz_user.user_no;`,
       // mylist:`SELECT * FROM quiz_info WHERE user_no = ?`,
@@ -170,12 +170,16 @@ admin_search: `SELECT * FROM quiz_user`,
   viewcount: `SELECT board_tit, board_view
           FROM quiz_board;`,
 
-      // 퀴즈 불러오기
+      // 퀴즈 전부 가져오기
+      quizMain: `select * from quiz_info`,
+      // 퀴즈 category 및 level 별로 불러오기
       quiz_All: `select quiz_no, user_no, quiz_tit, quiz_thimg, quiz_category, quiz_level, quiz_day, quiz_view from quiz_info where quiz_level = ? and quiz_category = ?`,
       //퀴즈 인기순
       quiz_best: `select quiz_no, user_no, quiz_view, quiz_tit, quiz_thimg, quiz_category, quiz_level, quiz_day from quiz_info order by quiz_view desc`,
       //퀴즈 푼거 최근순
       quiz_current:`select q.quiz_no, s.user_no, q.quiz_thimg, q.quiz_tit , s.created_at from quiz_info q inner join quiz_solving s on q.quiz_no = s.quiz_no where s.sol_whether = 1 order by s.created_at desc`,
+      //퀴즈 검색
+      quizMain_search:`select quiz_no, quiz_category, quiz_level, quiz_thimg, quiz_tit, quiz_day from quiz_info where quiz_category = ? and quiz_tit like ?`,
 
     //게시판 기능
     boardcnt: `SELECT COUNT(*) FROM quiz_board`,

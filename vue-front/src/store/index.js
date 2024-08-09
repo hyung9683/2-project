@@ -20,6 +20,8 @@ const store = createStore({
             quizGetLevel: '',
             // Menulayout.vue marginLeft 값
             sidebarMarginLeft: '-30rem',
+            boardNumber:'',
+            noticeNumber: '',
         }
         
     },
@@ -53,6 +55,15 @@ const store = createStore({
         setSidebarMarginLeft(state, marginLeft) {
 
             state.sidebarMarginLeft = marginLeft;
+        },
+
+        setBoardNumber(state, number) {
+            state.boardNumber = number;
+        },
+
+        setNoticeNumber(state, number) {
+            
+            state.noticeNumber = number;
         }
         
     },
@@ -60,7 +71,7 @@ const store = createStore({
         // 로컬스토리지에 자동으로 저장시킬 persistedstate 모듈을 plugins에 연결
         persistedstate({
             //어떤 state를 저장할지 정한다
-            paths: ['user', 'sidebarMarginLeft', 'currentUrl','quizCategory', 'quizLevel']
+            paths: ['user', 'sidebarMarginLeft', 'currentUrl','quizGetCategory', 'quizGetLevel']
         })
     ]
 });

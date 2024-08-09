@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" :style="sideQuizDetail">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <div class="content">
       <!-- 일반 퀴즈 카드들 -->
@@ -121,7 +121,8 @@ export default {
         content: '',
         typeId: null // 신고 유형 ID 추가
       },
-      reportCommentId: null
+      reportCommentId: null,
+      detailTop: '0',
     };
   },
   computed: {
@@ -155,9 +156,12 @@ export default {
         console.log(baseTop);
         return baseTop;
       },
-      quizDetail() {
+      sideQuizDetail() {
         return {
           top:`${this.computedTop}px`,
+          position:'relative',
+          transition:'transform 0.25s ease-out',
+          transform: 'translateX(9rem)',
         };
       },
       addressUrl() {
@@ -171,9 +175,13 @@ export default {
           return this.$store.state.quizGetLevel;
       },
   },
+  created() {
+    this.emitter.on('sidebar-toggled', this.toggleMain);
+  },
   mounted() {
     this.loadQuizzes();
     this.loadComments();
+    this.emitter.on('sidebar-toggled', this.toggleMain);
   },
   watch: {
     quizCategory(newCategory) {
@@ -188,6 +196,14 @@ export default {
     }
   },
   methods: {
+    toggleMain(state) {
+            this.offOn = !this.offOn
+        if (state === 'open'&& !this.offOn) {
+             this.sideQuizDetail.transform = 'translateX(9rem)';
+         } else if(state === 'closed' && this.offOn) {
+               this.sideQuizDetail.transform = 'translate(0)';
+        }
+    },
     loadQuizzes() {
       if (!this.quizNo) {
         console.error('퀴즈 번호가 없습니다.');

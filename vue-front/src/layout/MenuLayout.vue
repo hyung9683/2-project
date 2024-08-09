@@ -110,11 +110,11 @@ export default {
         this.emitter.on('SideBarMenu', this.toggleMenu);
         this.$router.afterEach((to) => {
                         console.log('현재 주소:', to.path);
-                        if(to.path) {
-                        // this.$store.commit('setCurrentUrl', '');
-                        this.$store.commit('setCurrentUrl', to.path);
+                        // if(to.path) {
+                        // // this.$store.commit('setCurrentUrl', '');
+                        // this.$store.commit('setCurrentUrl', to.path);
                             
-                        }
+                        // }
                  });
 
     },
@@ -164,14 +164,6 @@ export default {
     methods: {
         //head에서 toggled시 메뉴가 나온다
         toggleMenu() {
-            // this.offOn = !this.offOn;
-            // if (!this.offOn) {
-            //     this.sidebar.marginLeft = '-30rem';
-            //     this.emitter.emit('sidebar-toggled', 'closed');
-            // } else if (this.offOn) {
-            //     this.sidebar.marginLeft = '0';
-            //     this.emitter.emit('sidebar-toggled', 'open');
-            // }
             this.offOn = !this.offOn;
             const newMarginLeft = this.offOn ? '0' : '-30rem';
             this.$store.commit('setSidebarMarginLeft', newMarginLeft);
@@ -214,17 +206,24 @@ export default {
                     console.log('created:',this.menuCategory);
                     console.log('created:',level);
                     }
-                    await this.$router.push(path);
+                    
+                        this.$store.commit('setCurrentUrl', path);
+                        await this.$router.push(path);
+                    
                 }
             } catch(error) {
                 console.log('error:',)
             }
         },
         goToBoard() {
-            return window.location.href = 'http://localhost:8080/board?page=1'
+            this.$store.commit('setBoardNumber', 5);
+                //  return window.location.href = 'http://localhost:8080/board?page=1'
+            return this.$router.push({path: `/board?page=1`});
         },
         goToNotice() {
-            return window.location.href = `http://localhost:8080/notice?page=1`
+            this.$store.commit('setNoticeNumber', 6);
+            // return window.location.href = `http://localhost:8080/notice`
+            return this.$router.push({path: `/notice`});
         },
 
 

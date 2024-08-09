@@ -7,6 +7,7 @@
                             Home
                         </button>
                       </div>
+                      <!-- 퀴즈 카테고리 및 난이도 -->
                       <div v-if="this.Menu.category && this.Menu.level" class="col-4 d-flex align-items-center" style="text-align: center;">
                           <i class="bi bi-caret-right" style="height:100%;"></i>
                           <button class="btn" style="height:100%;">
@@ -16,10 +17,17 @@
                           <button type="button" class="btn" data-bs-toggle="button" style="height:100%;" @click="menuList()">
                             {{ this.Menu.level }}
                           </button>
-                          <!-- <i class="bi bi-caret-right" style="height:100%;"></i>
-                          <button type="button" class="btn" data-bs-toggle="button" style="height:100%;" @click="menuList()">
-                            {{ this.Menu.category }}
-                          </button> -->
+                        </div>
+                         <!-- 퀴즈 카테고리 및 난이도 -->
+                        <div v-if="this.Menu.board" class="col-4 d-flex align-items-center" style="text-align: center;">
+                          <i class="bi bi-caret-right" style="height:100%;"></i>
+                          <button class="btn" style="height:100%;">
+                            {{this.Menu.category}}
+                          </button>
+                          <i class="bi bi-caret-right" style="height:100%;"></i>
+                          <button v-if="this.Menu.board && this.Menu.write"  type="button" class="btn" data-bs-toggle="button" style="height:100%;" @click="menuList()">
+                            {{ this.Menu.level }}
+                          </button>
                         </div>
                     <div class="col-md-6"></div>
             </div>
@@ -37,8 +45,12 @@ export default {
             Menu:{
                 category: '',
                 level: '',
+                board: '',
+                notice: '',
+                write:'',
             },
             naviTop: '0',
+            
         }
     }, 
     created() {
@@ -53,7 +65,6 @@ export default {
           if(this.isMounted){
               console.log('가져온 주소',to.path);
           }
-              
               this.menuName();
             })
     },
@@ -100,6 +111,13 @@ export default {
           return {
             top:`${this.computedTop}px`
           }
+        },
+        boardNumber() {
+          return this.$store.state.boardNumber;
+        },
+
+        noticeNumber() {
+          return this.$store.state.noticeNumber;
         },
 
     },
@@ -213,6 +231,11 @@ export default {
             
             console.log('created:',NaviElement.offsetHeight);
           }
+        }
+      },
+      boardName() {
+        if(this.boardNumber) {
+          this.Menu.board = '자유게시판'
         }
       },
     }

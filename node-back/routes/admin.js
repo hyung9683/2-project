@@ -10,20 +10,15 @@ const multer = require('multer');
 router.get('/quizzes', function (req, res, next) {
   const query = `
     SELECT 
-      q.uploads_at,
+      q.quiz_no,
       q.user_no,
       u.user_nick, 
       q.quiz_tit,
-      q.quiz_hint1,
-      q.quiz_hint2,
       q.quiz_thimg,
-      q.quiz_img,
       q.quiz_category,
       q.quiz_level,
       q.quiz_view,
-      q.quiz_report,
       q.quiz_day,
-      q.quiz_answer,
       q.quiz_content
     FROM 
       quiz_info q

@@ -33,10 +33,16 @@
       <button v-if="isAnswerChecked && (isCorrectAnswer || imageAttemptsLeft <= 0)" @click="nextImage">다음 이미지</button>
     </div>
 
-    <!-- 퀴즈 완료 후 결과 표시 -->
+   <!-- 퀴즈 완료 후 결과 표시 -->
     <div v-if="quizCompleted" class="quiz-result">
       <p>퀴즈가 완료되었습니다!</p>
       <p>총 맞춘 정답 개수: {{ correctAnswerCount }} / {{ numberOfQuizzes }}</p>
+
+      <!-- 순위 차트 추가 -->
+      <div v-if="rankings.length" class="chart-container">
+        <canvas id="rankingChart"></canvas>
+      </div>
+
       <!-- 다시 시작 버튼 추가 -->
       <button @click="restartQuiz">다시 시작하기</button>
       <!-- 메인 페이지로 가는 버튼 추가 -->
@@ -106,31 +112,33 @@
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
+import Chart from 'chart.js/auto'; // Chart.js 임포트
 
 export default {
   data() {
     return {
-      images: [], // 퀴즈 이미지 목록
-      currentImage: null, // 현재 이미지
-      userAnswer: '', // 사용자가 입력한 정답
-      feedback: '', // 피드백 메시지
-      currentIndex: 0, // 현재 이미지 인덱스
-      shuffledImages: [], // 랜덤으로 섞인 이미지 목록
-      numberOfQuizzes: 10, // 기본값 설정
-      isCorrectAnswer: false, // 정답 여부
-      isAnswerChecked: false, // 정답이 확인되었는지 여부
-      correctAnswerCount: 0, // 맞춘 정답 개수
-      quizCompleted: false, // 퀴즈 완료 여부
-      comments: [], // 댓글 목록
+      images: [],
+      currentImage: null,
+      userAnswer: '',
+      feedback: '',
+      currentIndex: 0,
+      shuffledImages: [],
+      numberOfQuizzes: 10,
+      isCorrectAnswer: false,
+      isAnswerChecked: false,
+      correctAnswerCount: 0,
+      quizCompleted: false,
+      comments: [],
       newComment: '',
       quizNo: this.$route.params.quizNo,
-      imageAttemptsLeft: 3, // 각 이미지마다 남은 기회
+      imageAttemptsLeft: 3,
       showReportPopup: false,
       selectedReport: {
         type: '',
         content: ''
       },
-      reportCommentId: null
+      reportCommentId: null,
+      rankings: []  // 순위 데이터
     };
   },
   computed: {
@@ -143,7 +151,6 @@ export default {
     }
   },
   created() {
-    // 쿼리 파라미터에서 개수를 가져옴
     this.numberOfQuizzes = parseInt(this.$route.query.count, 10) || 10;
   },
   mounted() {
@@ -195,48 +202,48 @@ export default {
       });
     },
     deleteComment(commentId) {
-    if (!this.userNo) {
+      if (!this.userNo) {
         alert('사용자 정보를 확인하세요.');
         return;
-    }
+      }
 
-    axios.delete(`http://localhost:3000/quiz/delete/${this.quizNo}/${commentId}`, {
-        data: { userNo: this.userNo } // 사용자 ID를 요청 본문에 포함
-    })
-    .then(() => {
+      axios.delete(`http://localhost:3000/quiz/delete/${this.quizNo}/${commentId}`, {
+        data: { userNo: this.userNo }
+      })
+      .then(() => {
         this.loadComments();
-    })
-    .catch(error => {
+      })
+      .catch(error => {
         console.error('댓글 삭제 중 오류 발생:', error);
         alert('아이디가 다릅니다');
-    });
-},
+      });
+    },
     reportComment(commentId) {
       this.reportCommentId = commentId;
       this.showReportPopup = true;
     },
     handleReport() {
-    if (!this.selectedReport.type || !this.selectedReport.content) {
-      alert('신고 유형과 내용을 모두 입력하세요.');
-      return;
-    }
+      if (!this.selectedReport.type || !this.selectedReport.content) {
+        alert('신고 유형과 내용을 모두 입력하세요.');
+        return;
+      }
 
-    const reportData = {
-      comment_id: this.reportCommentId,
-      type: this.selectedReport.type,
-      content: this.selectedReport.content,
-      user_no: this.userNo // 추가된 부분
-    };
+      const reportData = {
+        comment_id: this.reportCommentId,
+        type: this.selectedReport.type,
+        content: this.selectedReport.content,
+        user_no: this.userNo
+      };
 
-    axios.post('http://localhost:3000/quiz/report', reportData)
-      .then(() => {
-        alert('신고가 접수되었습니다.');
-        this.closeReportPopup();
-      })
-      .catch(error => {
-        console.error('신고 처리 중 오류 발생:', error.response ? error.response.data : error.message);
-      });
-  },
+      axios.post('http://localhost:3000/quiz/report', reportData)
+        .then(() => {
+          alert('신고가 접수되었습니다.');
+          this.closeReportPopup();
+        })
+        .catch(error => {
+          console.error('신고 처리 중 오류 발생:', error.response ? error.response.data : error.message);
+        });
+    },
     closeReportPopup() {
       this.showReportPopup = false;
       this.selectedReport = {
@@ -259,7 +266,9 @@ export default {
     showNextImage() {
       if (this.currentIndex >= this.shuffledImages.length) {
         this.quizCompleted = true;
-        this.updateQuizCompletedTime(); // 퀴즈 완료 시간 업데이트
+        this.updateQuizProgress();
+        this.updateQuizCompletedTime();
+        this.loadRankings(); // 순위 데이터 로드
         return;
       }
 
@@ -268,7 +277,7 @@ export default {
       this.feedback = '';
       this.isCorrectAnswer = false;
       this.isAnswerChecked = false;
-      this.imageAttemptsLeft = 3; // 각 이미지의 기회를 3으로 초기화
+      this.imageAttemptsLeft = 3;
     },
     getImageUrl(image) {
       return `http://localhost:3000/uploads/${image.image_path}`;
@@ -292,10 +301,9 @@ export default {
       } else {
         this.feedback = '오답입니다. 다시 시도해보세요.';
         this.isAnswerChecked = true;
-        this.imageAttemptsLeft--; // 기회 1번 감소
+        this.imageAttemptsLeft--;
         if (this.imageAttemptsLeft <= 0) {
           this.feedback = '기회를 모두 소진했습니다.';
-          // 정답을 보이지 않게 하기 위해 `isCorrectAnswer` 상태는 유지
         }
       }
     },
@@ -316,7 +324,23 @@ export default {
       this.showNextImage();
     },
     goToHomePage() {
-      this.$router.push('/'); // 메인 페이지로 이동
+      this.$router.push('/');
+    },
+    updateQuizProgress() {
+      const progressData = {
+        user_no: this.userNo,
+        quiz_no: this.quizNo,
+        correct_count: this.correctAnswerCount,
+        total_count: this.numberOfQuizzes
+      };
+
+      axios.post('http://localhost:3000/quiz/save', progressData)
+        .then(() => {
+          console.log('퀴즈 진행 상황이 업데이트되었습니다.');
+        })
+        .catch(error => {
+          console.error('퀴즈 진행 상황 업데이트 중 오류 발생:', error);
+        });
     },
     updateQuizCompletedTime() {
       axios.put(`http://localhost:3000/quiz/complete/${this.quizNo}`)
@@ -326,7 +350,98 @@ export default {
         .catch(error => {
           console.error('퀴즈 완료 시간 업데이트 중 오류 발생:', error);
         });
+    },
+    loadRankings() {
+  axios.get(`http://localhost:3000/quiz/scores/${this.quizNo}`, {
+    params: { totalCount: this.numberOfQuizzes }
+  })
+  .then(response => {
+    const rankings = response.data;
+
+    // total_count 별로 correct_count를 집계
+    const countMap = rankings.reduce((acc, ranking) => {
+      const totalCount = ranking.total_count;
+      const correctCount = ranking.correct_count;
+      const userCount = ranking.user_count;
+
+      if (!acc[totalCount]) {
+        acc[totalCount] = {};
+      }
+
+      if (!acc[totalCount][correctCount]) {
+        acc[totalCount][correctCount] = 0;
+      }
+
+      acc[totalCount][correctCount] += userCount;
+      return acc;
+    }, {});
+
+    // 차트 데이터 형식으로 변환
+    const chartLabels = [];
+    const chartData = [];
+
+    for (const [totalCount, correctCounts] of Object.entries(countMap)) {
+      for (const [correctCount, userCount] of Object.entries(correctCounts)) {
+        chartLabels.push(`전체: ${totalCount}, 정답: ${correctCount}`);
+        chartData.push(userCount);
+      }
     }
+
+    // 차트 데이터 처리
+    this.rankings = rankings;
+
+    // 차트 업데이트
+    this.$nextTick(() => {
+      const ctx = document.getElementById('rankingChart');
+      if (ctx) {
+        const chart = ctx.getContext('2d');
+        if (chart) {
+          new Chart(chart, {
+            type: 'bar',
+            data: {
+              labels: chartLabels,
+              datasets: [{
+                label: '유저 수',
+                data: chartData,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+              }]
+            },
+            options: {
+              responsive: true,
+              scales: {
+                x: {
+                  beginAtZero: true,
+                  title: {
+                    display: true,
+                    text: '정답 개수'
+                  }
+                },
+                y: {
+                  beginAtZero: true,
+                  title: {
+                    display: true,
+                    text: '유저 수'
+                  }
+                }
+              }
+            }
+          });
+          console.log('현재 차트:',chart);
+          
+        } else {
+          console.error('getContext 실패: chart가 없습니다.');
+        }
+      } else {
+        console.error('rankingChart 요소가 없습니다.');
+      }
+    });
+  })
+  .catch(error => {
+    console.error('순위 로드 중 오류 발생:', error);
+  });
+}
   }
 };
 </script>
@@ -568,4 +683,15 @@ button:hover {
 .confetti span:nth-child(2) { background-color: rgba(100, 255, 100, 0.8); }
 .confetti span:nth-child(3) { background-color: rgba(100, 100, 255, 0.8); }
 .confetti span:nth-child(4) { background-color: rgba(255, 255, 100, 0.8); }
+.chart-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+canvas {
+  width: 100% !important;
+  height: auto !important;
+}
 </style>
