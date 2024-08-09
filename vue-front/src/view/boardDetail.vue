@@ -196,7 +196,7 @@ methods: {
             showConfirmButton: false,
             timer: 1500
           });
-          this.$router.push('/boardmain?page=1');
+          this.$router.push('/board?page=1');
         }
       });
     }

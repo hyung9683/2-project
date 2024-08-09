@@ -215,36 +215,12 @@ mainNotice: `select notice_no, notice_tit, notice_content, notice_day from quiz_
 	ORDER BY RAND() 
 	LIMIT 1;`,
    bestquiz : `select  quiz_no, quiz_tit, quiz_thimg from quiz_info where quiz_no = ? order by quiz_view desc;`,
+   quiz_comment_list: `SELECT comment_id, quiz_context, parent_comment_id, comment_at, user_no, quiz_no FROM quiz_comments WHERE quiz_no = ?`,
+   quiz_comment_write: `INSERT INTO quiz_comments(user_no, quiz_context) VALUES(?, ?)`,
    quiz_delete: `DELETE FROM quiz_info WHERE quiz_no = ?`,
 
 //마이페이지
 myquiz : `select  quiz_no, quiz_tit, quiz_thimg from quiz_info join quiz_user
 	   where quiz_info.user_no = quiz_user.user_no and quiz_info.user_no = ? order by quiz_no desc`, 
-
-quizupload : `INSERT INTO quiz_images (quiz_no, image_path, answers) VALUES (?, ?, ?);`,
-quizimage: `SELECT id, image_path, answers, hint1, hint2 FROM quiz_images WHERE quiz_no = ?`,
-quizimagedelete : `DELETE FROM quiz_images WHERE id = ?`,
-answerupdate : `UPDATE quiz_images SET answers = ?, hint1 = ?, hint2 = ? WHERE id = ?`,
-quizinsert : `INSERT INTO quiz_info (user_no, quiz_tit, quiz_content, quiz_category, quiz_level, quiz_thimg) VALUES (?, ?, ?, ?, ?, ?)`,
-quizinfo : `SELECT quiz_tit AS title, quiz_content AS content, quiz_category AS category, quiz_level AS level, quiz_thimg FROM quiz_info WHERE quiz_no = ?`,
-quizlist : `SELECT * FROM quiz_info ORDER BY quiz_view DESC`,
-quizdetail : `SELECT * FROM quiz_info WHERE quiz_no = ?`,
-getnick : `SELECT user_nick FROM quiz_user WHERE user_no = ?`,
-quiz_comment_write : `INSERT INTO quiz_comments (quiz_no, user_no, quiz_content, comment_at, user_nick) VALUES (?, ?, ?, NOW(), ?)`,
-quiz_comment_list : `SELECT comment_id AS id, user_nick AS nick, quiz_content AS text, comment_at AS createdAt FROM quiz_comments WHERE quiz_no = ? ORDER BY comment_id DESC`,
-commentuser : `SELECT user_no FROM quiz_comments WHERE comment_id = ? AND quiz_no = ?`,
-commentdelete : `DELETE FROM quiz_comments WHERE comment_id = ? AND quiz_no = ?`,
-viewup : `UPDATE quiz_info SET quiz_view = quiz_view + 1 WHERE quiz_no = ?`,
-topquiz : `SELECT * FROM quiz_info WHERE quiz_category = ? ORDER BY quiz_view DESC LIMIT 4`,
-mycomment : `SELECT user_no, quiz_no FROM quiz_comments WHERE comment_id = ?`,
-reportinsert : `INSERT INTO quiz_reports (user_no, report_type_id, content, user_nick, quiz_no, comment_id) VALUES (?, ?, ?, ?, ?, ?)`,
-completequiz : `UPDATE quiz_info SET uploads_at = ? WHERE quiz_no = ?`,
-quizend : `
-      INSERT INTO user_quiz (user_no, quiz_no, correct_count, total_count)
-      VALUES (?, ?, ?, ?)
-      ON DUPLICATE KEY UPDATE
-        correct_count = GREATEST(correct_count, VALUES(correct_count)),
-        total_count = VALUES(total_count)
-    `,
 
 }
