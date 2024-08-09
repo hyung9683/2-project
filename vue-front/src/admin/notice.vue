@@ -105,6 +105,7 @@ export default {
           console.error(err);
         });
     },
+    
     // 글 작성 페이지로 이동
     write_notice() {
       this.$router.push({ path: "notice/noticewrite" });

@@ -17,6 +17,7 @@ import TestPage from './view/Test';
 import board from './view/board.vue';
 import writeboard from './view/writeboard.vue';
 import boardDetail from './view/boardDetail.vue';
+
 import usernotice from './view/notice.vue';
 import usernoticeDetail from './view/noticeDetail.vue';
 

@@ -97,6 +97,7 @@ export default {
           alert("게시글을 가져오는 중 오류가 발생했습니다.");
           console.error(err);
         });
+        
     },
     // 전체 게시글 수 가져오기
     fetchContentCount() {

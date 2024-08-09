@@ -110,6 +110,7 @@ mounted() {
     }
   })
 },
+
 methods: {
   adjustHeight() {
   this.$nextTick(() => {

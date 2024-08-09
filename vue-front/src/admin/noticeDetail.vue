@@ -162,6 +162,7 @@ methods: {
       alert(err);
     });
   },
+  
   editContent() {
     if (this.user.user_no != this.content[0].user_no) {
       this.$swal("본인이 작성한 글만 수정 가능합니다.")
