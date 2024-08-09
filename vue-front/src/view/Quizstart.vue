@@ -76,36 +76,35 @@
       <span v-for="n in 100" :key="n" :style="{ top: `${Math.random() * 100}vh`, left: `${Math.random() * 100}vw`, animationDelay: `${Math.random() * 3}s`, animationDuration: `${2 + Math.random() * 2}s` }"></span>
     </div>
 
-    <!-- Report Popup -->
     <div v-if="showReportPopup" class="report-popup">
-      <div class="report-popup-content">
-        <h2>댓글 신고</h2>
-        <button @click="closeReportPopup" class="close-button">&times;</button>
-        <div>
-          <label>신고유형</label>
-          <div>
-            <label>
-              <input type="radio" value="비속어 사용" v-model="selectedReport.type" /> 비속어 사용
-            </label>
-            <label>
-              <input type="radio" value="분란 조장" v-model="selectedReport.type" /> 분란 조장
-            </label>
-            <label>
-              <input type="radio" value="스팸/광고" v-model="selectedReport.type" /> 스팸/광고
-            </label>
-            <label>
-              <input type="radio" value="개인정보 노출" v-model="selectedReport.type" /> 개인정보 노출
-            </label>
-          </div>
-        </div>
-        <div>
-          <label>신고 내용:</label>
-          <textarea v-model="selectedReport.content"></textarea>
-        </div>
-        <button @click="handleReport">신고하기</button>
-        <button @click="closeReportPopup" style="background-color:#e6c9a7">닫기</button>
+  <div class="report-popup-content">
+    <h2>댓글 신고</h2>
+    <button @click="closeReportPopup" class="close-button">&times;</button>
+    <div>
+      <label>신고유형</label>
+      <div>
+        <label>
+          <input type="radio" value="1" v-model="selectedReport.typeId" /> 비속어 사용
+        </label>
+        <label>
+          <input type="radio" value="2" v-model="selectedReport.typeId" /> 분란 조장
+        </label>
+        <label>
+          <input type="radio" value="3" v-model="selectedReport.typeId" /> 스팸/광고
+        </label>
+        <label>
+          <input type="radio" value="4" v-model="selectedReport.typeId" /> 개인정보 노출
+        </label>
       </div>
     </div>
+    <div>
+      <label>신고 내용:</label>
+      <textarea v-model="selectedReport.content"></textarea>
+    </div>
+    <button @click="handleReport">신고하기</button>
+    <button @click="closeReportPopup" style="background-color:#e6c9a7">닫기</button>
+  </div>
+</div>
   </div>
 </template>
 
@@ -135,7 +134,8 @@ export default {
       showReportPopup: false,
       selectedReport: {
         type: '',
-        content: ''
+        content: '',
+        typeId: null
       },
       reportCommentId: null,
       rankings: []  // 순위 데이터
@@ -223,35 +223,37 @@ export default {
       this.showReportPopup = true;
     },
     handleReport() {
-      if (!this.selectedReport.type || !this.selectedReport.content) {
-        alert('신고 유형과 내용을 모두 입력하세요.');
-        return;
-      }
+    if (!this.selectedReport.typeId || !this.selectedReport.content) {
+      alert('신고 유형과 내용을 모두 입력하세요.');
+      return;
+    }
 
-      const reportData = {
-        comment_id: this.reportCommentId,
-        type: this.selectedReport.type,
-        content: this.selectedReport.content,
-        user_no: this.userNo
-      };
+    const reportData = {
+      comment_id: this.reportCommentId,
+      report_type_id: this.selectedReport.typeId,
+      content: this.selectedReport.content,
+      user_no: this.userNo // 사용자 번호 추가
+    };
 
-      axios.post('http://localhost:3000/quiz/report', reportData)
-        .then(() => {
-          alert('신고가 접수되었습니다.');
-          this.closeReportPopup();
-        })
-        .catch(error => {
-          console.error('신고 처리 중 오류 발생:', error.response ? error.response.data : error.message);
-        });
-    },
-    closeReportPopup() {
-      this.showReportPopup = false;
-      this.selectedReport = {
-        type: '',
-        content: ''
-      };
-      this.reportCommentId = null;
-    },
+    axios.post('http://localhost:3000/quiz/report', reportData)
+      .then(() => {
+        alert('신고가 접수되었습니다.');
+        this.closeReportPopup();
+      })
+      .catch(error => {
+        console.error('신고 처리 중 오류 발생:', error.response ? error.response.data : error.message);
+      });
+  },
+
+  closeReportPopup() {
+    this.showReportPopup = false;
+    this.selectedReport = {
+      type: '',
+      content: '',
+      typeId: null // 초기화
+    };
+    this.reportCommentId = null;
+  },
     scrollToBottom() {
       this.$nextTick(() => {
         const commentList = this.$refs.commentList;
@@ -358,7 +360,15 @@ export default {
   .then(response => {
     const rankings = response.data;
 
-    // total_count 별로 correct_count를 집계
+    // 디버깅: rankings 데이터가 배열인지 확인
+    console.log('Rankings data:', rankings);
+    
+    if (!Array.isArray(rankings)) {
+      console.error('순위 데이터가 배열이 아닙니다.');
+      return;
+    }
+
+    // 기존 코드 계속 진행
     const countMap = rankings.reduce((acc, ranking) => {
       const totalCount = ranking.total_count;
       const correctCount = ranking.correct_count;

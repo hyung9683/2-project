@@ -401,7 +401,7 @@ router.get('/currentQuiz', (req, res) => {
 });
 
 // 메뉴 난이도 클릭시 나오는 퀴즈화면
-router.get('/:quizLevel/:quizCategory', (req, res) => {
+router.get('/quizMain/:quizLevel/:quizCategory', (req, res) => {
     const quizLevel = req.params.quizLevel
     const quizCategory = req.params.quizCategory
     console.log('요청 받은 레벨:',quizLevel);
@@ -474,4 +474,5 @@ router.post('/save', (req, res) => {
       res.json(results);
     });
   });
+
 module.exports = router;

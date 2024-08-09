@@ -157,7 +157,7 @@ export default {
                 
         
             try {
-                const response = await axios.get(`http://localhost:3000/quiz/${this.addLevel}/${this.addCategory}`);
+                const response = await axios.get(`http://localhost:3000/quiz/quizMain/${this.addLevel}/${this.addCategory}`);
                 
 
                 if(response.data.message == 'success') {
@@ -204,6 +204,7 @@ export default {
     }
 }
 </script>
+
 <style scoped>
 .quizMain {
     position: relative;

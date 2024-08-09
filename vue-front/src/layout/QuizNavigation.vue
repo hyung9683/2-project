@@ -193,10 +193,6 @@ export default {
             console.error(error);
           }
       },
-    menuList() {
-        const saveAddress = this.$store.state.currentUrl;
-        this.$router.push({path: saveAddress});
-      },
       Home() {
         window.location.href = `http://localhost:8080`;
       },
