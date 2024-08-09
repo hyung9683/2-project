@@ -110,11 +110,11 @@ export default {
         this.emitter.on('SideBarMenu', this.toggleMenu);
         this.$router.afterEach((to) => {
                         console.log('현재 주소:', to.path);
-                        // if(to.path) {
-                        // // this.$store.commit('setCurrentUrl', '');
-                        // this.$store.commit('setCurrentUrl', to.path);
+                        if(to.path) {
+                        // this.$store.commit('setCurrentUrl', '');
+                        this.$store.commit('setCurrentUrl', to.path);
                             
-                        // }
+                        }
                  });
 
     },
@@ -206,10 +206,7 @@ export default {
                     console.log('created:',this.menuCategory);
                     console.log('created:',level);
                     }
-                    
-                        this.$store.commit('setCurrentUrl', path);
-                        await this.$router.push(path);
-                    
+                    await this.$router.push(path);
                 }
             } catch(error) {
                 console.log('error:',)
