@@ -28,9 +28,9 @@
                             <div class="pb-2 mb-3 pe-2 border-bottom text-start currentQui" style="text-align: center; margin-right: 5rem;">{{ selectCategory }}</div>
                             <div class="mt-2">
                                 <div class="row col-4 pb-5 border-bottom searchQuiz" style="text-align: center;">
-                                    <div class="pb-4 border-bottom col-12">초급</div>
+                                    <div class="pb-4 border-bottom col-12 level">초급</div>
                                     <div class="card" style="padding:0; margin:auto; width:100%; height:16rem;" v-for="(item, i) in searchList" :key="i">
-                                        <div class="beginner" v-if="item.quiz_level == 1">
+                                        <div class="beginner" v-if="item.quiz_level == 1" @click="goToQuizDetail(item.quiz_category,item.quiz_level,item.quiz_no)">
                                          <img class="card-img-top" style="padding-right:0; border:none; max-width: auto; max-height: auto; box-shadow: 0 1px 0; text-align: center;" :src="thImage ? require(`../../../node-back/uploads/${item.quiz_thimg}`) : require(`../../goodsempty.jpg`)"/>
                                             <div class="card-body p-0">
                                                 <div class="card-title text-dark" style="font-size: 16px;">
@@ -39,9 +39,9 @@
                                             </div>
                                      </div>
                                     </div>
-                                    <div class="pb-4 border-bottom col-12">중급</div>
+                                    <div class="pb-4 border-bottom col-12 level">중급</div>
                                         <div class="card" style="padding:0; margin:auto; width:100%; height:16rem;" v-for="(item, i) in searchList" :key="i">
-                                            <div class="middle" v-if="item.quiz_level == 2">
+                                            <div class="middle" v-if="item.quiz_level == 2" @click="goToQuizDetail(item.quiz_category,item.quiz_level,item.quiz_no)">
                                             <img class="card-img-top" style="padding-right:0; border:none; max-width: auto; max-height: auto; box-shadow: 0 1px 0; text-align: center;" :src="thImage ? require(`../../../node-back/uploads/${item.quiz_thimg}`) : require(`../../goodsempty.jpg`)"/>
                                                 <div class="card-body p-0">
                                                     <div class="card-title text-dark" style="font-size: 16px;">
@@ -50,9 +50,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="pb-4 border-bottom col-12">고급</div>
+                                        <div class="pb-4 border-bottom col-12 level">고급</div>
                                         <div class="card" style="padding:0; margin:auto; width:100%; height:16rem;" v-for="(item, i) in searchList" :key="i">
-                                            <div class="advance" v-if="item.quiz_level == 3">
+                                            <div class="advance" v-if="item.quiz_level == 3" @click="goToQuizDetail(item.quiz_category,item.quiz_level,item.quiz_no)">
                                             <img class="card-img-top" style="padding-right:0; border:none; max-width: auto; max-height: auto; box-shadow: 0 1px 0; text-align: center;" :src="thImage ? require(`../../../node-back/uploads/${item.quiz_thimg}`) : require(`../../goodsempty.jpg`)"/>
                                                 <div class="card-body p-0">
                                                     <div class="card-title text-dark" style="font-size: 16px;">
@@ -314,6 +314,20 @@ export default {
             this.selectCategory = event.target.value;
 
             console.log(this.selectCategory);
+        },
+
+        goToQuizDetail(category, level, quizNo) {
+
+            axios.post(`http://localhost:3000/quiz/view/${quizNo}`)
+                .then(() => {
+
+                    
+                    this.$router.push(`/quiz/${category}/${level}/${quizNo}`);
+                })
+                .catch(error => {
+                    console.error('조회 수 업데이트 중 오류 발생:', error);
+                });
+
         }
     }
 }
@@ -394,6 +408,10 @@ export default {
         margin-right: -15px;
         padding-left: 15px;
         padding-right: 15px;
+    }
+
+    .searchQuiz .level {
+        grid-column: 1 / -1;
     }
 
 </style>
