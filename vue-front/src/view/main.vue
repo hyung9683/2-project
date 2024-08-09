@@ -282,14 +282,6 @@ export default {
         },
         async submitMain() {
             try { 
-                    // const quizRes = await axios.get(`http://localhost:3000/quiz/allQuiz`);
-
-                    //     if(quizRes.data.message == 'success') {
-
-                    //         this.allQuiz = quizRes.data.results
-                    //     }
-
-                    // for(const quizMain of this.allQuiz) {
 
                         const response = await axios.post(`http://localhost:3000/quiz/quizSearch`, 
                         {
@@ -305,7 +297,6 @@ export default {
                        return this.searchList = response.data.results
 
                     }
-                // }
                 
             } catch(error) {
 
@@ -328,6 +319,8 @@ export default {
 
                     
                     this.$router.push(`/quiz/${category}/${level}/${quizNo}`);
+                    console.log(`${category}/${level}/${quizNo}`);
+                    
                 })
                 .catch(error => {
                     console.error('조회 수 업데이트 중 오류 발생:', error);
