@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="boardDeatilClass" :style="sideDetailBoard" :class="{'offOn': offOn}">
       <h1>글 작성</h1>
       <div class="AddWrap">
         <form @submit.prevent="savePost">
@@ -57,15 +57,72 @@
           boardTitle: '',
           boardContent: '',
           boardImg: '',
+          sideMainTop: '0',
+          offOn: false,
         }
       }
+    },
+    created() {
+      this.emitter.on('sidebar-toggled', this.toggleMain);
+    },
+    mounted() {
+
+      this.emitter.on('sidebar-toggled', this.toggleMain);
+
+    },
+    beforeUnmount() {
+      this.emitter.off('sidebar-toggled', this.toggleMain);
     },
     computed: {
       user() {
         return this.$store.state.user; // 로그인 확인
-      }
+      },
+      headerHeight() {
+            return this.$store.state.headerHeight;
+      },
+        baseTop() {
+                  return parseInt(this.sideMainTop || '0', 10);
+
+      },
+        naviHeight() {
+                  return this.$store.state.naviHeight;
+      },
+
+        computedTop() {
+                  const height = this.headerHeight;
+                  const naviHeight = this.naviHeight;
+                  const baseTop = this.baseTop;
+
+                  if(!isNaN(height) && !isNaN(baseTop) && !isNaN(naviHeight)) {
+
+                      return baseTop + (height + naviHeight);
+                  }
+
+                  return baseTop;
+        },
+        sideDetailBoard() {
+                  return {
+                      top: `${this.computedTop}px`,
+                      position:'relative',
+                      transition:'transform 0.25s ease-out',
+                      transform: 'translateX(9rem)',
+                  }
+        },
+          addressUrl() {
+
+                  return this.$store.state.currentUrl;
+
+        },
     },
     methods: {
+      toggleMain(state) {
+            this.offOn = !this.offOn
+        if (state === 'open'&& !this.offOn) {
+             this.sideDetailBoard.transform = 'translateX(9rem)';
+         } else if(state === 'closed' && this.offOn) {
+               this.sideDetailBoard.transform = 'translate(0)';
+        }
+      },
       savePost() {
         axios.post('http://localhost:3000/bd/write', {
           user_no: this.user.user_no,

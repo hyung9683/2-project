@@ -404,8 +404,6 @@ router.get('/currentQuiz', (req, res) => {
 router.get('/quizMain/:quizLevel/:quizCategory', (req, res) => {
     const quizLevel = req.params.quizLevel
     const quizCategory = req.params.quizCategory
-    console.log('요청 받은 레벨:',quizLevel);
-    console.log('요청 받은 카테고리:', quizCategory);
     
     
     db.query(sql.quiz_All, [quizLevel, quizCategory], (error, results, fields) => {
@@ -445,6 +443,10 @@ router.post('/save', (req, res) => {
   router.get('/scores/:quizNo', (req, res) => {
     const quizNo = req.params.quizNo;
     const totalCount = parseInt(req.query.totalCount, 10) || null;
+    console.log(quizNo);
+    console.log(totalCount);
+    
+    
   
     if (!quizNo) {
       return res.status(400).json({ error: '퀴즈 번호가 필요합니다.' });
@@ -475,4 +477,53 @@ router.post('/save', (req, res) => {
     });
   });
 
+<<<<<<< HEAD
+=======
+  // 검색 하기 위해 퀴즈 전부
+  router.get(`/allQuiz`, (req, res) => {
+    db.query(sql.quizMain, (error, results, fields) => {
+        if(error) {
+            return res.status(500).json({error: '오류 발생'});
+        }
+
+        return res.status(200).json({ message: 'success', results});
+    })
+  });
+
+  router.post(`/quizSearch`, (req, res) => {
+    const search_results = '%' + req.body.search_results + '%';
+    // const quizTit = req.body.quiz_tit;
+    let category = req.body.quiz_category;
+    console.log('요청 받은 카테고리:', category);
+    console.log('가져온 검색결과:', search_results);
+    
+    
+    if(category == '한자') {
+        category = 3
+    } else if (category == '수학') {
+        category = 1
+    } else if (category == '영어') {
+        category = 2
+    } else if (category == '국어') {
+        category = 4
+    }
+    console.log('카테고리:',category);
+    console.log(search_results);
+    
+    
+    db.query(sql.quizMain_search,[category, search_results], (error, results, fields) => {
+            
+            
+            if (error) {
+                return res.status(500).json({error: '서버 검색 오류 발생'});
+            }
+       
+        console.log(results);
+        
+        return res.status(200).json({message: 'success', results});
+    });
+  });
+
+
+>>>>>>> origin/feature/Ann
 module.exports = router;

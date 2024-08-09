@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :style="sideboardMain" :class="{'offOn': offOn}">
     <h2 class="tit">자유게시판</h2>
 
     <table class="tbList">
@@ -64,6 +64,8 @@ export default {
       pageSize: 10, // 페이지당 게시글 수
       currentPage: parseInt(this.$route.query.page) || 1, // 현재 페이지 번호
       searchboard: '', // 검색어
+      sideBoardTop: '0',
+      offOn: false,
     };
   },
   computed: {
@@ -77,12 +79,79 @@ export default {
         return Math.ceil(this.cnt / this.pageSize); // 전체 페이지 수 계산
       }
     },
+    // 추가된 부분입니다
+    headerHeight() {
+            return this.$store.state.headerHeight;
+      },
+        baseTop() {
+                  return parseInt(this.sideBoardTop || '0', 10);
+
+      },
+        naviHeight() {
+                  return this.$store.state.naviHeight;
+      },
+
+        computedTop() {
+                  const height = this.headerHeight;
+                  const naviHeight = this.naviHeight;
+                  const baseTop = this.baseTop;
+
+                  if(!isNaN(height) && !isNaN(baseTop) && !isNaN(naviHeight)) {
+
+                      return baseTop + (height + naviHeight);
+                  }
+
+                  return baseTop;
+        },
+        sideboardMain() {
+                  return {
+                      top: `${this.computedTop}px`,
+                      position:'relative',
+                      transition:'transform 0.25s ease-out',
+                      transform: 'translateX(9rem)',
+                  }
+        },
+        addressUrl() {
+
+          return this.$store.state.currentUrl;
+
+        },
+        sidebarMarginLeft() {
+          return this.$store.state.sidebarMarginLeft;
+        },
+        boardNumber() {
+          return this.$store.state.boardNumber;
+        },
+        noticeNumber() {
+          return this.$store.state.noticeNumber;
+        },
+        // 추가된 부분
+  },
+  created() {
+    // 추가된 부분
+    this.emitter.on('sidebar-toggled', this.toggleMain);
   },
   mounted() {
     this.fetchContent(); // 컴포넌트가 마운트되면 게시글 가져오기
     this.fetchContentCount(); // 전체 게시글 수 가져오기
+    // 추가된 부분
+    this.emitter.on('sidebar-toggled', this.toggleMain);
+  },
+  // 추가된 부분
+  beforeUnmount() {
+        this.emitter.off('sidebar-toggled', this.toggleMain);
   },
   methods: {
+    //추가된 부분
+    toggleMain(state) {
+            this.offOn = !this.offOn
+            if (state === 'open'&& !this.offOn) {
+                this.sideboardMain.transform = 'translateX(9rem)';
+            } else if(state === 'closed' && this.offOn) {
+                this.sideboardMain.transform = 'translate(0)';
+            }
+        },
+        //추가된 부분
     // 게시글 가져오기
     fetchContent() {
       axios

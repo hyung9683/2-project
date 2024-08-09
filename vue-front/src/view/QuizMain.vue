@@ -37,6 +37,7 @@ export default {
             offOn: false,
             quizList: {},
             thImage: {},
+            sideMainTop: '0',
         }
     }, 
     created() {
