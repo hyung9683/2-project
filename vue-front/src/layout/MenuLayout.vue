@@ -92,7 +92,6 @@ export default {
     data() {
         return {
             offOn: false,
-            width: 0,
             quizLevel: {
                 category: {},
                 level: {},
@@ -100,6 +99,7 @@ export default {
             sidebarTop: '0',
             menuCategory: '',
             menuLevel: '',
+            width: window.innerWidth,
 
         }
 }, 
@@ -151,12 +151,19 @@ export default {
         sidebar() {
             return {
                 top: `${this.computedTop}px`,
-                marginLeft: this.$store.state.sidebarMarginLeft,
+                // marginLeft: this.$store.state.sidebarMarginLeft,
+                marginLeft: this.computedMarginLeft,
                 transition: 'margin 0.25s ease-out',
             };
         },
         setUpUrl() {
             return this.$store.state.currentUrl;
+        },
+        computedMarginLeft() {
+            if (this.width >= 1024) {
+                return this.offfOn ? '0' : '-30rem';
+            }
+            return this.offOn ? '0' : '-100vw';
         },
        
 
@@ -165,22 +172,27 @@ export default {
         //head에서 toggled시 메뉴가 나온다
         toggleMenu() {
             this.offOn = !this.offOn;
-            const newMarginLeft = this.offOn ? '0' : '-30rem';
-            this.$store.commit('setSidebarMarginLeft', newMarginLeft);
+            // const newMarginLeft = this.offOn ? '0' : '-30rem';
+            this.$store.commit('setSidebarMarginLeft', this.computedMarginLeft);
             this.emitter.emit('sidebar-toggled', this.offOn ? 'open' : 'closed');
         },
+        //화면 해상도
+        updateWidth() {
+            this.width = window.innerWidth;
+        },
+
         goToQna() {
             return window.location.href = 'http://localhost:8080/qna?page=1'
         },
 
-        updateWidth() {
-            const width = this.$refs.sidebar;
-            if(width) {
-                this.$store.commit('setSidebarWidth', width.offsetWidth);
-                console.log(width.offsetWidth);
+        // updateWidth() {
+        //     const width = this.$refs.sidebar;
+        //     if(width) {
+        //         this.$store.commit('setSidebarWidth', width.offsetWidth);
+        //         console.log(width.offsetWidth);
 
-            }
-        },
+        //     }
+        // },
 
         categoryClick(category) {
             this.menuCategory = category
