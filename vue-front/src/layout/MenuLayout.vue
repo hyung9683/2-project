@@ -5,9 +5,11 @@
                         <!-- 사이드 메뉴 -->
                         <div id="sidebar-menu" class="col-lg-2 sidebar fixed-top" :style="sidebar" :class="{'off-On': offOn}">
                             <div class="navbar-brand text-center d-block mx-auto py-3 mb-3 bottom-border"></div>
-                            <div class="bottom-border pb-3">
-                                <i class="bi bi-person-circle mx-3 fs-3"></i>
-                                <a href="#" class="text-white">관리자</a>
+                            <div class="bottom-border pb-3 d-flex">
+                                <i class="bi bi-person-circle mx-3 fs-4-0"></i>
+                                <a href="#" class="text-white" @click="goToMypage">{{ this.user.user_id }}</a>
+                                <!-- <p v-if="this.adminCheck == 1" style="padding: 0; margin: 0;">(관리자)</p> -->
+                                <p style="margin: 0; padding: 0; width: 101px;">(사용자)</p>
                             </div>
                             <ul class="navbar-nav flex-column mt-2" style="text-align:left;">
                                 <!-- 홈 -->
@@ -88,6 +90,8 @@
 
 <script>
 
+import axios from 'axios';
+
 export default {
     data() {
         return {
@@ -100,10 +104,12 @@ export default {
             menuCategory: '',
             menuLevel: '',
             width: window.innerWidth,
+            adminCheck: 0,
 
         }
 }, 
     created() {
+        this.userAdminCheck;
        
     },
     mounted() {
@@ -116,6 +122,7 @@ export default {
                             
                         }
                  });
+        this.userAdminCheck;
 
     },
     beforeUnmount() {
@@ -161,7 +168,7 @@ export default {
         },
         computedMarginLeft() {
             if (this.width >= 1024) {
-                return this.offfOn ? '0' : '-30rem';
+                return this.offOn ? '0' : '-30rem';
             }
             return this.offOn ? '0' : '-100vw';
         },
@@ -234,6 +241,22 @@ export default {
             // return window.location.href = `http://localhost:8080/notice`
             return this.$router.push({path: `/notice`});
         },
+        async userAdminCheck() {
+            const response = await axios.post('http://localhost:3000/auth/admin_ck', {
+                user_no: this.user.user_no,
+            });
+
+            if(response.data.message == 'admin') {
+
+                this.adminCheck = 1;
+            }
+
+            return this.adminCheck;
+
+        },
+        goToMypage() {
+            this.$router.push({path: '/mypage'});
+        }
 
 
     }
