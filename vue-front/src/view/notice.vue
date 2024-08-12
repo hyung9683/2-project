@@ -1,6 +1,6 @@
 <template>
-  <div :style="sideboardMain" :class="{'offOn': offOn}">
-    <h2 class="tit">자유게시판</h2>
+  <div :style="sideMain" :class="{'offOn': offOn}">
+    <h1 class="tit">공지사항 게시판</h1>
 
     <table class="tbList">
       <colgroup>
@@ -20,21 +20,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="board in contentlist" :key="board.board_no"
-            @click="handleBoardClick(board.board_no)">
-          <td>{{ board.board_no }}</td>
-          <td>{{ board.board_tit }}</td>
-          <td>{{ board.user_nick }}</td>
-          <td>{{ board.board_day.split('T')[0] }}</td>
-          <td>{{ board.board_view }}</td>
+        <tr v-for="notice in contentlist" :key="notice.notice_no"
+            @click="handlenoticeClick(notice.notice_no)">
+          <td>{{ notice.notice_no }}</td>
+          <td>{{ notice.notice_tit }}</td>
+          <td>{{ notice.user_nick }}</td>
+          <td>{{ notice.notice_day.split('T')[0] }}</td>
+          <td>{{ notice.notice_view }}</td>
         </tr>
       </tbody>
     </table>
-
-    <form class="navbar_search" @submit.prevent="submitSearch">
-      <input v-model="searchboard" class="form-control me-2" type="search" placeholder="내용을 입력해주세요" aria-label="Search">
-      <button class="btn-search" type="submit">검색</button>
-    </form>
 
     <div class="btn-cover">
       <button @click="movetopreviouspage" class="page-btn">이전</button>
@@ -42,14 +37,7 @@
       <button @click="movetonextpage" class="page-btn">다음</button>
     </div>
 
-    <div class="btn">
-      <div v-if="user.user_id === ''">
-        <button class="write_btn" @click="login">작성</button>
-      </div>
-      <div v-else>
-        <button class="write_btn" @click="write_board">작성</button>
-      </div>
-    </div>
+    
   </div>
 </template>
 
@@ -63,8 +51,8 @@ export default {
       cnt: 0, // 전체 게시글 수
       pageSize: 10, // 페이지당 게시글 수
       currentPage: parseInt(this.$route.query.page) || 1, // 현재 페이지 번호
-      searchboard: '', // 검색어
-      sideBoardTop: '0',
+      searchnotice: '', // 검색어
+      sideMainTop: '0',
       offOn: false,
     };
   },
@@ -79,83 +67,64 @@ export default {
         return Math.ceil(this.cnt / this.pageSize); // 전체 페이지 수 계산
       }
     },
-    // 추가된 부분입니다
+    //추가
     headerHeight() {
             return this.$store.state.headerHeight;
-      },
+        },
         baseTop() {
-                  return parseInt(this.sideBoardTop || '0', 10);
+            return parseInt(this.sideMainTop || '0', 10);
 
-      },
+        },
         naviHeight() {
-                  return this.$store.state.naviHeight;
-      },
+            return this.$store.state.naviHeight;
+        },
 
         computedTop() {
-                  const height = this.headerHeight;
-                  const naviHeight = this.naviHeight;
-                  const baseTop = this.baseTop;
+            const height = this.headerHeight;
+            const naviHeight = this.naviHeight;
+            const baseTop = this.baseTop;
 
-                  if(!isNaN(height) && !isNaN(baseTop) && !isNaN(naviHeight)) {
+            if(!isNaN(height) && !isNaN(baseTop) && !isNaN(naviHeight)) {
 
-                      return baseTop + (height + naviHeight);
-                  }
+                return baseTop + (height + naviHeight);
+            }
 
-                  return baseTop;
+            return baseTop;
         },
-        sideboardMain() {
-                  return {
-                      top: `${this.computedTop}px`,
-                      position:'relative',
-                      transition:'transform 0.25s ease-out',
-                      transform: 'translateX(9rem)',
-                  }
+        sideMain() {
+            return {
+                top: `${this.computedTop}px`,
+                position:'relative',
+                transition:'transform 0.25s ease-out',
+                transform: 'translateX(9rem)',
+            }
         },
-        addressUrl() {
-
-          return this.$store.state.currentUrl;
-
-        },
-        sidebarMarginLeft() {
-          return this.$store.state.sidebarMarginLeft;
-        },
-        boardNumber() {
-          return this.$store.state.boardNumber;
-        },
-        noticeNumber() {
-          return this.$store.state.noticeNumber;
-        },
-        // 추가된 부분
   },
   created() {
-    // 추가된 부분
     this.emitter.on('sidebar-toggled', this.toggleMain);
   },
   mounted() {
     this.fetchContent(); // 컴포넌트가 마운트되면 게시글 가져오기
     this.fetchContentCount(); // 전체 게시글 수 가져오기
-    // 추가된 부분
+    // MenuLayout이 펼쳐지고 접혀질때 main화면의 이동여부
     this.emitter.on('sidebar-toggled', this.toggleMain);
   },
-  // 추가된 부분
   beforeUnmount() {
         this.emitter.off('sidebar-toggled', this.toggleMain);
-  },
+    },
   methods: {
-    //추가된 부분
     toggleMain(state) {
             this.offOn = !this.offOn
             if (state === 'open'&& !this.offOn) {
-                this.sideboardMain.transform = 'translateX(9rem)';
+                this.sideMain.transform = 'translateX(9rem)';
             } else if(state === 'closed' && this.offOn) {
-                this.sideboardMain.transform = 'translate(0)';
+                this.sideMain.transform = 'translate(0)';
             }
         },
-        //추가된 부분
     // 게시글 가져오기
     fetchContent() {
       axios
-        .post("http://localhost:3000/bd/board", {
+        .post("http://localhost:3000/notice/notice", {
           page: this.currentPage,
           pageSize: this.pageSize,
         })
@@ -170,7 +139,7 @@ export default {
     // 전체 게시글 수 가져오기
     fetchContentCount() {
       axios
-        .post("http://localhost:3000/bd/boardcnt")
+        .post("http://localhost:3000/notice/noticecnt")
         .then((res) => {
           this.cnt = res.data;
         })
@@ -179,35 +148,21 @@ export default {
           console.error(err);
         });
     },
-    // 글 작성 페이지로 이동
-    write_board() {
-      this.$router.push({ path: "/board/boardwrite" });
-    },
-    // 로그인 페이지로 이동
-    login() {
-      this.$swal({
-        title: "로그인 후 작성할 수 있습니다.",
-        showConfirmButton: true,
-      }).then(() => {
-        window.location.href = "http://localhost:8080/login";
-      });
-    },
     // 게시글 상세 페이지로 이동
-    handleBoardClick(board_no) {
-      // 게시글 조회수 증가 요청
-      axios
-        .post("http://localhost:3000/bd/incrementBoardView", { board_no })
-        .then(() => {
-          // 조회수 증가 후 상세 페이지로 이동
-          this.$router.push({
-            path: `/board/boardDetail`,
-            query: { board_no },
-          });
-        })
-        .catch((err) => {
-          console.error("게시글 조회수 증가 중 오류:", err);
+  handlenoticeClick(notice_no) {
+    // 게시글 조회수 증가 요청
+    axios.post("http://localhost:3000/notice/incrementnoticeView", { notice_no })
+      .then(() => {
+        // 조회수 증가 후 상세 페이지로 이동
+        this.$router.push({
+          path: `/notice/noticeDetail`,
+          query: { notice_no },
         });
-    },
+      })
+      .catch((err) => {
+        console.error("게시글 조회수 증가 중 오류:", err);
+      });
+  },
     // 이전 페이지로 이동
     movetopreviouspage() {
       if (this.currentPage > 1) {
@@ -231,20 +186,6 @@ export default {
       this.$router.push({ path: this.$route.path, query: { page: this.currentPage } });
       this.fetchContent(); // 페이지 업데이트 시 게시글 다시 가져오기
     },
-    submitSearch() {
-      axios.post("http://localhost:3000/bd/contentsearch", {
-        searchboard: this.searchboard,
-        page: this.currentPage,
-        pageSize: this.pageSize,
-      })
-      .then((res) => {
-        this.contentlist = res.data;
-      })
-      .catch((err) => {
-        alert("게시글 검색 중 오류가 발생했습니다.");
-        console.error(err);
-      });
-    }
   },
 };
 </script>
@@ -319,7 +260,6 @@ thead {
   font-family: 'GmarketSansMedium';
   font-size: 16px;
   box-shadow: 0px 1px 9px 1px rgb(221, 221, 221);
-  color: black;
 }
 
 button.write_btn:hover {
@@ -328,48 +268,41 @@ button.write_btn:hover {
 }
 
 .page-btn {
-  height: 25px;
-  width: 70px;
-  border: none;
-  background-color: #C1A3FF;
-  font-family: 'GmarketSansMedium';
-  font-size: 13px;
-  box-shadow: #C1A3FF;
-  margin-top: 5px;
-  color: black;
-}
+      height: 26px;
+      width: 7%;
+      border: none;
+      margin-top:5%;
+      background-color: #C1A3FF;
+      font-family: 'GmarketSansMedium';
+      font-size: 14px;
+      box-shadow: 0px 1px 10px 0.1px rgb(240, 240, 240);
+    }
 
 button.page-btn:hover {
+  height: 25px;
+  width: 60px;
   cursor: pointer;
   background-color: transparent;
 }
 
-.navbar_search{
-  width: 25%;
-  margin: auto;
-  justify-content: center;
-  display: flex;
-  align-items: center;
-  margin-top: 1%;
-}
-
-.form-control{
-  width: 120%;
-  padding: 0%;
-}
-
 .btn-search {
   height: 25px;
-  width: 80px;
+  width: 67px;
   border: none;
   border-radius: 4px;
   background-color: #C1A3FF;
   font-family: 'GmarketSansMedium';
-  font-size: 12.3px;
+  font-size: 14px;
   box-shadow: 0px 1px 9px 1px rgb(221, 221, 221);
-  color: black;
 }
 
+.form-control{
+  width: 20%;
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  display: inline-block;
+  padding: 0 20px;
+  text-align: center;
+}
 
 button.btn-search:hover {
   cursor: pointer;
@@ -397,9 +330,8 @@ button.btn-search:hover {
   text-align: center; /* 헤더 텍스트 가운데 정렬 */
 }
 
-
-
 .tit{
   margin-top: 6%;
+  font-size: 35px;
 }
 </style>

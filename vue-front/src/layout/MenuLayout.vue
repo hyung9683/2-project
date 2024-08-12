@@ -5,9 +5,11 @@
                         <!-- 사이드 메뉴 -->
                         <div id="sidebar-menu" class="col-lg-2 sidebar fixed-top" :style="sidebar" :class="{'off-On': offOn}">
                             <div class="navbar-brand text-center d-block mx-auto py-3 mb-3 bottom-border"></div>
-                            <div class="bottom-border pb-3">
-                                <i class="bi bi-person-circle mx-3 fs-3"></i>
-                                <a href="#" class="text-white">관리자</a>
+                            <div class="bottom-border pb-3 d-flex">
+                                <i class="bi bi-person-circle mx-3 fs-4-0"></i>
+                                <a href="#" class="text-white" @click="goToMypage">{{ this.user.user_id }}</a>
+                                <!-- <p v-if="this.adminCheck == 1" style="padding: 0; margin: 0;">(관리자)</p> -->
+                                <p style="margin: 0; padding: 0; width: 101px;">(사용자)</p>
                             </div>
                             <ul class="navbar-nav flex-column mt-2" style="text-align:left;">
                                 <!-- 홈 -->
@@ -88,11 +90,12 @@
 
 <script>
 
+import axios from 'axios';
+
 export default {
     data() {
         return {
             offOn: false,
-            width: 0,
             quizLevel: {
                 category: {},
                 level: {},
@@ -100,10 +103,13 @@ export default {
             sidebarTop: '0',
             menuCategory: '',
             menuLevel: '',
+            width: window.innerWidth,
+            adminCheck: 0,
 
         }
 }, 
     created() {
+        this.userAdminCheck;
        
     },
     mounted() {
@@ -116,6 +122,7 @@ export default {
                             
                         }
                  });
+        this.userAdminCheck;
 
     },
     beforeUnmount() {
@@ -151,12 +158,19 @@ export default {
         sidebar() {
             return {
                 top: `${this.computedTop}px`,
-                marginLeft: this.$store.state.sidebarMarginLeft,
+                // marginLeft: this.$store.state.sidebarMarginLeft,
+                marginLeft: this.computedMarginLeft,
                 transition: 'margin 0.25s ease-out',
             };
         },
         setUpUrl() {
             return this.$store.state.currentUrl;
+        },
+        computedMarginLeft() {
+            if (this.width >= 1024) {
+                return this.offOn ? '0' : '-30rem';
+            }
+            return this.offOn ? '0' : '-100vw';
         },
        
 
@@ -165,22 +179,27 @@ export default {
         //head에서 toggled시 메뉴가 나온다
         toggleMenu() {
             this.offOn = !this.offOn;
-            const newMarginLeft = this.offOn ? '0' : '-30rem';
-            this.$store.commit('setSidebarMarginLeft', newMarginLeft);
+            // const newMarginLeft = this.offOn ? '0' : '-30rem';
+            this.$store.commit('setSidebarMarginLeft', this.computedMarginLeft);
             this.emitter.emit('sidebar-toggled', this.offOn ? 'open' : 'closed');
         },
+        //화면 해상도
+        updateWidth() {
+            this.width = window.innerWidth;
+        },
+
         goToQna() {
             return window.location.href = 'http://localhost:8080/qna?page=1'
         },
 
-        updateWidth() {
-            const width = this.$refs.sidebar;
-            if(width) {
-                this.$store.commit('setSidebarWidth', width.offsetWidth);
-                console.log(width.offsetWidth);
+        // updateWidth() {
+        //     const width = this.$refs.sidebar;
+        //     if(width) {
+        //         this.$store.commit('setSidebarWidth', width.offsetWidth);
+        //         console.log(width.offsetWidth);
 
-            }
-        },
+        //     }
+        // },
 
         categoryClick(category) {
             this.menuCategory = category
@@ -222,6 +241,22 @@ export default {
             // return window.location.href = `http://localhost:8080/notice`
             return this.$router.push({path: `/notice`});
         },
+        async userAdminCheck() {
+            const response = await axios.post('http://localhost:3000/auth/admin_ck', {
+                user_no: this.user.user_no,
+            });
+
+            if(response.data.message == 'admin') {
+
+                this.adminCheck = 1;
+            }
+
+            return this.adminCheck;
+
+        },
+        goToMypage() {
+            this.$router.push({path: '/mypage'});
+        }
 
 
     }

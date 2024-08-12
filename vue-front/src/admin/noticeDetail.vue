@@ -143,7 +143,7 @@ methods: {
             showConfirmButton: false,
             timer: 1500
           });
-          this.$router.push('/noticemain?page=1');
+          this.$router.push({ path: "/admin/notice?page=1" }); 
         }
       });
     }
@@ -157,7 +157,7 @@ methods: {
       },
     }).then(res => {
       this.content = res.data;
-      window.location.href = '/notice?page=1';
+      this.$router.push({ path: "/admin/notice?page=1" });
     }).catch(err => {
       alert(err);
     });
@@ -170,7 +170,7 @@ methods: {
     }
   },
   navigateTonoticeMain() {
-    this.$router.push('/notice?page=1');
+    this.$router.push('/admin/notice?page=1');
   },
   confirmEditContent() {
     axios.post("http://localhost:3000/notice/edit", {

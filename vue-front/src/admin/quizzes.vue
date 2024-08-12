@@ -85,7 +85,8 @@ export default {
   },
   methods:{
     handleCardClick(quizNo) {
-        this.$router.push(`/write/${quizNo}`); // 클릭된 퀴즈 번호를 포함한 페이지로 이동
+        // this.$router.push(`/write/${quizNo}`); // 클릭된 퀴즈 번호를 포함한 페이지로 이동
+        this.$router.push(`/quiz/${this.addCategory}/${this.addLevel}/${quizNo}`);
       },
     
      confirmDeleteContent(quiz_no) {

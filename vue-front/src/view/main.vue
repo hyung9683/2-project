@@ -14,7 +14,7 @@
                             <option value="영어">영어</option>
                             <option value="국어">국어</option>
                         </select>
-                        <input type="text" class="form-control search-input" placeholder="Search...." v-model="searchMain">
+                        <input type="text" class="form-control search-input" placeholder="Search...." v-model="searchMain" @keydown.enter.prevent="submitMain">
                         <button type="button" class="btn btn-light search-button" @click="submitMain">
                             <i class="bi bi-search text-danger"></i>
                         </button>
@@ -23,9 +23,9 @@
             </div>
         </nav>
         <!-- 검색할 시 나오는 화면 -->
-                <div class="container-fluid" style="position:relative; top:1rem; border-left: 2px groove #eee; border-right: 2px groove #eee; min-height:300vh; padding-left: 3.6rem;" id="content" v-if="searchMain !== '' && searchList.length > 0 && submitMain">
+                <div class="container-fluid" style="position:relative; top:1rem; border-left: 2px groove #eee; border-right: 2px groove #eee; min-height:300vh; padding-left: 3.6rem;" id="content" v-if="searchMain && searchList.length > 0 && submitMain">
                     <div class="col-12 quizMainList" style="max-height:100%;">
-                            <div class="pb-2 mb-3 pe-2 border-bottom text-start currentQui" style="text-align: center; margin-right: 5rem;">{{ selectCategory }}</div>
+                            <div class="pb-2 mb-3 pe-2 border-bottom text-start fs-4 currentQui" style="text-align: center; margin-right: 5rem;">{{ selectCategory }}</div>
                             <div class="mt-2">
                                 <div class="row col-4 pb-5 border-bottom searchQuiz" style="text-align: center;">
                                     <div class="pb-4 border-bottom col-12 level">초급</div>
@@ -74,8 +74,10 @@
                 <div class="col-4 noticeMain" style="border-right: 2px groove #eee; padding-right:0.7rem; max-height:100%;" >
                     <div style="text-align: center; padding-bottom: 2px; border-bottom: 2px;">공지사항</div>
                         <div v-for="(notice, i) in notices" :key="i" class="mt-2 announcmentMainList" style="text-align: center;">
-                            <div class="announcment pb-1">{{ notice.notice_tit }}</div>
-                            <div class="border-bottom pb-2 noticeContent">{{ notice.notice_content }}</div>
+                            <div @click="goToNoticeDeatil(notice.notice_no)">
+                                <div class="announcment pb-1">{{ notice.notice_tit }}</div>
+                                <div class="border-bottom pb-2 noticeContent">{{ notice.notice_content }}</div>
+                            </div>
                         </div>
                 </div>
                 <!-- /공지사항 -->
@@ -86,7 +88,7 @@
                             <div class="mt-2">
                                 <div class="row col-4 imageQuiz" style="text-align: center;">
                                     <div class="card" style="padding:0; margin:auto; width:100%; height:16rem;" v-for="(item, i) in currentQuiz" :key="i">
-                                        <div v-if="this.user.user_no == item.user_no">
+                                        <div v-if="this.user.user_no == item.user_no" @click="goToQuizDetail(item.quiz_category,item.quiz_level,item.quiz_no)">
                                             <img class="card-img-top" style="padding-right:0; border:none; max-width: auto; max-height: auto; box-shadow: 0 1px 0; text-align: center;" :src="thImage ? require(`../../../node-back/uploads/${item.quiz_thimg}`) : require(`../../goodsempty.jpg`)"/>
                                             <div class="card-body p-0">
                                                 <div class="card-title text-dark" style="font-size: 16px;">
@@ -105,10 +107,12 @@
                                 <div class="mt-2">
                                     <div class="row col-4 imageQuiz" style="text-align:center;">
                                         <div class="card" style="padding:0; margin:auto; width:100%; height:16rem;" v-for="(item, i) in bestList" :key="i">
-                                            <img class="card-img-top" style="padding-right:0; border:none; max-width: auto; max-height: auto; box-shadow: 0 1px 0; text-align: center;" :src="thImage ? require(`../../../node-back/uploads/${item.quiz_thimg}`) : require(`../../goodsempty.jpg`)"/>
-                                            <div class="card-body p-0">
-                                                <div class="card-title text-dark" style="font-size: 16px;">
-                                                   제목:{{ item.quiz_tit}}
+                                            <div @click="goToQuizDetail(item.quiz_category,item.quiz_level,item.quiz_no)">
+                                                <img class="card-img-top" style="padding-right:0; border:none; max-width: auto; max-height: auto; box-shadow: 0 1px 0; text-align: center;" :src="thImage ? require(`../../../node-back/uploads/${item.quiz_thimg}`) : require(`../../goodsempty.jpg`)"/>
+                                                <div class="card-body p-0">
+                                                    <div class="card-title text-dark" style="font-size: 16px;">
+                                                    제목:{{ item.quiz_tit}}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -134,7 +138,6 @@ export default {
     return {
         offOn: false,
         quiz: {},
-        bestList: {},
         thImage: {},
         notices: {},
         isLoading: true,
@@ -146,6 +149,8 @@ export default {
         searchMain: '',
         selectCategory: '',
         searchList: {},
+        // sliceList: [],
+        bestList:{},
         
         
     }
@@ -277,14 +282,6 @@ export default {
         },
         async submitMain() {
             try { 
-                    // const quizRes = await axios.get(`http://localhost:3000/quiz/allQuiz`);
-
-                    //     if(quizRes.data.message == 'success') {
-
-                    //         this.allQuiz = quizRes.data.results
-                    //     }
-
-                    // for(const quizMain of this.allQuiz) {
 
                         const response = await axios.post(`http://localhost:3000/quiz/quizSearch`, 
                         {
@@ -293,14 +290,40 @@ export default {
                             quiz_category: this.selectCategory,
                         
                     });
-
-                    if(response.data.message == 'success') {
+                    
                         console.log('서버에서 갖고온 데이터:' ,response.data.results);
+                       console.log('검색 값:', this.searchMain);
+                       
                         
-                       return this.searchList = response.data.results
+                       this.searchList = response.data.results;
 
-                    }
-                // }
+                    //    for(const item of this.searchList) {
+
+                            if(this.searchList.length == 0) {
+
+                                console.log('검색 결과:', this.searchList.length);
+
+                                    this.$swal({
+                                        position: 'top',
+                                        icon: 'error',
+                                        title: '검색 결과가 없습니다.',
+                                        showConfirmButton: false,
+                                        timer: 1000
+                                    })
+
+                            } 
+                    //    }
+
+                       if (response.data.message == 'success') {
+
+                            return this.searchList = response.data.results;
+
+                        }
+                       
+
+                    
+
+                    return this.searchList = response.data.results
                 
             } catch(error) {
 
@@ -323,10 +346,17 @@ export default {
 
                     
                     this.$router.push(`/quiz/${category}/${level}/${quizNo}`);
+                    console.log(`${category}/${level}/${quizNo}`);
+                    
                 })
                 .catch(error => {
                     console.error('조회 수 업데이트 중 오류 발생:', error);
                 });
+
+        },
+        goToNoticeDeatil(notice_no) {
+
+                return this.$router.push({path: `/notice/noticeDetail`, query:{notice_no}});
 
         }
     }
@@ -382,6 +412,7 @@ export default {
         display: grid;
         position: relative;
         grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: auto;
         gap:20px;
         width: 100%;
         text-align: center;

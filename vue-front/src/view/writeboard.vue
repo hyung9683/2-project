@@ -124,6 +124,11 @@
         }
       },
       savePost() {
+        //제목이 null인지 확인
+        if(!this.boards.boardTitle) {
+          alert('제목을 입력하세요.');
+          return;
+        }
         axios.post('http://localhost:3000/bd/write', {
           user_no: this.user.user_no,
           board_tit: this.boards.boardTitle,
@@ -258,15 +263,15 @@
     height: 25px;
     width: 60px;
     border: none;
-    background-color: #fde8cc;
+    background-color: #C1A3FF;
     font-family: 'GmarketSansMedium';
     font-size: 16px;
-    box-shadow: 0px 1px 10px 0.1px rgb(240, 240, 240);
+    box-shadow: 0px 1px 10px 0.1px #C1A3FF;
   }
   
   button.page-btn:hover {
     cursor: pointer;
-    background-color: #f9d3a1;
+    background-color: #C1A3FF;
   }
   
   .btn-search {
@@ -386,5 +391,9 @@
   .preview-img img {
     max-width: 100%;
     height: auto;
+  }
+
+  .titt {
+    margin-top: 6%;
   }
   </style>
