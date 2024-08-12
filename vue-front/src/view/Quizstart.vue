@@ -271,6 +271,7 @@ export default {
         this.updateQuizProgress();
         this.updateQuizCompletedTime();
         this.loadRankings(); // 순위 데이터 로드
+        this.solvingQuiz();
         return;
       }
 
@@ -451,6 +452,28 @@ export default {
   .catch(error => {
     console.error('순위 로드 중 오류 발생:', error);
   });
+},
+
+solvingQuiz() {
+
+    if(this.quizCompleted == true) {
+      
+      axios.post(`http://localhost:3000/quiz/solving`, {
+        userNo : this.userNo,
+        quizNo : this.quizNo,
+
+      }).then(() => {
+        console.log('solving 테이블이 업데이트 되었습니다.');
+        
+      }).catch(error => {
+        console.error(error, '테이블 업데이트 실패');
+      }) 
+    
+  }
+
+  return;
+    
+
 }
   }
 };
@@ -470,9 +493,9 @@ export default {
 }
 
 .quiz-image {
-  width: 300px; /* 이미지의 너비를 고정 */
+  width: 100%; /* 이미지의 너비를 고정 */
   height: 200px; /* 이미지의 높이를 고정 */
-  object-fit: cover; /* 이미지 비율을 유지하면서 잘라내기 */
+  object-fit: contain; /* 이미지 비율을 유지하면서 잘라내기 */
   margin: 0 auto; /* 가운데 정렬 */
 }
 

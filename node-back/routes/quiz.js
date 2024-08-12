@@ -523,5 +523,19 @@ router.post('/save', (req, res) => {
     });
   });
 
+  //퀴즈 풀면 solving 테이블 업데이트
+  router.post(`/solving`, (req, res) => {
+    const {quizNo, userNo} = req.body;
+    console.log('퀴즈번호:',quizNo);
+    console.log('사용자번호:',userNo);
+    
+    db.query(sql.quiz_solving, [quizNo, userNo], (error, results, fields) => {
+        if(error) {
+            return res.status(500).json({error: 'solving 에러 발생'});
+        }
+        return res.status(200).json({message:'solving 업데이트 성공', results});
+    });
+  });
+
 
 module.exports = router;

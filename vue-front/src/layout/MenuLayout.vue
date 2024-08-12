@@ -5,11 +5,10 @@
                         <!-- 사이드 메뉴 -->
                         <div id="sidebar-menu" class="col-lg-2 sidebar fixed-top" :style="sidebar" :class="{'off-On': offOn}">
                             <div class="navbar-brand text-center d-block mx-auto py-3 mb-3 bottom-border"></div>
-                            <div class="bottom-border pb-3 d-flex">
+                            <div class="bottom-border pb-3 d-flex" v-if="this.user.user_no">
                                 <i class="bi bi-person-circle mx-3 fs-4-0"></i>
                                 <a href="#" class="text-white" @click="goToMypage">{{ this.user.user_id }}</a>
-                                <!-- <p v-if="this.adminCheck == 1" style="padding: 0; margin: 0;">(관리자)</p> -->
-                                <p style="margin: 0; padding: 0; width: 101px;">(사용자)</p>
+                                <p style="padding: 0; margin: 0;">({{ this.adminCheck }})</p>
                             </div>
                             <ul class="navbar-nav flex-column mt-2" style="text-align:left;">
                                 <!-- 홈 -->
@@ -90,8 +89,6 @@
 
 <script>
 
-import axios from 'axios';
-
 export default {
     data() {
         return {
@@ -104,12 +101,13 @@ export default {
             menuCategory: '',
             menuLevel: '',
             width: window.innerWidth,
-            adminCheck: 0,
+            adminCheck: '',
+            // adminValue: '',
 
         }
 }, 
     created() {
-        this.userAdminCheck;
+        this.emitter.on('adminCk', this.userAdminCheck);
        
     },
     mounted() {
@@ -122,8 +120,7 @@ export default {
                             
                         }
                  });
-        this.userAdminCheck;
-
+         this.emitter.on('adminCk', this.userAdminCheck);
     },
     beforeUnmount() {
         this.emitter.off('SideBarMenu', this.toggleMenu);
@@ -241,16 +238,14 @@ export default {
             // return window.location.href = `http://localhost:8080/notice`
             return this.$router.push({path: `/notice`});
         },
-        async userAdminCheck() {
-            const response = await axios.post('http://localhost:3000/auth/admin_ck', {
-                user_no: this.user.user_no,
-            });
+        userAdminCheck(userType) {
 
-            if(response.data.message == 'admin') {
-
-                this.adminCheck = 1;
+            if(userType == 1) {
+                this.adminCheck = '관리자'
+                
+            } else {
+                this.adminCheck = '사용자'
             }
-
             return this.adminCheck;
 
         },

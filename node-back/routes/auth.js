@@ -154,6 +154,7 @@ router.post('/login_process', function (request, response) {
 // 관리자
 router.post('/admin_ck', function (request, response) {
     const loginUser = request.body;
+    
     db.query(sql.admin_ck, [loginUser.user_no], function (error, results, fields) {
         if (results[0].user_type == 1) {
             return response.status(200).json({
