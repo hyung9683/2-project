@@ -154,6 +154,7 @@ mounted() {
     }
   })
 },
+
 methods: {
   toggleMain(state) {
             this.offOn = !this.offOn

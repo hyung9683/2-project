@@ -242,6 +242,7 @@
     width: 50px;
   }
   
+  
   .back_btn {
     height: 35px;
     width: 90px;

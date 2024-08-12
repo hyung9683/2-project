@@ -8,7 +8,7 @@
         <col width="8%" />
         <col width="*" />
         <col width="20%" />
-        <col width="6%" />
+        <col width="8%" />
       </colgroup>
       <thead>
         <tr>
@@ -32,9 +32,9 @@
       </tbody>
     </table>
     <div class="btn-cover">
-      <button @click="movetopreviouspage" class="page-btn" style="margin-top:0%; width:4.5%;">이전</button>
+      <button @click="movetopreviouspage" class="page-btn" style="margin-top:0%; width:5.1%;">이전</button>
       <span class="page-count">{{ page }}/{{ totalpage }} 페이지</span>
-      <button @click="movetonextpage" class="page-btn" style="margin-top:0%; width:4.5%;">다음</button>
+      <button @click="movetonextpage" class="page-btn" style="margin-top:0%; width:5.1%;">다음</button>
     </div>
   </div>
 </template>
@@ -222,7 +222,7 @@ export default {
   
   .page-btn {
     height: 25px;
-    width: 50px;
+    width: 90px;
     border: none;
   
     background-color: #fbdbb6;

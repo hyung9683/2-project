@@ -332,6 +332,7 @@ button.btn-search:hover {
 
 .tit{
   margin-top: 6%;
+  
   font-size: 35px;
 }
 </style>

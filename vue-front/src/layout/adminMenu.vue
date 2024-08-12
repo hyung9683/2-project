@@ -24,7 +24,7 @@
                 <p>고객센터 답변</p>
             </router-link>  
             <router-link to="/admin/notice?page=1">
-                <i class="fa fa-exclamation"></i>
+                <i class="fa fa-exclamation"></i>  
                 <p>공지사항 관리</p>
             </router-link>
         </div>
