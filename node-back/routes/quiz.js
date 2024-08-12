@@ -477,8 +477,7 @@ router.post('/save', (req, res) => {
     });
   });
 
-<<<<<<< HEAD
-=======
+
   // 검색 하기 위해 퀴즈 전부
   router.get(`/allQuiz`, (req, res) => {
     db.query(sql.quizMain, (error, results, fields) => {
@@ -524,6 +523,4 @@ router.post('/save', (req, res) => {
     });
   });
 
-
->>>>>>> origin/feature/Ann
 module.exports = router;
