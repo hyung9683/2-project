@@ -140,7 +140,7 @@ router.post('/delete', (req, res) => {
 router.post('/quizz_delete', (req, res) => {
   const quiznum = req.body.quizno;
 
-  db.query(sql.quizz_delete, [quiznum], function (error, result) {
+  db.query(sql.quiz_delete, [quiznum], function (error, result) {
     if (error) {
       console.error(error);
       return res.status(500).json({ error: 'error' });

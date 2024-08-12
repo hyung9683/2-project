@@ -241,6 +241,7 @@ topquiz : `SELECT * FROM quiz_info WHERE quiz_category = ? ORDER BY quiz_view DE
 mycomment : `SELECT user_no, quiz_no FROM quiz_comments WHERE comment_id = ?`,
 reportinsert : `INSERT INTO quiz_reports (user_no, report_type_id, content, user_nick, quiz_no, comment_id) VALUES (?, ?, ?, ?, ?, ?)`,
 completequiz : `UPDATE quiz_info SET uploads_at = ? WHERE quiz_no = ?`,
+addQuizSolving: 'INSERT INTO quiz_solving (quiz_no, user_no, sol_whether, created_at) VALUES (?, ?, ?, ?)',
 quizend : `
       INSERT INTO user_quiz (user_no, quiz_no, correct_count, total_count)
       VALUES (?, ?, ?, ?)

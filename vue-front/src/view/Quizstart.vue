@@ -346,14 +346,16 @@ export default {
         });
     },
     updateQuizCompletedTime() {
-      axios.put(`http://localhost:3000/quiz/complete/${this.quizNo}`)
-        .then(() => {
-          console.log('퀴즈 완료 시간이 업데이트되었습니다.');
-        })
-        .catch(error => {
-          console.error('퀴즈 완료 시간 업데이트 중 오류 발생:', error);
-        });
-    },
+    axios.put(`http://localhost:3000/quiz/complete/${this.quizNo}`, {
+        userNo: this.userNo // userNo를 포함하여 서버에 전송
+    })
+    .then(() => {
+        console.log('퀴즈 완료 시간이 업데이트되었습니다.');
+    })
+    .catch(error => {
+        console.error('퀴즈 완료 시간 업데이트 중 오류 발생:', error);
+    });
+},
     loadRankings() {
   axios.get(`http://localhost:3000/quiz/scores/${this.quizNo}`, {
     params: { totalCount: this.numberOfQuizzes }
@@ -493,9 +495,15 @@ export default {
 }
 
 .quiz-image {
-  width: 100%; /* 이미지의 너비를 고정 */
-  height: 200px; /* 이미지의 높이를 고정 */
-  object-fit: contain; /* 이미지 비율을 유지하면서 잘라내기 */
+
+  /*width: 100%;  이미지의 너비를 고정 
+  height: 200px; 이미지의 높이를 고정 
+  object-fit: contain;  이미지 비율을 유지하면서 잘라내기 */
+
+  width: 400px; /* 이미지의 너비를 고정 */
+  height: 300px; /* 이미지의 높이를 고정 */
+  object-fit: cover; /* 이미지 비율을 유지하면서 잘라내기 */
+
   margin: 0 auto; /* 가운데 정렬 */
 }
 
