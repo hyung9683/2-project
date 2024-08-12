@@ -271,7 +271,7 @@ export default {
         this.updateQuizProgress();
         this.updateQuizCompletedTime();
         this.loadRankings(); // 순위 데이터 로드
-        this.solvingQuiz();
+        // this.solvingQuiz();
         return;
       }
 
@@ -454,27 +454,27 @@ export default {
   });
 },
 
-solvingQuiz() {
+// solvingQuiz() {
 
-    if(this.quizCompleted == true) {
+//     if(this.quizCompleted == true) {
       
-      axios.post(`http://localhost:3000/quiz/solving`, {
-        userNo : this.userNo,
-        quizNo : this.quizNo,
+//       axios.post(`http://localhost:3000/quiz/solving`, {
+//         userNo : this.userNo,
+//         quizNo : this.quizNo,
 
-      }).then(() => {
-        console.log('solving 테이블이 업데이트 되었습니다.');
+//       }).then(() => {
+//         console.log('solving 테이블이 업데이트 되었습니다.');
         
-      }).catch(error => {
-        console.error(error, '테이블 업데이트 실패');
-      }) 
+//       }).catch(error => {
+//         console.error(error, '테이블 업데이트 실패');
+//       }) 
     
-  }
+//   }
 
-  return;
+//   return;
     
 
-}
+// }
   }
 };
 </script>
