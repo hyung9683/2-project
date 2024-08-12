@@ -227,6 +227,7 @@ export default {
               this.Menu.category = '';
               this.Menu.level = '';
               this.Menu.notice = '';
+              this.Menu.write = '';
               this.Menu.board = '자유게시판'
 
               if(this.$route.path == '/board/boardwrite') {
