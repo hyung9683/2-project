@@ -84,9 +84,12 @@ router.post('/write', function (req, res) {
 // qna목록
 router.post('/qna_list', (req, res) => {
   const qnapage = req.body;
-
-  const offsetPage = 0 + (req.body.page - 1) * 10;
+  
+  const offsetPage = 0 + (req.body.page - 1) * 10 
   db.query(sql.qna, [qnapage.pagesize, offsetPage], (err, result, fields) => {
+    if(err) {
+      return res.status(500).json({message: '에러 발생', err});
+    }
     res.send(result);
   });
 });

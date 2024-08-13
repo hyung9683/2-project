@@ -214,14 +214,14 @@ export default {
                 reverseButtons: true
             }).then(result => {
                 if (result.value) {
-                    this.userDele2();
+                    this.userDele2(user.user_no);
                 }
             });
         },
-        async userDele2() {
+        async userDele2(userNo) {
             try {
-                const response = await axios.post(`http://localhost:3000/admin/lock/${this.user.user_no}`);
-                if (response.status === 200) {
+                const response = await axios.post(`http://localhost:3000/admin/lock/${userNo}`);
+                if (response.data.message === 'success') {
                     this.$swal({
                         position: 'top',
                         icon: 'success',
@@ -230,7 +230,6 @@ export default {
                         timer: 1500
                     });
                 }
-                this.$store.commit("user", { user_id: '', user_no: '' });
                 this.$nextTick(() => {
                     this.$router.push({ path: '/' });
                 });

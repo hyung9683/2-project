@@ -112,12 +112,13 @@ router.get('/report2/:userNo', async (req, res) => {
 // 계정 잠금
 router.post('/lock/:user_no', async (req, res) => {
   const userno = req.params.user_no;
+  
   await db.query(sql.soft_Dele, [userno], function(error, results, fields) {
       if(error) {
           return res.status(500).json({ error: '삭제 실패' });
       }
       console.log(results);
-      return res.json(results);
+      return res.status(200).json({message: 'success', results});
   });
 });
 
@@ -139,7 +140,7 @@ router.post('/delete', (req, res) => {
 // 퀴즈 삭제
 router.post('/quizz_delete', (req, res) => {
   const quiznum = req.body.quizno;
-
+  
   db.query(sql.quiz_delete, [quiznum], function (error, result) {
     if (error) {
       console.error(error);

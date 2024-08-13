@@ -126,7 +126,7 @@ WHERE user_no = ?`,
   qnaWrite: `INSERT INTO quiz_qna (user_no, qna_tit, qna_content, qna_secret) VALUES (?, ?, ?, ?)`, 
   qna: `SELECT * FROM quiz_qna JOIN quiz_user 
                 WHERE quiz_qna.user_no=quiz_user.user_no 
-                ORDER BY qna_no LIMIT ? OFFSET ?;`,//1     
+                ORDER BY qna_no desc LIMIT ? OFFSET ?;`,//1     
   
   deleteContent: `DELETE FROM quiz_qna WHERE qna_no = ?`, 
   qnaEdit: `UPDATE quiz_qna  SET qna_content = ?, qna_tit = ? WHERE qna_no = ?;`, 

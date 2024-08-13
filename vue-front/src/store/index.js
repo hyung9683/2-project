@@ -22,6 +22,8 @@ const store = createStore({
             sidebarMarginLeft: '-30rem',
             boardNumber:'',
             noticeNumber: '',
+            qnaNumber: '',
+            adminCk: 0,
         }
         
     },
@@ -64,14 +66,23 @@ const store = createStore({
         setNoticeNumber(state, number) {
             
             state.noticeNumber = number;
-        }
+        },
+
+        setQnaNumber(state, number) {
+
+            state.qnaNumber = number;
+        },
+        setAdminCheck(state, admin) {
+            state.adminCk = admin;
+        },
+        
         
     },
     plugins: [
         // 로컬스토리지에 자동으로 저장시킬 persistedstate 모듈을 plugins에 연결
         persistedstate({
             //어떤 state를 저장할지 정한다
-            paths: ['user', 'sidebarMarginLeft', 'currentUrl','quizGetCategory', 'quizGetLevel']
+            paths: ['user', 'sidebarMarginLeft', 'currentUrl','quizGetCategory', 'quizGetLevel', 'adminCk']
         })
     ]
 });

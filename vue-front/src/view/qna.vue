@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="qnaMain" :style="sidebar" :class="{'offOn':offOn}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <br><br><br><br><br><br>
     <h1 class="s" style="margin-left:7%;">고객센터</h1><br>
@@ -25,8 +25,7 @@
       </thead>
       <tbody>
 
-        <tr v-for="item in contentlist" :key="item.qna_no"
-          @click="item.qna_secret === 0 ? movetocontent(item.qna_no) : movetoSecret(item)">
+        <tr v-for="item in contentlist" :key="item.qna_no" @click="item.qna_secret === 0 ? movetocontent(item.qna_no) : movetoSecret(item)">
           <td>{{ item.qna_no }}</td> 
           <td><i v-if="item.qna_secret == 1" class="fa fa-lock"></i></td>
           <td>{{ item.qna_tit }}</td>
@@ -75,6 +74,8 @@ export default {
       contentlist: [], //현재 게시판과 페이지에 맞는 글 리스트
       cnt: 0,
       pageSize: 10,
+      offOn: false,
+      sideMainTop: '0',
     }
   },
   computed: {
@@ -88,7 +89,50 @@ export default {
       } else {
         return Math.ceil(this.cnt / 10);    // (글 갯수/10)한 후 올림 연산을 통해 총 페이지 계산
       }
-    }
+    },
+    addressUrl() {
+          return this.$store.state.currentUrl;
+        },
+
+        addCategory() {
+          return this.$store.state.quizGetCategory;
+        },
+
+        addLevel() {
+          return this.$store.state.quizGetLevel;
+        },
+
+        headerHeight() {
+            return this.$store.state.headerHeight;
+        },
+        baseTop() {
+            return parseInt(this.sideMainTop || '0', 10);
+
+        },
+        naviHeight() {
+            return this.$store.state.naviHeight;
+        },
+
+        computedTop() {
+            const height = this.headerHeight;
+            const naviHeight = this.naviHeight;
+            const baseTop = this.baseTop;
+
+            if(!isNaN(height) && !isNaN(baseTop) && !isNaN(naviHeight)) {
+
+                return baseTop + (height + naviHeight);
+            }
+
+            return baseTop;
+        },
+        sidebar() {
+            return {
+                top: `${this.computedTop}px`,
+                transition:'transform 0.25s ease-out',
+                transform: 'translateX(9rem)',
+
+            }
+        }
 
   },
   mounted() {   
@@ -102,11 +146,13 @@ export default {
     }).then(res => {
       this.contentlist = res.data;
       
-      this.contentlist.sort(function (b, a) {
-        return b.qna_no - a.qna_no;
-      });
+      // this.contentlist.sort(function (b, a) {
+      //   console.log('b.qna_no:',b.qna_no,'-','a.qna_no', a.qna_no);
+        
+      //   return b.qna_no - a.qna_no;
+      // });
     }).catch(err => {
-      alert(err);
+      alert(err, '에러 발생');
     });
     //글개수 가져오기
     axios({
@@ -124,6 +170,14 @@ export default {
 
   },
   methods: {
+    toggleMain(state) {
+            this.offOn = !this.offOn
+            if (state === 'open'&& !this.offOn) {
+                this.sidebar.transform = 'translateX(9rem)';
+            } else if(state === 'closed' && this.offOn) {
+                this.sidebar.transform = 'translate(0)';
+            }
+        },
     write_qna() {
       this.$router.push({ path: '/qnawrite' });
     },

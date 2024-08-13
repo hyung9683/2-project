@@ -29,17 +29,25 @@
                             {{ this.Menu.write }}
                           </button>
                         </div>
+                        <!-- 공지사항 -->
                         <div v-if="this.Menu.notice" class="col-5 d-flex align-items-center" style="text-align: center;">
                           <i class="bi bi-caret-right" style="height:100%;"></i>
                           <button class="btn" style="height:100%;">
                             {{this.Menu.notice}}
                           </button>
-                          <!-- <i class="bi bi-caret-right" style="height:100%;"></i>
-                          <button v-if="this.Menu.board && this.Menu.write"  type="button" class="btn" data-bs-toggle="button" style="height:100%;" @click="menuList()">
-                            {{ this.Menu.write }}
-                          </button> -->
                         </div>
-                    <div v-if="this.Menu.board || this.Menu.notice" class="col-md-5"></div>
+                        <!-- qna 게시판 -->
+                        <div v-if="this.Menu.qna" class="col-5 d-flex align-items-center" style="text-align: center;">
+                          <i class="bi bi-caret-right" style="height:100%;"></i>
+                          <button class="btn" style="height:100%;">
+                            {{this.Menu.qna}}
+                          </button>
+                          <i class="bi bi-caret-right" style="height:100%;"></i>
+                          <button v-if="this.Menu.qna && this.Menu.write"  type="button" class="btn" data-bs-toggle="button" style="height:100%;" @click="menuList()">
+                            {{ this.Menu.write }}
+                          </button>
+                        </div>
+                    <div v-if="this.Menu.board || this.Menu.notice || this.Menu.qna" class="col-md-5"></div>
                     <div v-else class="col-md-6"></div>
             </div>
         </nav>
@@ -59,6 +67,7 @@ export default {
                 board: '',
                 notice: '',
                 write:'',
+                qna: '',
             },
             naviTop: '0',
             
@@ -131,6 +140,10 @@ export default {
           return this.$store.state.noticeNumber;
         },
 
+        qnaNumber() {
+          return this.$store.state.qnaNumber;
+        }
+
     },
     methods: {
 
@@ -141,12 +154,14 @@ export default {
             const currentLevel = this.addLevel;
             const currentBoard = this.boardNumber;
             const currentNotice = this.noticeNumber;
+            const currentQna = this.qnaNumber;
             
             
           if(currentCategory == 1) {
             this.Menu.board = '';
             this.Menu.write = '';
             this.Menu.notice = '';
+            this.Menu.qna = '';
 
             this.Menu.category = '수학'
 
@@ -165,6 +180,7 @@ export default {
               this.Menu.board = '';
              this.Menu.write = '';
              this.Menu.notice = '';
+             this.Menu.qna = '';
 
               this.Menu.category = '영어'
 
@@ -187,6 +203,7 @@ export default {
               this.Menu.board = '';
              this.Menu.write = '';
               this.Menu.notice = '';
+              this.Menu.qna = '';
 
               this.Menu.category = '한자'
 
@@ -207,6 +224,7 @@ export default {
               this.Menu.board = '';
               this.Menu.write = '';
               this.Menu.notice = '';
+              this.Menu.qna = '';
 
               this.Menu.category = '국어'
 
@@ -228,6 +246,7 @@ export default {
               this.Menu.level = '';
               this.Menu.notice = '';
               this.Menu.write = '';
+              this.Menu.qna = '';
               this.Menu.board = '자유게시판'
 
               if(this.$route.path == '/board/boardwrite') {
@@ -237,7 +256,20 @@ export default {
               this.Menu.category = '';
               this.Menu.level = '';
               this.Menu.board = '';
+              this.Menu.qna = '';
               this.Menu.notice = '공지사항'
+
+            } else if (currentQna == 7) {
+              this.Menu.category = '';
+              this.Menu.level = '';
+              this.Menu.board = '';
+              this.Menu.notice = '';
+              this.Menu.qna = '고객센터'
+
+              if(this.$route.path == '/qnawrite') {
+                this.Menu.write = '';
+                this.Menu.write = '글 작성';
+              }
             }
             if(this.isMounted) {
               

@@ -107,8 +107,6 @@ export default {
         }
 }, 
     created() {
-        this.emitter.on('adminCk', this.userAdminCheck);
-       
     },
     mounted() {
         this.emitter.on('SideBarMenu', this.toggleMenu);
@@ -120,10 +118,12 @@ export default {
                             
                         }
                  });
-         this.emitter.on('adminCk', this.userAdminCheck);
+         this.userAdminCheck();
+        window.addEventListener('resize', this.updateWidth);
     },
     beforeUnmount() {
         this.emitter.off('SideBarMenu', this.toggleMenu);
+        window.removeEventListener('resize', this.updateWidth);
     },
     computed: {
         user() {
@@ -165,9 +165,16 @@ export default {
         },
         computedMarginLeft() {
             if (this.width >= 1024) {
-                return this.offOn ? '0' : '-30rem';
+                const marginLeft = this.offOn ? '0' : '-30rem';
+                this.$store.commit('setSidebarMarginLeft', marginLeft); 
+                return marginLeft;
             }
-            return this.offOn ? '0' : '-100vw';
+            const marginLeft = this.offOn ? '0' : '-100vw';
+            this.$store.commit('setSidebarMarginLeft', marginLeft);
+            return marginLeft;
+        },
+        adminCk() {
+            return this.$store.state.adminCk;
         },
        
 
@@ -183,20 +190,15 @@ export default {
         //화면 해상도
         updateWidth() {
             this.width = window.innerWidth;
+            this.$store.commit('setWindoWith', this.width)
         },
 
         goToQna() {
-            return window.location.href = 'http://localhost:8080/qna?page=1'
+            this.$store.commit('setQnaNumber', 7);
+            // return window.location.href = 'http://localhost:8080/qna?page=1'
+            return this.$router.push({path: `/qna`, query:{page : 1}});
         },
 
-        // updateWidth() {
-        //     const width = this.$refs.sidebar;
-        //     if(width) {
-        //         this.$store.commit('setSidebarWidth', width.offsetWidth);
-        //         console.log(width.offsetWidth);
-
-        //     }
-        // },
 
         categoryClick(category) {
             this.menuCategory = category
@@ -238,9 +240,10 @@ export default {
             // return window.location.href = `http://localhost:8080/notice`
             return this.$router.push({path: `/notice`});
         },
-        userAdminCheck(userType) {
+        userAdminCheck() {
 
-            if(userType == 1) {
+            const admin = this.adminCk;
+            if(admin == '1') {
                 this.adminCheck = '관리자'
                 
             } else {

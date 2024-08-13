@@ -61,10 +61,10 @@ export default {
         .then(res => {
           if (res.data.message == 'admin') {
             this.adminCk = 1;
-            this.emitter.emit('adminCk', this.adminCk);
+            this.$store.commit('setAdminCheck', 1);
           } else {
             this.adminCk = 0;
-            this.emitter.emit('adminCk', this.adminCk);
+            this.$store.commit('setAdminCheck', 0);
           }
         })
         .catch(() => {

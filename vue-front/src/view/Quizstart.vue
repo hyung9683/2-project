@@ -495,16 +495,18 @@ export default {
 }
 
 .quiz-image {
+  /* 이미지의 너비를 고정  */
+  width: 100%; 
+  /* 이미지의 높이를 고정  */
+  height: 200px; 
+  /* 이미지 비율을 유지하면서 잘라내기 */
+  object-fit: contain;  
 
-  /*width: 100%;  이미지의 너비를 고정 
-  height: 200px; 이미지의 높이를 고정 
-  object-fit: contain;  이미지 비율을 유지하면서 잘라내기 */
+  /* width: 400px; //이미지의 너비를 고정 
+  height: 300px;  //이미지의 높이를 고정 
+  object-fit: cover;  //이미지 비율을 유지하면서 잘라내기 
 
-  width: 400px; /* 이미지의 너비를 고정 */
-  height: 300px; /* 이미지의 높이를 고정 */
-  object-fit: cover; /* 이미지 비율을 유지하면서 잘라내기 */
-
-  margin: 0 auto; /* 가운데 정렬 */
+  margin: 0 auto;  //가운데 정렬 */
 }
 
 .answer-input {
