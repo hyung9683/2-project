@@ -39,12 +39,12 @@
       </thead>
       <tbody>
         <tr v-for="quiz in quizzes" :key="quiz.quiz_no">
-          <td @click="handleCardClick(quiz.quiz_no)">{{ quiz.user_no }}</td>
-          <td @click="handleCardClick(quiz.quiz_no)">{{ quiz.user_nick }}</td>
-          <td @click="handleCardClick(quiz.quiz_no)">{{ quiz.quiz_tit }}</td>
+          <td @click="handleCardClick(quiz.quiz_no, quiz.quiz_category, quiz.quiz_level)">{{ quiz.user_no }}</td>
+          <td @click="handleCardClick(quiz.quiz_no, quiz.quiz_category, quiz.quiz_level)">{{ quiz.user_nick }}</td>
+          <td @click="handleCardClick(quiz.quiz_no, quiz.quiz_category, quiz.quiz_level)">{{ quiz.quiz_tit }}</td>
           <!-- <td>{{ quiz.quiz_hint1 }}</td>
           <td>{{ quiz.quiz_hint2 }}</td> -->
-          <td @click="handleCardClick(quiz.quiz_no)">
+          <td @click="handleCardClick(quiz.quiz_no, quiz.quiz_category, quiz.quiz_level)">
             <img v-if="!quiz.quiz_thimg" src="../assets/img_notReady.png" alt="이미지 준비 중" width="100%">
             <img v-else :src="require(`../../../node-back/uploads/${quiz.quiz_thimg}`)" alt="퀴즈 이미지" width="100%">
           </td>
@@ -52,10 +52,10 @@
             <img v-if="!quiz.quiz_img" src="../assets/img_notReady.png" alt="이미지 준비 중" width="100%">
             <img v-else :src="require(`../../../node-back/uploads/${quiz.quiz_img}`)" alt="퀴즈 이미지" width="100%">
           </td> -->
-          <td @click="handleCardClick(quiz.quiz_no)">{{ quiz.quiz_category }}</td>
-          <td @click="handleCardClick(quiz.quiz_no)">{{ quiz.quiz_level }}</td>
-          <td @click="handleCardClick(quiz.quiz_no)">{{ quiz.quiz_view }}</td>
-          <td @click="handleCardClick(quiz.quiz_no)">{{ formatDate(quiz.quiz_day) }}</td>
+          <td @click="handleCardClick(quiz.quiz_no, quiz.quiz_category, quiz.quiz_level)">{{ quiz.quiz_category }}</td>
+          <td @click="handleCardClick(quiz.quiz_no, quiz.quiz_category, quiz.quiz_level)">{{ quiz.quiz_level }}</td>
+          <td @click="handleCardClick(quiz.quiz_no, quiz.quiz_category, quiz.quiz_level)">{{ quiz.quiz_view }}</td>
+          <td @click="handleCardClick(quiz.quiz_no, quiz.quiz_category, quiz.quiz_level)">{{ formatDate(quiz.quiz_day) }}</td>
           <!-- <td>{{ quiz.quiz_answer }}</td> -->
           <td @click="handleCardClick(quiz.quiz_no)">{{ quiz.quiz_content }}</td>
           <td><button class="del_btn" @click="confirmDeleteContent(quiz.quiz_no)">삭제</button></td>
@@ -84,9 +84,10 @@ export default {
       });
   },
   methods:{
-    handleCardClick(quizNo) {
+    handleCardClick(quizNo, category, level) {
         // this.$router.push(`/write/${quizNo}`); // 클릭된 퀴즈 번호를 포함한 페이지로 이동
-        this.$router.push(`/quiz/${this.addCategory}/${this.addLevel}/${quizNo}`);
+        
+        this.$router.push({path: `/quiz/${category}/${level}/${quizNo}`});
       },
     
      confirmDeleteContent(quiz_no) {

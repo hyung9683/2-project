@@ -188,7 +188,7 @@ methods: {
     });
   },
   noticeMain() {
-    this.$router.push('/notice?page=1');
+    this.$router.push('/admin/notice?page=1');
   },
   loadContent() {
     axios.post("http://localhost:3000/notice/noticecontent", {
