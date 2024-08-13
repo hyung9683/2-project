@@ -61,6 +61,10 @@ export default {
         .then(res => {
           if (res.data.message == 'admin') {
             this.adminCk = 1;
+            this.emitter.emit('adminCk', this.adminCk);
+          } else {
+            this.adminCk = 0;
+            this.emitter.emit('adminCk', this.adminCk);
           }
         })
         .catch(() => {

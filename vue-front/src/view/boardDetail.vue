@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :style="sideDetailBoard">
     <div class="content" v-for="board in content" :key="board.board_no">
       <div class="board_content">
         <label class="t2">작성자</label>&nbsp;&nbsp;

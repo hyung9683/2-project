@@ -5,9 +5,10 @@
                         <!-- 사이드 메뉴 -->
                         <div id="sidebar-menu" class="col-lg-2 sidebar fixed-top" :style="sidebar" :class="{'off-On': offOn}">
                             <div class="navbar-brand text-center d-block mx-auto py-3 mb-3 bottom-border"></div>
-                            <div class="bottom-border pb-3">
-                                <i class="bi bi-person-circle mx-3 fs-3"></i>
-                                <a href="#" class="text-white">관리자</a>
+                            <div class="bottom-border pb-3 d-flex" v-if="this.user.user_no">
+                                <i class="bi bi-person-circle mx-3 fs-4-0"></i>
+                                <a href="#" class="text-white" @click="goToMypage">{{ this.user.user_id }}</a>
+                                <p style="padding: 0; margin: 0;">({{ this.adminCheck }})</p>
                             </div>
                             <ul class="navbar-nav flex-column mt-2" style="text-align:left;">
                                 <!-- 홈 -->
@@ -92,7 +93,6 @@ export default {
     data() {
         return {
             offOn: false,
-            width: 0,
             quizLevel: {
                 category: {},
                 level: {},
@@ -100,10 +100,14 @@ export default {
             sidebarTop: '0',
             menuCategory: '',
             menuLevel: '',
+            width: window.innerWidth,
+            adminCheck: '',
+            // adminValue: '',
 
         }
 }, 
     created() {
+        this.emitter.on('adminCk', this.userAdminCheck);
        
     },
     mounted() {
@@ -116,7 +120,7 @@ export default {
                             
                         }
                  });
-
+         this.emitter.on('adminCk', this.userAdminCheck);
     },
     beforeUnmount() {
         this.emitter.off('SideBarMenu', this.toggleMenu);
@@ -151,12 +155,19 @@ export default {
         sidebar() {
             return {
                 top: `${this.computedTop}px`,
-                marginLeft: this.$store.state.sidebarMarginLeft,
+                // marginLeft: this.$store.state.sidebarMarginLeft,
+                marginLeft: this.computedMarginLeft,
                 transition: 'margin 0.25s ease-out',
             };
         },
         setUpUrl() {
             return this.$store.state.currentUrl;
+        },
+        computedMarginLeft() {
+            if (this.width >= 1024) {
+                return this.offOn ? '0' : '-30rem';
+            }
+            return this.offOn ? '0' : '-100vw';
         },
        
 
@@ -165,22 +176,27 @@ export default {
         //head에서 toggled시 메뉴가 나온다
         toggleMenu() {
             this.offOn = !this.offOn;
-            const newMarginLeft = this.offOn ? '0' : '-30rem';
-            this.$store.commit('setSidebarMarginLeft', newMarginLeft);
+            // const newMarginLeft = this.offOn ? '0' : '-30rem';
+            this.$store.commit('setSidebarMarginLeft', this.computedMarginLeft);
             this.emitter.emit('sidebar-toggled', this.offOn ? 'open' : 'closed');
         },
+        //화면 해상도
+        updateWidth() {
+            this.width = window.innerWidth;
+        },
+
         goToQna() {
             return window.location.href = 'http://localhost:8080/qna?page=1'
         },
 
-        updateWidth() {
-            const width = this.$refs.sidebar;
-            if(width) {
-                this.$store.commit('setSidebarWidth', width.offsetWidth);
-                console.log(width.offsetWidth);
+        // updateWidth() {
+        //     const width = this.$refs.sidebar;
+        //     if(width) {
+        //         this.$store.commit('setSidebarWidth', width.offsetWidth);
+        //         console.log(width.offsetWidth);
 
-            }
-        },
+        //     }
+        // },
 
         categoryClick(category) {
             this.menuCategory = category
@@ -222,6 +238,20 @@ export default {
             // return window.location.href = `http://localhost:8080/notice`
             return this.$router.push({path: `/notice`});
         },
+        userAdminCheck(userType) {
+
+            if(userType == 1) {
+                this.adminCheck = '관리자'
+                
+            } else {
+                this.adminCheck = '사용자'
+            }
+            return this.adminCheck;
+
+        },
+        goToMypage() {
+            this.$router.push({path: '/mypage'});
+        }
 
 
     }

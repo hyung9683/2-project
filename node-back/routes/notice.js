@@ -158,6 +158,7 @@ router.post('/upload', upload.single('upload'), function(request, response) {
 
 router.post('/incrementnoticeView', (req, res) => {
   const { notice_no } = req.body;
+  
 
   const sql = 'UPDATE quiz_notice SET notice_view = notice_view + 1 WHERE notice_no = ?';
   db.query(sql, [notice_no], (err, result) => {

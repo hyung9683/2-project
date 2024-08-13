@@ -372,19 +372,25 @@ router.get('/quizList', (req, res) => {
     });
 });
 
-// 퀴즈 완료를 처리하는 라우트
 router.put('/complete/:quizNo', (req, res) => {
     const quizNo = req.params.quizNo;
+    const userNo = req.body.userNo; // 요청 본문에서 user_no를 가져옴
 
-    // 현재 시간을 가져옵니다
-    const currentTime = new Date();
+    // userNo가 존재하는지 확인
+    if (!userNo) {
+        console.error('userNo가 정의되지 않았습니다.');
+        return res.status(400).send('유저 정보가 필요합니다.');
+    }
 
-    db.query(sql.completequiz, [currentTime, quizNo], (err, result) => {
+    const currentTime = new Date(); // 현재 시간을 가져옵니다
+
+    // quiz_solving 테이블에 새로운 기록 추가
+    db.query(sql.addQuizSolving, [quizNo, userNo, 1, currentTime], (err, result) => {
         if (err) {
-            console.error('퀴즈 완료 시간 업데이트 중 오류 발생:', err);
+            console.error('quiz_solving 테이블에 기록 추가 중 오류 발생:', err);
             res.status(500).send('서버 오류 발생');
         } else {
-            res.status(200).send('퀴즈 완료 시간 업데이트 성공');
+            res.status(200).send('퀴즈 완료 처리 성공');
         }
     });
 });
@@ -478,6 +484,7 @@ router.post('/save', (req, res) => {
   });
 
 
+
   // 검색 하기 위해 퀴즈 전부
   router.get(`/allQuiz`, (req, res) => {
     db.query(sql.quizMain, (error, results, fields) => {
@@ -522,5 +529,21 @@ router.post('/save', (req, res) => {
         return res.status(200).json({message: 'success', results});
     });
   });
+
+//   퀴즈 풀면 solving 테이블 업데이트
+//   router.post(`/solving`, (req, res) => {
+//     const {quizNo, userNo} = req.body;
+//     console.log('퀴즈번호:',quizNo);
+//     console.log('사용자번호:',userNo);
+    
+//     db.query(sql.quiz_solving, [quizNo, userNo], (error, results, fields) => {
+//         if(error) {
+//             return res.status(500).json({error: 'solving 에러 발생'});
+//         }
+//         return res.status(200).json({message:'solving 업데이트 성공', results});
+//     });
+//   });
+
+
 
 module.exports = router;

@@ -18,18 +18,29 @@
                             {{ this.Menu.level }}
                           </button>
                         </div>
-                         <!-- 퀴즈 카테고리 및 난이도 -->
-                        <div v-if="this.Menu.board" class="col-4 d-flex align-items-center" style="text-align: center;">
+                         <!-- 자유게시판 -->
+                        <div v-if="this.Menu.board" class="col-5 d-flex align-items-center" style="text-align: center;">
                           <i class="bi bi-caret-right" style="height:100%;"></i>
                           <button class="btn" style="height:100%;">
-                            {{this.Menu.category}}
+                            {{this.Menu.board}}
                           </button>
                           <i class="bi bi-caret-right" style="height:100%;"></i>
                           <button v-if="this.Menu.board && this.Menu.write"  type="button" class="btn" data-bs-toggle="button" style="height:100%;" @click="menuList()">
-                            {{ this.Menu.level }}
+                            {{ this.Menu.write }}
                           </button>
                         </div>
-                    <div class="col-md-6"></div>
+                        <div v-if="this.Menu.notice" class="col-5 d-flex align-items-center" style="text-align: center;">
+                          <i class="bi bi-caret-right" style="height:100%;"></i>
+                          <button class="btn" style="height:100%;">
+                            {{this.Menu.notice}}
+                          </button>
+                          <!-- <i class="bi bi-caret-right" style="height:100%;"></i>
+                          <button v-if="this.Menu.board && this.Menu.write"  type="button" class="btn" data-bs-toggle="button" style="height:100%;" @click="menuList()">
+                            {{ this.Menu.write }}
+                          </button> -->
+                        </div>
+                    <div v-if="this.Menu.board || this.Menu.notice" class="col-md-5"></div>
+                    <div v-else class="col-md-6"></div>
             </div>
         </nav>
 </template>
@@ -128,9 +139,14 @@ export default {
             // store에 저장된 $router주소
             const currentCategory = this.addCategory;
             const currentLevel = this.addLevel;
+            const currentBoard = this.boardNumber;
+            const currentNotice = this.noticeNumber;
             
             
           if(currentCategory == 1) {
+            this.Menu.board = '';
+            this.Menu.write = '';
+            this.Menu.notice = '';
 
             this.Menu.category = '수학'
 
@@ -146,6 +162,10 @@ export default {
             }
 
             } else if(currentCategory == 2) {
+              this.Menu.board = '';
+             this.Menu.write = '';
+             this.Menu.notice = '';
+
               this.Menu.category = '영어'
 
               if(currentLevel == 1) {
@@ -163,6 +183,11 @@ export default {
               }
 
             } else if(currentCategory == 3) {
+
+              this.Menu.board = '';
+             this.Menu.write = '';
+              this.Menu.notice = '';
+
               this.Menu.category = '한자'
 
               if(currentLevel == 1) {
@@ -179,6 +204,10 @@ export default {
               }
 
             } else if(currentCategory == 4) {
+              this.Menu.board = '';
+              this.Menu.write = '';
+              this.Menu.notice = '';
+
               this.Menu.category = '국어'
 
               if(currentLevel == 1) {
@@ -194,6 +223,21 @@ export default {
                 this.Menu.level = '고급'
 
               }
+            } else if (currentBoard == 5) {
+              this.Menu.category = '';
+              this.Menu.level = '';
+              this.Menu.notice = '';
+              this.Menu.write = '';
+              this.Menu.board = '자유게시판'
+
+              if(this.$route.path == '/board/boardwrite') {
+                this.Menu.write = '글 작성'
+              }
+            } else if (currentNotice == 6) {
+              this.Menu.category = '';
+              this.Menu.level = '';
+              this.Menu.board = '';
+              this.Menu.notice = '공지사항'
             }
             if(this.isMounted) {
               
