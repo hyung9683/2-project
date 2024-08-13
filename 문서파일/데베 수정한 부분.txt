@@ -46,6 +46,7 @@ report_day TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 user_nick varchar(45),
 quiz_no INT,
 comment_id INT,
+report_type_id int,
 primary key(reports_no)
 ) comment = '신고 테이블'
 engine=InnoDB;
