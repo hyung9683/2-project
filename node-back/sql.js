@@ -153,7 +153,7 @@ admin_search: `SELECT * FROM quiz_user`,
     show_board: `select * from quiz_board join quiz_user 
           where quiz_board.user_no=quiz_user.user_no and quiz_board.user_no ORDER BY board_no DESC LIMIT ? OFFSET ?;`,
     board_cnt: `SELECT COUNT(*) FROM quiz_board`,
-    board_search: `SELECT * FROM quiz_board WHERE board_tit LIKE ? ORDER BY board_no DESC`,
+    board_search: `SELECT * FROM quiz_board join quiz_user WHERE quiz_board.user_no = quiz_user.user_no and board_tit LIKE ? ORDER BY board_no DESC`,
     board_admin: `SELECT * FROM quiz_board JOIN quiz_user WHERE quiz_board.user_no = quiz_user.user_no`, //1
     board_Detail: `SELECT * FROM quiz_board JOIN quiz_user WHERE quiz_board.user_no=quiz_user.user_no AND board_no = ?; `, //게시글 상세
     board_delete: `DELETE FROM quiz_board WHERE board_no = ?`,
@@ -195,7 +195,7 @@ admin_search: `SELECT * FROM quiz_user`,
    show_notice: `select * from quiz_notice join quiz_user 
          where quiz_notice.user_no=quiz_user.user_no and quiz_notice.user_no ORDER BY notice_no DESC LIMIT ? OFFSET ?;`,
    notice_cnt: `SELECT COUNT(*) FROM quiz_notice`,
-   notice_search: `SELECT * FROM quiz_quiz join quiz_user WHERE quiz_quiz.user_no = quiz_user.user_no and quiz_tit LIKE ? ORDER BY quiz_no DESC`,
+   notice_search: `SELECT * FROM quiz_notice join quiz_user WHERE quiz_notice.user_no = quiz_user.user_no and notice_tit LIKE ? ORDER BY notice_no DESC`, 
    notice_admin: `SELECT * FROM quiz_notice JOIN quiz_user WHERE quiz_notice.user_no = quiz_user.user_no`, //1
    notice_Detail: `SELECT * FROM quiz_notice JOIN quiz_user WHERE quiz_notice.user_no=quiz_user.user_no AND notice_no = ?; `, //게시글 상세
    notice_delete: `DELETE FROM quiz_notice WHERE notice_no = ?`,

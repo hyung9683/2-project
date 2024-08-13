@@ -528,7 +528,10 @@ router.post('/save', (req, res) => {
     });
   });
 
-  //퀴즈 풀면 solving 테이블 업데이트
+
+
+//   퀴즈 풀면 solving 테이블 업데이트
+
 //   router.post(`/solving`, (req, res) => {
 //     const {quizNo, userNo} = req.body;
 //     console.log('퀴즈번호:',quizNo);
